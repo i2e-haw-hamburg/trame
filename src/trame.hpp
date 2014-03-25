@@ -3,11 +3,14 @@
 
 namespace trame {
 
-class trame {
+class trame
+{
 public: 
-	trame();
-	trame(const trame&);
-	~trame();
+    trame();
+    trame(const trame&);
+    ~trame();
+
+public:
 };
 
 } // namespace trame

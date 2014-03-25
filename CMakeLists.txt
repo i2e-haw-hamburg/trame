@@ -4,16 +4,16 @@ project(trame)
 
 # Include directories for header files
 include_directories(.
-			${CMAKE_SOURCE_DIR}/src
-			${CMAKE_SOURCE_DIR}/test)
+            ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_SOURCE_DIR}/test)
 
 # Set source files for trame library
 set(TRAME_SRC
-	src/trame.cpp)
+    src/trame.cpp)
 
 # Set source files for trame test app
 set(TRAME_TEST_SRC
-	test/trame_test.cpp)
+    test/trame_test.cpp)
 
 # Create library trame from sources
 add_library(trame ${TRAME_SRC})
