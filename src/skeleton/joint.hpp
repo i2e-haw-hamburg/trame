@@ -15,9 +15,12 @@ public:
 
 public:
     std::vector<joint> children;
-    point normale;
+    point normal;
     point point;
     joint_type type;
+
+    bool addChild(joint);
+    bool removeChild(joint_type);
 };
 
 enum joint_type
@@ -32,6 +35,8 @@ enum joint_type
     HIP_RIGHT,
     KNEE_LEFT,
     KNEE_RIGHT,
+    ANKLE_LEFT,
+    ANKLE_RIGHT,
     FOOT_LEFT,
     FOOT_RIGHT
     ELBOW_LEFT,

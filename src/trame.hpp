@@ -11,6 +11,7 @@ public:
     ~trame();
 
 public:
+	
 };
 
 } // namespace trame
