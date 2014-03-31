@@ -7,9 +7,13 @@ include_directories(.
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_SOURCE_DIR}/test)
 
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 # Set source files for trame library
 set(TRAME_SRC
-    src/trame.cpp)
+    src/trame.cpp
+    src/skeleton/skeleton.cpp
+    src/skeleton/joint.cpp)
 
 # Set source files for trame test app
 set(TRAME_TEST_SRC

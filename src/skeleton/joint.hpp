@@ -1,29 +1,12 @@
 #ifndef TRAME_SKELETON_JOINT_HPP
 #define TRAME_SKELETON_JOINT_HPP
 
-
+#include <vector>
+#include <eigen3/Eigen/Dense>
 
 namespace trame {
 
-class joint
-{
-
-public:
-    joint();
-    joint(const joint&);
-    ~joint();
-
-public:
-    std::vector<joint> children;
-    point normal;
-    point point;
-    joint_type type;
-
-    bool addChild(joint);
-    bool removeChild(joint_type);
-};
-
-enum joint_type
+enum class joint_type
 {
     UNSPECIFIED,
     // main body parts
@@ -38,7 +21,7 @@ enum joint_type
     ANKLE_LEFT,
     ANKLE_RIGHT,
     FOOT_LEFT,
-    FOOT_RIGHT
+    FOOT_RIGHT,
     ELBOW_LEFT,
     ELBOW_RIGHT,
     WRIST_LEFT,
@@ -46,8 +29,27 @@ enum joint_type
     HAND_LEFT,
     HAND_RIGHT
     // additional body parts like fingers
-
 };
+
+class joint
+{
+
+public:
+    joint();
+    joint(const joint&);
+    ~joint();
+
+public:
+    std::vector<joint> children;
+    Eigen::Vector3d  normal;
+    Eigen::Vector3d  point;
+    joint_type type;
+
+    bool addChild(joint);
+    bool removeChild(joint_type);
+};
+
+
 
 } // trame
 
