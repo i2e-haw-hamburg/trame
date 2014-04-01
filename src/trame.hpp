@@ -2,15 +2,12 @@
 #define TRAME_TRAME_HPP
 
 #include "skeleton/skeleton.hpp"
+#include "serialization/serializer.hpp"
 #include <vector>
 
 namespace trame {
 
-enum class output_type {
-    JSON,
-    PROTOBUF,
-    BOOST_SERIALIZE
-};
+enum class output_type;
 
 class trame
 {

@@ -13,7 +13,15 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(TRAME_SRC
     src/trame.cpp
     src/skeleton/skeleton.cpp
-    src/skeleton/joint.cpp)
+    src/skeleton/joint.cpp
+    src/device/generator.cpp
+    src/device/device_abstraction.cpp
+    src/device/device_stub.cpp
+    src/device/kinect_sdk.cpp
+    src/device/leap_motion.cpp
+    src/serialization/serializer.cpp
+    src/serialization/protobuf_serializer.cpp
+    src/serialization/json_serializer.cpp)
 
 # Set source files for trame test app
 set(TRAME_TEST_SRC

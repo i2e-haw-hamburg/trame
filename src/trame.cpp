@@ -4,7 +4,6 @@ namespace trame {
 
 trame::trame() {
     
-    
 }
 
 trame::trame(const trame& t) {
