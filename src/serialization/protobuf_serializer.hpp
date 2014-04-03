@@ -5,15 +5,15 @@
 
 namespace trame {
 
-class protobuf_serializer : serializer
+class protobuf_serializer : public serializer
 {
-protected:
+public:
     protobuf_serializer();
     protobuf_serializer(const protobuf_serializer&);
     ~protobuf_serializer();
 
 public:
-    virtual vector<unsigned char> serialize(skeleton);
+    virtual std::vector<unsigned char> serialize(skeleton);
     virtual output_type get_type();
 };
 

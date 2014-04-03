@@ -5,15 +5,15 @@
 
 namespace trame {
 
-class json_serializer : serializer
+class json_serializer : public serializer
 {
-protected:
+public:
     json_serializer();
     json_serializer(const json_serializer&);
     ~json_serializer();
 
 public:
-    virtual vector<unsigned char> serialize(skeleton);
+    virtual std::vector<unsigned char> serialize(skeleton);
     virtual output_type get_type();
 };
 

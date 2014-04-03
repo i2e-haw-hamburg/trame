@@ -11,10 +11,11 @@ protobuf_serializer::~protobuf_serializer() {
 
 }
 
-vector<unsigned char> protobuf_serializer::serialize(skeleton) {
+std::vector<unsigned char> protobuf_serializer::serialize(skeleton) {
 
 }
-output_type protobuf_serializer::get_type() {
 
+output_type protobuf_serializer::get_type() {
+    return output_type::JSON;
 }
 }

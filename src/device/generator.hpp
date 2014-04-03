@@ -2,6 +2,7 @@
 #define TRAME_LEAP_MOTION_HPP
 
 #include "../skeleton/skeleton.hpp"
+#include "device_abstraction.hpp"
 
 namespace trame {
 
@@ -12,7 +13,10 @@ public:
     generator(const generator&);
     ~generator();
 
-    virtual skeleton get_next() = 0;
+    virtual skeleton get_next();
+
+private:
+    device_abstraction *device;
 };
 
 } // namespace trame

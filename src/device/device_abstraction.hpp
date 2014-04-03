@@ -7,11 +7,6 @@ namespace trame {
 
 class device_abstraction
 {
-protected:
-    device_abstraction();
-    device_abstraction(const device_abstraction&);
-    ~device_abstraction();
-
 public:
     virtual skeleton get() = 0;
 };
