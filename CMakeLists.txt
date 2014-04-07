@@ -27,8 +27,13 @@ set(TRAME_SRC
 set(TRAME_TEST_SRC
     test/trame_test.cpp)
 
+find_package( jsoncpp )
+include_directories( ${jsoncpp_INCLUDE_DIRS} )
+
 # Create library trame from sources
 add_library(trame ${TRAME_SRC})
+
+target_link_libraries( trame ${jsoncpp_LIBRARIES} )
 
 # Create test application
 add_executable(trame-test ${TRAME_TEST_SRC})

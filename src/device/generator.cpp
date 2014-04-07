@@ -12,7 +12,7 @@ generator::generator(const generator&) {
 }
 
 generator::~generator() {
-
+    delete device;
 }
 
 skeleton generator::get_next() {

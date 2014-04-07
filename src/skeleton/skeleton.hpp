@@ -14,8 +14,8 @@ public:
 
 public:
     joint root;
-    long timestamp;
-    int id;
+    u_int32_t timestamp;
+    u_int32_t id;
 };
 
 } // trame

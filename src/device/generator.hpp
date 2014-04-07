@@ -16,7 +16,7 @@ public:
     virtual skeleton get_next();
 
 private:
-    device_abstraction *device;
+    device_abstraction* device;
 };
 
 } // namespace trame

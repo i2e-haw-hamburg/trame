@@ -8,26 +8,26 @@ namespace trame {
 
 enum class joint_type
 {
-    UNSPECIFIED,
+    UNSPECIFIED = 0,
     // main body parts
-    HEAD,
-    NECK,
-    SHOULDER_LEFT,
-    SHOULDER_RIGHT,
-    HIP_LEFT,
-    HIP_RIGHT,
-    KNEE_LEFT,
-    KNEE_RIGHT,
-    ANKLE_LEFT,
-    ANKLE_RIGHT,
-    FOOT_LEFT,
-    FOOT_RIGHT,
-    ELBOW_LEFT,
-    ELBOW_RIGHT,
-    WRIST_LEFT,
-    WIRST_RIGHT,
-    HAND_LEFT,
-    HAND_RIGHT
+    HEAD = 1,
+    NECK = 5,
+    SHOULDER_LEFT = 111,
+    SHOULDER_RIGHT = 121,
+    HIP_LEFT = 211,
+    HIP_RIGHT = 221,
+    KNEE_LEFT = 212,
+    KNEE_RIGHT = 222,
+    ANKLE_LEFT = 213,
+    ANKLE_RIGHT = 223,
+    FOOT_LEFT = 214,
+    FOOT_RIGHT = 224,
+    ELBOW_LEFT = 112,
+    ELBOW_RIGHT = 122,
+    WRIST_LEFT = 113,
+    WIRST_RIGHT = 123,
+    HAND_LEFT = 114,
+    HAND_RIGHT = 124
     // additional body parts like fingers
 };
 
