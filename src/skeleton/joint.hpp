@@ -6,7 +6,7 @@
 
 namespace trame {
 
-enum class joint_type
+enum class joint_type : u_int32_t
 {
     UNSPECIFIED = 0,
     // main body parts
@@ -25,7 +25,7 @@ enum class joint_type
     ELBOW_LEFT = 112,
     ELBOW_RIGHT = 122,
     WRIST_LEFT = 113,
-    WIRST_RIGHT = 123,
+    WRIST_RIGHT = 123,
     HAND_LEFT = 114,
     HAND_RIGHT = 124
     // additional body parts like fingers

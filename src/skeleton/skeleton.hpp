@@ -5,6 +5,16 @@
 
 namespace trame {
 
+enum side {
+    LEFT = 1,
+    RIGHT = 2
+};
+
+enum body_part {
+    UPPER = 1,
+    LOWER = 2
+};
+
 class skeleton
 {
 public:

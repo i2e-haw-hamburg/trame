@@ -19,6 +19,9 @@ set(TRAME_SRC
     src/device/device_stub.cpp
     src/device/kinect_sdk.cpp
     src/device/leap_motion.cpp
+    src/device/nite.cpp
+    src/device/adapter/leap_adapter.cpp
+    src/device/adapter/nite_adapter.cpp
     src/serialization/serializer.cpp
     src/serialization/protobuf_serializer.cpp
     src/serialization/json_serializer.cpp)
@@ -27,13 +30,17 @@ set(TRAME_SRC
 set(TRAME_TEST_SRC
     test/trame_test.cpp)
 
-find_package( jsoncpp )
-include_directories( ${jsoncpp_INCLUDE_DIRS} )
-
 # Create library trame from sources
 add_library(trame ${TRAME_SRC})
 
+find_package( jsoncpp )
+include_directories( ${jsoncpp_INCLUDE_DIRS} )
+
+find_package( leap )
+include_directories( ${leap_INCLUDE_DIRS} )
+
 target_link_libraries( trame ${jsoncpp_LIBRARIES} )
+target_link_libraries( trame ${leap_LIBRARIES} )
 
 # Create test application
 add_executable(trame-test ${TRAME_TEST_SRC})

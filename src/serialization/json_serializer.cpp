@@ -35,7 +35,7 @@ output_type json_serializer::get_type() {
 
 Json::Value json_serializer::object_from_joint(joint j) {
     Json::Value joint_obj;
-    joint_obj["type"] = (int)j.type;
+    joint_obj["type"] = static_cast<int>(j.type);
     joint_obj["normal"] = array_from_vector(j.normal);
     joint_obj["point"] = array_from_vector(j.point);
     Json::Value children(Json::arrayValue);

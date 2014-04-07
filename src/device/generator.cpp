@@ -1,10 +1,12 @@
 #include "generator.hpp"
 #include "kinect_sdk.hpp"
+#include "leap_motion.hpp"
+#include "device_stub.hpp"
 
 namespace trame {
 
 generator::generator() {
-    device = new kinect_sdk;
+    device = new leap_motion;
 }
 
 generator::generator(const generator&) {

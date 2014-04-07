@@ -10,7 +10,7 @@ int main()
     trame::trame t;
 
     for (auto c : t.get_skeleton()) {
-        cout << c << ' ';
+        cout << c;
     }
 
     cout << endl;
