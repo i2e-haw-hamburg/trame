@@ -38,6 +38,9 @@ public:
     joint();
     joint(const joint&);
     ~joint();
+    joint(joint&& j);
+    joint& operator=(const joint&);
+    joint& operator=(joint&&);
 
 public:
     std::vector<joint> children;

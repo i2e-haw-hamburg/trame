@@ -20,6 +20,7 @@ joint leap_adapter::get_right_hand() {
     joint j;
     j.type = joint_type::HAND_RIGHT;
     return j;
+
 }
 
 }
