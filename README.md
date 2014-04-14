@@ -14,3 +14,9 @@ cmake ..
 # call make
 make
 ```
+
+## Tests
+
+In the test folder are a performance test and a skeleton viewer. The skeleton viewer is implemented in Python with pyprocessing. So you need to install this first, before you can use the viewer.
+
+For more information visit: http://code.google.com/p/pyprocessing/wiki

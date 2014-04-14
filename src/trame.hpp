@@ -3,6 +3,8 @@
 
 #include "skeleton/skeleton.hpp"
 #include "serialization/serializer.hpp"
+#include "serialization/json_serializer.hpp"
+#include "serialization/protobuf_serializer.hpp"
 #include "device/generator.hpp"
 #include <vector>
 
@@ -46,7 +48,7 @@ private:
     /**
      * @brief serial
      */
-    serializer* serial;
+    json_serializer serial;
     generator skeleton_generator;
 };
 

@@ -18,7 +18,7 @@ public:
     virtual output_type get_type();
 
 private:
-    Json::Writer* writer;
+    Json::FastWriter writer;
     Json::Value object_from_joint(joint);
     Json::Value array_from_vector(Eigen::Vector3d);
 };

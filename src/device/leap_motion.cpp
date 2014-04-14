@@ -21,8 +21,8 @@ skeleton leap_motion::get() {
     joint neck;
     neck.type = joint_type::NECK;
 
-    neck.addChild(std::move(get_arm(side::LEFT)));
-    neck.addChild(std::move(get_arm(side::RIGHT)));
+    neck.add_child(std::move(get_arm(side::LEFT)));
+    neck.add_child(std::move(get_arm(side::RIGHT)));
 
     s.root = neck;
     return s;
@@ -37,16 +37,16 @@ joint leap_motion::get_arm(side s) {
         shoulder.type = joint_type::SHOULDER_LEFT;
         elbow.type = joint_type::ELBOW_LEFT;
         wrist.type = joint_type::WRIST_LEFT;
-        wrist.addChild(std::move(adapter.get_left_hand()));
+        wrist.add_child(std::move(adapter.get_left_hand()));
     } else {
         shoulder.type = joint_type::SHOULDER_RIGHT;
         elbow.type = joint_type::ELBOW_RIGHT;
         wrist.type = joint_type::WRIST_RIGHT;
-        wrist.addChild(std::move(adapter.get_right_hand()));
+        wrist.add_child(std::move(adapter.get_right_hand()));
     }
 
-    elbow.addChild(std::move(wrist));
-    shoulder.addChild(std::move(elbow));
+    elbow.add_child(std::move(wrist));
+    shoulder.add_child(std::move(elbow));
 
     return shoulder;
 }

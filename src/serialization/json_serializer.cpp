@@ -4,7 +4,7 @@
 
 namespace trame {
 
-json_serializer::json_serializer() : writer(new Json::FastWriter) {
+json_serializer::json_serializer() {
 
 }
 
@@ -13,7 +13,7 @@ json_serializer::json_serializer(const json_serializer&) {
 }
 
 json_serializer::~json_serializer() {
-    delete writer;
+
 }
 
 std::vector<unsigned char> json_serializer::serialize(skeleton s) {
@@ -23,7 +23,7 @@ std::vector<unsigned char> json_serializer::serialize(skeleton s) {
     node["id"] = s.id;
     node["root"] = object_from_joint(s.root);
 
-    std::string serialized = writer->write(node);
+    std::string serialized = writer.write(node);
     std::vector<unsigned char> bytes(serialized.begin(), serialized.end());
 
     return bytes;

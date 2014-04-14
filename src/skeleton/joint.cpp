@@ -3,7 +3,6 @@
 #include <iostream>
 #include <type_traits>
 #include <cstdlib>
-#include <cstdarg>
 
 using namespace trame;
 
@@ -22,22 +21,13 @@ joint::~joint() {
     
 }
 
-// TODO: add joints to parent
-// TODO: make method static
-// TODO: check for loop
-joint joint::create_parent(joint j, ...) {
+joint joint::create_parent(std::initializer_list<joint> list) {
     joint parent;
 
-    va_list list;
-    va_start(list, j);
-
-    int sum = 0;
-    for( int i = 0 ; i < numargs; i++ )
+    for(auto& el : list)
     {
-        joint other_joint = va_arg( listPointer, joint );
+        parent.add_child(el);
     }
-
-    va_end(list);
 
     return parent;
 }
@@ -66,11 +56,11 @@ joint& joint::operator=(joint&& j) {
     return *this;
 }
 
-bool joint::addChild(joint j) {
+bool joint::add_child(joint j) {
     children.push_back(j);
 }
 
-bool joint::removeChild(joint_type jt) {
+bool joint::remove_child(joint_type jt) {
     std::vector<joint>::iterator iter;
     for (iter = children.begin(); iter != children.end(); ++iter) {
         if(iter->type == jt) {

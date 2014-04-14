@@ -29,6 +29,9 @@ set(TRAME_SRC
 # Set source files for trame test app
 set(TRAME_TEST_SRC
     test/trame_test.cpp)
+# Set source files for trame viewer app
+set(TRAME_VIEWER_SRC
+    test/trame_viewer.cpp)
 
 # Create library trame from sources
 add_library(trame ${TRAME_SRC})
@@ -45,5 +48,10 @@ target_link_libraries( trame ${leap_LIBRARIES} )
 # Create test application
 add_executable(trame-test ${TRAME_TEST_SRC})
 
+# Create viewer application
+add_executable(trame-viewer ${TRAME_VIEWER_SRC})
+
 # link library with executable
 target_link_libraries(trame-test trame)
+
+target_link_libraries(trame-viewer trame)

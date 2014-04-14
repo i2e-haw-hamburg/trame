@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <eigen3/Eigen/Dense>
+#include <initializer_list>
 
 namespace trame {
 /**
@@ -36,8 +37,18 @@ enum class joint_type : u_int32_t
     WRIST_LEFT = 113,
     WRIST_RIGHT = 123,
     HAND_LEFT = 114,
-    HAND_RIGHT = 124
+    HAND_RIGHT = 124,
     // additional body parts like fingers
+    THUMB_LEFT = 1141,
+    INDEX_FINGER_LEFT = 1142,
+    MIDDLE_FINGER_LEFT = 1143,
+    RING_FINGER_LEFT = 1144,
+    LITTLE_FINGER_LEFT = 1145,
+    THUMB_RIGHT = 1241,
+    INDEX_FINGER_RIGHT = 1242,
+    MIDDLE_FINGER_RIGHT = 1243,
+    RING_FINGER_RIGHT = 1244,
+    LITTLE_FINGER_RIGHT = 1245
 };
 
 /**
@@ -101,8 +112,10 @@ public:
      * @param joint
      * @return
      */
-    bool addChild(joint);
-    bool removeChild(joint_type);
+    bool add_child(joint);
+    bool remove_child(joint_type);
+
+    static joint create_parent(std::initializer_list<joint> list);
 };
 
 
