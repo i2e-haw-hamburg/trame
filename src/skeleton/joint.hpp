@@ -92,7 +92,7 @@ public:
      * and center. If a joint doesn't provide a normal vector it is set to 
      * (0 0 0).
      */
-    Eigen::Vector3d  normal;
+    Eigen::Vector3d normal;
     /**
      * The point vector of a joint.
      * 

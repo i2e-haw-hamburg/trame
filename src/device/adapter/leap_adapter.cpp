@@ -1,4 +1,5 @@
 #include "leap_adapter.hpp"
+#include <iostream>
 
 namespace trame {
 
@@ -67,18 +68,27 @@ joint leap_adapter::build_hand(Leap::Hand hand, u_int8_t side) {
         little.type = joint_type::LITTLE_FINGER_RIGHT;
     }
 
+    if(hand.isValid()) {
+        Leap::FingerList fingers = hand.fingers();
+        if(fingers.count() > 0) {
+            Leap::Vector normal = fingers[0].direction();
+            Leap::Vector position = fingers[0].tipPosition();
+
+            thumb.point << position[0], position[1], position[2];
+            thumb.normal << normal[0], normal[1], normal[2];
+        }
+
+    }
+
     joint hand_joint = joint::create_parent({thumb, index, middle, ring, little});
 
     if(hand.isValid()) {
         Leap::Vector normal = hand.palmNormal();
         Leap::Vector position = hand.palmPosition();
 
-        for(int i = 0; i < 3; ++i) {
-            hand_joint.normal[i] = normal[i];
-        }
-        for(int i = 0; i < 3; ++i) {
-            hand_joint.point[i] = position[i];
-        }
+        hand_joint.normal << normal[0], normal[1], normal[2];
+
+        hand_joint.point << position[0], position[1], position[2];
     }
 
     return hand_joint;
