@@ -6,8 +6,8 @@
 namespace trame {
 
 enum side {
-    LEFT = 1,
-    RIGHT = 2
+    LEFT = -1,
+    RIGHT = 1
 };
 
 enum body_part {
@@ -21,6 +21,18 @@ public:
     skeleton();
     ~skeleton();
     skeleton(const skeleton&);
+    /**
+     * Move constructor for skeletons.
+     */
+    skeleton(skeleton&&);
+    /**
+     * Operator overloading for assignment with copy.
+     */
+    skeleton& operator=(const skeleton&);
+    /**
+     * Operator overloading for assignment with move.
+     */
+    skeleton& operator=(skeleton&&);
 
 public:
     joint root;

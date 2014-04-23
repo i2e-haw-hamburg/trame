@@ -1,5 +1,4 @@
 #include "leap_motion.hpp"
-#include "../skeleton/skeleton.hpp"
 
 namespace trame {
 
@@ -20,6 +19,9 @@ skeleton leap_motion::get() {
 
     joint neck;
     neck.type = joint_type::NECK;
+    // assuming the person stands on 0,0,0 and looks straight to z+
+    neck.point << 0, -100, 80;
+    neck.normal << 0, 0, 100;
 
     neck.add_child(std::move(get_arm(side::LEFT)));
     neck.add_child(std::move(get_arm(side::RIGHT)));
@@ -44,6 +46,12 @@ joint leap_motion::get_arm(side s) {
         wrist.type = joint_type::WRIST_RIGHT;
         wrist.add_child(std::move(adapter.get_right_hand()));
     }
+
+    // shoulders relative to neck
+    shoulder.point << (s * 250), 50, 0;
+
+    // elbows relative to shoulders
+    elbow.point << (s * 50), 280, 60;
 
     elbow.add_child(std::move(wrist));
     shoulder.add_child(std::move(elbow));

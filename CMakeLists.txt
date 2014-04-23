@@ -17,6 +17,7 @@ set(TRAME_SRC
     src/device/generator.cpp
     src/device/device_abstraction.cpp
     src/device/device_stub.cpp
+    src/device/skeleton_mockup.cpp
     src/device/kinect_sdk.cpp
     src/device/leap_motion.cpp
     src/device/nite.cpp

@@ -3,6 +3,7 @@
 
 #include "device_abstraction.hpp"
 #include "adapter/leap_adapter.hpp"
+#include "../skeleton/skeleton.hpp"
 
 namespace trame {
 
