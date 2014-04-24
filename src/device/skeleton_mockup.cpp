@@ -31,7 +31,7 @@ skeleton skeleton_mockup::get() {
     // left arm
     joint left_hand;
     left_hand.normal << 10, 0, 0;
-    left_hand.point << 50, -475, 0;
+    left_hand.point << 50, -50, 0;
     left_hand.type = joint_type::HAND_LEFT;
 
     joint left_wrist = joint::create_parent({left_hand});
@@ -47,7 +47,7 @@ skeleton skeleton_mockup::get() {
     // right arm
     joint right_hand;
     right_hand.normal << -10, 0, 0;
-    right_hand.point << 50, 475, 0;
+    right_hand.point << -50, -50, 0;
     right_hand.type = joint_type::HAND_RIGHT;
 
     joint right_wrist = joint::create_parent({right_hand});

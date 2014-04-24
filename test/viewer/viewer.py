@@ -21,14 +21,16 @@ def setup():
     """
     processing setup
     """
-    size(900, 1100)
+
+    size(1200, 1200)
+    
     rectMode(CENTER)
     fill(0, 200, 0)
     strokeWeight(5)
     stroke(255,0,0) #red color  
     textSize(32)
 
-def display_joint(joint, parent_point):
+def display_joint(joint, parent_point, start = False):
     if not (joint['point'] is None):
         joint_point = [joint['point'][0] + parent_point[0], 
             joint['point'][1] + parent_point[1], 
@@ -42,9 +44,12 @@ def display_joint(joint, parent_point):
             -(joint['normal'][1] + joint_point[1]),
             joint['normal'][2] + joint_point[2])
 
+    if not start:
+        line(joint_point[0], -joint_point[1], joint_point[2], 
+            parent_point[0], -parent_point[1], parent_point[2])
+    
     point(joint_point[0], -joint_point[1], joint_point[2])
-    line(joint_point[0], -joint_point[1], joint_point[2],parent_point[0], -parent_point[1], parent_point[2])
-    text("Type: %d" % (joint['type']), joint_point[0], -joint_point[1], joint_point[2])
+
     for c in joint['children']:
         display_joint(c, joint_point)
 
@@ -65,7 +70,8 @@ def draw():
 
     background(210, 210, 210)
     lights()  
-    camera(width/2, -2000, 3000, 0, 0, 0, 0, 1, 0)     
+
+    camera(width/2.0, -1400, -2000, 0, -1000, 0, 0, 1, 0) 
     speedRotation(4.5)
     pushMatrix()
 
@@ -73,7 +79,7 @@ def draw():
     #text("ID: %d" % (skeleton['id']), 0, 60)
     #text("Time: %d" % (skeleton['timestamp']), 0, 80);
 
-    display_joint(skeleton['root'], [0,0,0])
+    display_joint(skeleton['root'], [0,0,0], True)
 
     popMatrix()
 
