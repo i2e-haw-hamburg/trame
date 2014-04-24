@@ -39,10 +39,10 @@ skeleton skeleton_mockup::get() {
     left_wrist.type = joint_type::WRIST_LEFT;
     joint left_elbow = joint::create_parent({left_wrist});
     left_elbow.point << -75, -320, 0;
-    left_elbow.type = joint_type::WRIST_LEFT;
+    left_elbow.type = joint_type::ELBOW_LEFT;
     joint left_shoulder = joint::create_parent({left_elbow});
     left_shoulder.point << -220, 0, 0;
-    left_shoulder.type = joint_type::WRIST_LEFT;
+    left_shoulder.type = joint_type::SHOULDER_LEFT;
 
     // right arm
     joint right_hand;
@@ -57,7 +57,7 @@ skeleton skeleton_mockup::get() {
     right_elbow.point << 75, -320, 0;
     right_elbow.type = joint_type::ELBOW_RIGHT;
     joint right_shoulder = joint::create_parent({right_elbow});
-    left_shoulder.point << 220, 0, 0;
+    right_shoulder.point << 220, 0, 0;
     right_shoulder.type = joint_type::SHOULDER_RIGHT;
 
     // left foot
