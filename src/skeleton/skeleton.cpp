@@ -1,17 +1,21 @@
 #include "skeleton.hpp"
 
-using namespace trame;
+namespace trame
+{
 
-skeleton::skeleton() : timestamp(0),id(0) {
+skeleton::skeleton() : timestamp(0),id(0)
+{
 }
 
-skeleton::skeleton(const skeleton& s) {
+skeleton::skeleton(const skeleton& s)
+{
     timestamp = s.timestamp;
     id = s.id;
     root = s.root;
 }
 
-skeleton::~skeleton() {
+skeleton::~skeleton()
+{
     
 }
 
@@ -22,7 +26,8 @@ skeleton::skeleton(skeleton&& s) :
 
 }
 
-skeleton& skeleton::operator=(const skeleton& s) {
+skeleton& skeleton::operator=(const skeleton& s)
+{
     timestamp = s.timestamp;
     id = s.id;
     root = s.root;
@@ -30,9 +35,12 @@ skeleton& skeleton::operator=(const skeleton& s) {
     return *this;
 }
 
-skeleton& skeleton::operator=(skeleton&& s) {
+skeleton& skeleton::operator=(skeleton&& s)
+{
     timestamp = s.timestamp;
     id = s.id;
     root = std::move(s.root);
     return *this;
+}
+
 }

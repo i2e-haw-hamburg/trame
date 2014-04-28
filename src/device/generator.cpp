@@ -3,21 +3,27 @@
 #include "leap_motion.hpp"
 #include "skeleton_mockup.hpp"
 
-namespace trame {
+namespace trame
+{
 
-generator::generator() {
+generator::generator()
+{
     device = new skeleton_mockup;
 }
 
-generator::generator(const generator&) {
+generator::generator(const generator&)
+{
 
 }
 
-generator::~generator() {
+generator::~generator()
+{
     delete device;
 }
 
-skeleton generator::get_next() {
+skeleton generator::get_next()
+{
     return device->get();
 }
+
 }

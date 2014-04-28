@@ -17,29 +17,21 @@ enum class output_type;
 class trame
 {
 public:
-    /**
-     * @brief trame
-     */
     trame();
-    /**
-     * @brief trame
-     */
     trame(const trame&);
-    /**
-     *
-     */
     ~trame();
     /**
-     * @brief get_skeleton
+     * @brief get_serialized_skeleton
      * @return
      */
-    std::vector<unsigned char> get_skeleton();
+    std::vector<unsigned char> get_serialized_skeleton();
     /**
      * @brief
      * @param ot
      */
     void set_output(output_type);
 
+    skeleton get_skeleton();
 private:
     /**
      * @brief default_output

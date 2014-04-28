@@ -15,7 +15,7 @@ void test_performance(int times) {
     bool print = false;
 
     for(int i = 0; i < times; ++i) {
-        t.get_skeleton();
+        t.get_serialized_skeleton();
         int percent = i * 100 / times;
         if(((int)(percent % 10)) == 0) {
             if(!print) {

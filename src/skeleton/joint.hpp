@@ -105,16 +105,23 @@ public:
      */
     joint_type type;
     /**
-     * The point vector of a joint.
+     * Add a bew child j to the joint.
      * 
-     * If the joint is the root of a skeleton the joint is absolute, 
-     * 
-     * @param joint
+     * @param j the new child
      * @return
      */
-    bool add_child(joint);
-    bool remove_child(joint_type);
-
+    bool add_child(joint j);
+    /**
+     * @brief removes a joint with a given type from the child joints
+     * @param jt the joint, that should be removed from the list of children
+     * @return a new
+     */
+    bool remove_child(joint_type jt);
+    /**
+     * @brief create a joint with a given list of children.
+     * @param list a list of child joints
+     * @return a new joint
+     */
     static joint create_parent(std::initializer_list<joint> list);
 };
 

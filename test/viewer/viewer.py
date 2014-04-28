@@ -39,10 +39,12 @@ def display_joint(joint, parent_point, start = False):
         joint_point = [0,0,0]
 
     if not (joint['normal'] is None):
+        stroke(0,255,0)
         line(joint_point[0], -joint_point[1], joint_point[2], 
             joint['normal'][0] + joint_point[0],
             -(joint['normal'][1] + joint_point[1]),
             joint['normal'][2] + joint_point[2])
+        stroke(255,0,0)
 
     if not start:
         line(joint_point[0], -joint_point[1], joint_point[2], 
@@ -57,7 +59,7 @@ def display_joint(joint, parent_point, start = False):
 def get_skeleton():
     json_string = '{"id":0,"root":{"children":[{"children":[{"children":[],"normal":[0,0,10],"point":[0,180,0],"type":1},{"children":[{"children":[{"children":[{"children":[],"normal":[-10,0,0],"point":[50,475,0],"type":124}],"normal":null,"point":[-50,-455,0],"type":123}],"normal":null,"point":[75,-320,0],"type":122}],"normal":null,"point":[-220,0,0],"type":121},{"children":[{"children":[{"children":[{"children":[],"normal":[10,0,0],"point":[50,-475,0],"type":114}],"normal":null,"point":[50,-455,0],"type":113}],"normal":null,"point":[-75,-320,0],"type":112}],"normal":null,"point":[220,0,0],"type":111}],"normal":null,"point":[0,350,0],"type":5},{"children":[{"children":[{"children":[{"children":[],"normal":[0,0,-10],"point":[-20,0,-255],"type":224}],"normal":null,"point":[0,-410,0],"type":223}],"normal":null,"point":[0,-540,0],"type":222}],"normal":null,"point":[180,-100,0],"type":221},{"children":[{"children":[{"children":[{"children":[],"normal":[0,0,10],"point":[-20,0,-255],"type":214}],"normal":null,"point":[0,-410,0],"type":213}],"normal":null,"point":[0,-540,0],"type":212}],"normal":null,"point":[-180,-100,0],"type":211}],"normal":[0,0,10],"point":[0,1100,0],"type":9},"timestamp":4215765565}'
     cmd = '../../build/trame-viewer'
-    return json.loads(json_string)#check_output([cmd]))
+    return json.loads(check_output([cmd]))
 
 
 def draw():

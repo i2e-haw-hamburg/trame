@@ -9,20 +9,23 @@ trame::trame() : default_output(output_type::JSON)
     set_output(default_output);
 }
 
-trame::trame(const trame& t) {
+trame::trame(const trame& t)
+{
     
 }
 
-trame::~trame() {
+trame::~trame()
+{
     
 }
 
-std::vector<unsigned char> trame::get_skeleton() {
-    skeleton sk = skeleton_generator.get_next();
-    return serial.serialize(sk);
+skeleton trame::get_skeleton()
+{
+    return skeleton_generator.get_next();
 }
 
-void trame::set_output(output_type ot) {
+void trame::set_output(output_type ot)
+{
     // try to create a new one
 	switch(ot) {
         case output_type::JSON:
@@ -37,4 +40,11 @@ void trame::set_output(output_type ot) {
 			break;
 	}
 }
+
+std::vector<unsigned char> trame::get_serialized_skeleton()
+{
+    skeleton sk = skeleton_generator.get_next();
+    return serial.serialize(sk);
+}
+
 }

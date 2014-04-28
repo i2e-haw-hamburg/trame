@@ -4,24 +4,29 @@
 #include <type_traits>
 #include <cstdlib>
 
-using namespace trame;
+namespace trame
+{
 
-joint::joint() : type(joint_type::UNSPECIFIED), normal(0,0,0), point(0,0,0) {
+joint::joint() : type(joint_type::UNSPECIFIED), normal(0,0,0), point(0,0,0)
+{
 
 }
 
-joint::joint(const joint& j) {
+joint::joint(const joint& j)
+{
     type = j.type;
     normal = j.normal;
     point = j.point;
     children = j.children;
 }
 
-joint::~joint() {
+joint::~joint()
+{
     
 }
 
-joint joint::create_parent(std::initializer_list<joint> list) {
+joint joint::create_parent(std::initializer_list<joint> list)
+{
     joint parent;
 
     for(auto& el : list)
@@ -39,7 +44,8 @@ joint::joint(joint&& j) :
 
 }
 
-joint& joint::operator=(const joint& j) {
+joint& joint::operator=(const joint& j)
+{
     type = j.type;
     normal = j.normal;
     point = j.point;
@@ -48,7 +54,8 @@ joint& joint::operator=(const joint& j) {
     return *this;
 }
 
-joint& joint::operator=(joint&& j) {
+joint& joint::operator=(joint&& j)
+{
     type = j.type;
     normal = std::move(j.normal);
     point = std::move(j.point);
@@ -56,11 +63,13 @@ joint& joint::operator=(joint&& j) {
     return *this;
 }
 
-bool joint::add_child(joint j) {
+bool joint::add_child(joint j)
+{
     children.push_back(j);
 }
 
-bool joint::remove_child(joint_type jt) {
+bool joint::remove_child(joint_type jt)
+{
     std::vector<joint>::iterator iter;
     for (iter = children.begin(); iter != children.end(); ++iter) {
         if(iter->type == jt) {
@@ -70,4 +79,6 @@ bool joint::remove_child(joint_type jt) {
     }
 
     return false;
+}
+
 }

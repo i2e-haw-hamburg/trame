@@ -1,20 +1,25 @@
 #include "leap_motion.hpp"
 
-namespace trame {
+namespace trame
+{
 
-leap_motion::leap_motion() {
-
-}
-
-leap_motion::leap_motion(const leap_motion &l) {
+leap_motion::leap_motion()
+{
 
 }
 
-leap_motion::~leap_motion() {
+leap_motion::leap_motion(const leap_motion &l)
+{
 
 }
 
-skeleton leap_motion::get() {
+leap_motion::~leap_motion()
+{
+
+}
+
+skeleton leap_motion::get()
+{
     skeleton s;
 
     joint neck;
@@ -30,7 +35,8 @@ skeleton leap_motion::get() {
     return s;
 }
 
-joint leap_motion::get_arm(side s) {
+joint leap_motion::get_arm(side s)
+{
     joint shoulder;
     joint elbow;
     joint wrist;

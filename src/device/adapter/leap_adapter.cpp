@@ -1,17 +1,21 @@
 #include "leap_adapter.hpp"
 #include <iostream>
 
-namespace trame {
+namespace trame
+{
 
-leap_adapter::leap_adapter() {
-
-}
-
-leap_adapter::~leap_adapter() {
+leap_adapter::leap_adapter()
+{
 
 }
 
-joint leap_adapter::get_left_hand() {
+leap_adapter::~leap_adapter()
+{
+
+}
+
+joint leap_adapter::get_left_hand()
+{
     Leap::Frame frame;
     Leap::HandList hands;
     Leap::Hand leftmost;
@@ -29,7 +33,8 @@ joint leap_adapter::get_left_hand() {
     return left;
 }
 
-joint leap_adapter::get_right_hand() {
+joint leap_adapter::get_right_hand()
+{
     Leap::Frame frame;
     Leap::HandList hands;
     Leap::Hand rightmost;
@@ -47,7 +52,8 @@ joint leap_adapter::get_right_hand() {
     return right;
 }
 
-joint leap_adapter::build_hand(Leap::Hand hand, u_int8_t side) {
+joint leap_adapter::build_hand(Leap::Hand hand, u_int8_t side)
+{
     joint thumb;
     joint index;
     joint middle;

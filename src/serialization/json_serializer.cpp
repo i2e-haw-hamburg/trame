@@ -2,21 +2,26 @@
 #include <json/json.h>
 #include <iostream>
 
-namespace trame {
+namespace trame
+{
 
-json_serializer::json_serializer() {
-
-}
-
-json_serializer::json_serializer(const json_serializer&) {
+json_serializer::json_serializer()
+{
 
 }
 
-json_serializer::~json_serializer() {
+json_serializer::json_serializer(const json_serializer&)
+{
 
 }
 
-std::vector<unsigned char> json_serializer::serialize(skeleton s) {
+json_serializer::~json_serializer()
+{
+
+}
+
+std::vector<unsigned char> json_serializer::serialize(skeleton s)
+{
     Json::Value node;
 
     node["timestamp"] = s.timestamp;
@@ -29,11 +34,13 @@ std::vector<unsigned char> json_serializer::serialize(skeleton s) {
     return bytes;
 }
 
-output_type json_serializer::get_type() {
+output_type json_serializer::get_type()
+{
     return output_type::JSON;
 }
 
-Json::Value json_serializer::object_from_joint(joint j) {
+Json::Value json_serializer::object_from_joint(joint j)
+{
     Json::Value joint_obj;
     joint_obj["type"] = static_cast<int>(j.type);
     joint_obj["normal"] = array_from_vector(j.normal);
@@ -48,7 +55,8 @@ Json::Value json_serializer::object_from_joint(joint j) {
     return joint_obj;
 }
 
-Json::Value json_serializer::array_from_vector(Eigen::Vector3d v) {
+Json::Value json_serializer::array_from_vector(Eigen::Vector3d v)
+{
     if(v.norm() > 0) {
         Json::Value vector_arr;
         vector_arr.append(v(0));
