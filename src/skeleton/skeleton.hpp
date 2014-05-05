@@ -38,6 +38,16 @@ public:
      * Operator overloading for assignment with move.
      */
     skeleton& operator=(skeleton&&);
+    /**
+     * @brief Returns the skeleton of and average male standing in a relaxed
+     * position.
+     *
+     * The skeleton data of the proportions are based on the research in
+     * http://www.baua.de/cae/servlet/contentblob/698984/publicationFile/46852/Fb1023.pdf
+     *
+     * @return a skeleton with average proportions
+     */
+    static skeleton default_skeleton();
 
 public:
     /**

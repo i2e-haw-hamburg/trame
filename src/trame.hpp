@@ -21,16 +21,29 @@ public:
     trame(const trame&);
     ~trame();
     /**
-     * @brief get_serialized_skeleton
-     * @return
+     * @brief Returns the skeleton in a defined serialized format.
+     *
+     * This method returns the serialized skeleton in the setted format. At the
+     * current stage two formats are intended. The first is a json serialization
+     * and the second is a serialization based on Google's protocol buffer.
+     * The returned skeleton is the same as in get_skeleton().
+     *
+     * @return a serialized skeleton
      */
     std::vector<unsigned char> get_serialized_skeleton();
     /**
-     * @brief
-     * @param ot
+     * @brief Sets the output type for the get_serialized_skeleton() method.
+     * @param ot the desired output type
      */
-    void set_output(output_type);
-
+    void set_output(output_type ot);
+    /**
+     * @brief Returns the current skeleton from a tracking device.
+     *
+     * The method uses the configured device and don't serialize the fetched
+     * result.
+     *
+     * @return the current skeleton
+     */
     skeleton get_skeleton();
 private:
     /**
