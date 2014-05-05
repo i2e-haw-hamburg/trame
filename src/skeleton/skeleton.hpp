@@ -39,6 +39,25 @@ public:
      */
     skeleton& operator=(skeleton&&);
     /**
+     * @brief Checks if two skeletons are equal.
+     *
+     * Only the joints and the valid flag are tested.
+     *
+     * @param s the other skeleton
+     * @return
+     */
+    bool equals(skeleton &s);
+    /**
+     * @brief Operator overloading for equality operator.
+     *
+     * Method uses the equals() method internal.
+     *
+     * @param rhs the other skeleton
+     * @return TRUE if the skeletons are equal.
+     */
+    bool operator==(skeleton &rhs);
+public:
+    /**
      * @brief Returns the skeleton of and average male standing in a relaxed
      * position.
      *
@@ -48,7 +67,26 @@ public:
      * @return a skeleton with average proportions
      */
     static skeleton default_skeleton();
-
+    /**
+     * @brief create_arm
+     * @param s
+     * @return
+     * @todo write documentation
+     */
+    static joint create_arm(side s);
+    /**
+     * @brief create_leg
+     * @param s
+     * @return
+     * @todo write documentation
+     */
+    static joint create_leg(side s);
+    /**
+     * @brief create_head
+     * @return
+     * @todo write documentation
+     */
+    static joint create_head();
 public:
     /**
      * @brief the root point of a skeleton
@@ -69,6 +107,13 @@ public:
      * a series of frames.
      */
     u_int32_t id;
+    /**
+     * @brief specifies if a skeleton is valid or not
+     */
+    bool valid;
+
+private:
+
 };
 
 } // trame

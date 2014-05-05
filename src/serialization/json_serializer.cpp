@@ -27,6 +27,7 @@ std::vector<unsigned char> json_serializer::serialize(skeleton s)
     node["timestamp"] = s.timestamp;
     node["id"] = s.id;
     node["root"] = object_from_joint(s.root);
+    node["valid"] = static_cast<bool>(s.valid);
 
     std::string serialized = writer.write(node);
     std::vector<unsigned char> bytes(serialized.begin(), serialized.end());
@@ -45,6 +46,7 @@ Json::Value json_serializer::object_from_joint(joint j)
     joint_obj["type"] = static_cast<int>(j.type);
     joint_obj["normal"] = array_from_vector(j.normal);
     joint_obj["point"] = array_from_vector(j.point);
+    joint_obj["valid"] = static_cast<bool>(j.valid);
     Json::Value children(Json::arrayValue);
 
     for (joint child : j.children) {

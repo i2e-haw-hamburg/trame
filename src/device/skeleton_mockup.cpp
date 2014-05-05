@@ -37,6 +37,7 @@ skeleton skeleton_mockup::get()
 
     s.id = id;
     s.timestamp = current_time();
+    s.valid = true;
 
     return std::move(s);
 }

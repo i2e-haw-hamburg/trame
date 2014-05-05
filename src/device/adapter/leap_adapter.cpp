@@ -95,6 +95,7 @@ joint leap_adapter::build_hand(Leap::Hand hand, u_int8_t side)
         hand_joint.normal << normal[0], normal[1], normal[2];
 
         hand_joint.point << position[0], position[1], position[2];
+        hand_joint.valid = true;
     }
 
     return hand_joint;

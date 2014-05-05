@@ -104,6 +104,8 @@ public:
      * The type of a joint.
      */
     joint_type type;
+
+    bool valid;
     /**
      * Add a bew child j to the joint.
      * 
@@ -117,6 +119,35 @@ public:
      * @return a new
      */
     bool remove_child(joint_type jt);
+    /**
+     * @brief Find a child joint specified by the joint type.
+     *
+     * The method doesn't perform a deep search.
+     *
+     * @param jt the joint type searched for
+     * @return if child was found, then the correct joint will be returned
+     *  otherwise the method returns an empty joint
+     */
+    joint find_child(joint_type jt);
+    /**
+     * @brief Checks if two joints are equal.
+     *
+     * The normal, point, valid flag, type and children are tested.
+     *
+     * @param j the other joint
+     * @return true if both joints and their descendants are equal
+     */
+    bool equals(joint &j);
+    /**
+     * @brief Operator overloading for equality operator.
+     *
+     * Method uses the equals() method internal.
+     *
+     * @param rhs the other skeleton
+     * @return TRUE if the skeletons are equal.
+     */
+    bool operator==(joint &rhs);
+
     /**
      * @brief create a joint with a given list of children.
      * @param list a list of child joints
