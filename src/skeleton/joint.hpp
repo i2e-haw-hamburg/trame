@@ -19,25 +19,25 @@ enum class joint_type : u_int32_t
 {
     UNSPECIFIED = 0,
     // main body parts
-    HEAD = 1,
-    NECK = 5,
-    CENTER = 9,
-    SHOULDER_LEFT = 111,
-    SHOULDER_RIGHT = 121,
-    HIP_LEFT = 211,
-    HIP_RIGHT = 221,
-    KNEE_LEFT = 212,
-    KNEE_RIGHT = 222,
-    ANKLE_LEFT = 213,
-    ANKLE_RIGHT = 223,
-    FOOT_LEFT = 214,
-    FOOT_RIGHT = 224,
-    ELBOW_LEFT = 112,
-    ELBOW_RIGHT = 122,
-    WRIST_LEFT = 113,
-    WRIST_RIGHT = 123,
-    HAND_LEFT = 114,
-    HAND_RIGHT = 124,
+    HEAD = 1000,
+    NECK = 1200,
+    CENTER = 2000,
+    SHOULDER_LEFT = 1110,
+    SHOULDER_RIGHT = 1210,
+    HIP_LEFT = 2110,
+    HIP_RIGHT = 2210,
+    KNEE_LEFT = 2120,
+    KNEE_RIGHT = 2220,
+    ANKLE_LEFT = 2130,
+    ANKLE_RIGHT = 2230,
+    FOOT_LEFT = 2140,
+    FOOT_RIGHT = 2240,
+    ELBOW_LEFT = 1120,
+    ELBOW_RIGHT = 1220,
+    WRIST_LEFT = 1130,
+    WRIST_RIGHT = 1230,
+    HAND_LEFT = 1140,
+    HAND_RIGHT = 1240,
     // additional body parts like fingers
     THUMB_LEFT = 1141,
     INDEX_FINGER_LEFT = 1142,
@@ -104,6 +104,8 @@ public:
      * The type of a joint.
      */
     joint_type type;
+
+    bool valid;
     /**
      * Add a bew child j to the joint.
      * 
@@ -117,6 +119,39 @@ public:
      * @return a new
      */
     bool remove_child(joint_type jt);
+    /**
+     * @brief Find a child joint specified by the joint type.
+     *
+     * The method doesn't perform a deep search.
+     *
+     * @param jt the joint type searched for
+     * @return if child was found, then the correct joint will be returned
+     *  otherwise the method returns an empty joint
+     */
+    joint find_child(joint_type jt);
+
+    joint deep_find(joint_type jt);
+
+    bool update(joint_type jt, joint j);
+    /**
+     * @brief Checks if two joints are equal.
+     *
+     * The normal, point, valid flag, type and children are tested.
+     *
+     * @param j the other joint
+     * @return true if both joints and their descendants are equal
+     */
+    bool equals(joint &j);
+    /**
+     * @brief Operator overloading for equality operator.
+     *
+     * Method uses the equals() method internal.
+     *
+     * @param rhs the other skeleton
+     * @return TRUE if the skeletons are equal.
+     */
+    bool operator==(joint &rhs);
+
     /**
      * @brief create a joint with a given list of children.
      * @param list a list of child joints

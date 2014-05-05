@@ -10,9 +10,9 @@ import json
 
 angle = 0
 dim = 200
+skeleton = None
         
 def speedRotation(speed):
-
     global angle
     angle = angle + 0.01
     rotateY(angle)
@@ -29,6 +29,9 @@ def setup():
     strokeWeight(5)
     stroke(255,0,0) #red color  
     textSize(32)
+
+    global skeleton
+    skeleton = get_skeleton()
 
 def display_joint(joint, parent_point, start = False):
     if not (joint['point'] is None):
@@ -57,7 +60,6 @@ def display_joint(joint, parent_point, start = False):
 
 
 def get_skeleton():
-    json_string = '{"id":0,"root":{"children":[{"children":[{"children":[],"normal":[0,0,10],"point":[0,180,0],"type":1},{"children":[{"children":[{"children":[{"children":[],"normal":[-10,0,0],"point":[50,475,0],"type":124}],"normal":null,"point":[-50,-455,0],"type":123}],"normal":null,"point":[75,-320,0],"type":122}],"normal":null,"point":[-220,0,0],"type":121},{"children":[{"children":[{"children":[{"children":[],"normal":[10,0,0],"point":[50,-475,0],"type":114}],"normal":null,"point":[50,-455,0],"type":113}],"normal":null,"point":[-75,-320,0],"type":112}],"normal":null,"point":[220,0,0],"type":111}],"normal":null,"point":[0,350,0],"type":5},{"children":[{"children":[{"children":[{"children":[],"normal":[0,0,-10],"point":[-20,0,-255],"type":224}],"normal":null,"point":[0,-410,0],"type":223}],"normal":null,"point":[0,-540,0],"type":222}],"normal":null,"point":[180,-100,0],"type":221},{"children":[{"children":[{"children":[{"children":[],"normal":[0,0,10],"point":[-20,0,-255],"type":214}],"normal":null,"point":[0,-410,0],"type":213}],"normal":null,"point":[0,-540,0],"type":212}],"normal":null,"point":[-180,-100,0],"type":211}],"normal":[0,0,10],"point":[0,1100,0],"type":9},"timestamp":4215765565}'
     cmd = '../../build/trame-viewer'
     return json.loads(check_output([cmd]))
 
@@ -67,9 +69,8 @@ def draw():
     Animate a 3D context free plant in processing/pyglet draw loop
     """
     global dim
+    global skeleton
     
-    skeleton = get_skeleton()
-
     background(210, 210, 210)
     lights()  
 
@@ -78,8 +79,8 @@ def draw():
     pushMatrix()
 
     textAlign(CENTER)
-    #text("ID: %d" % (skeleton['id']), 0, 60)
-    #text("Time: %d" % (skeleton['timestamp']), 0, 80);
+    text("ID: %d" % (skeleton['id']), 0, 60)
+    text("Time: %d" % (skeleton['timestamp']), 0, 80);
 
     display_joint(skeleton['root'], [0,0,0], True)
 
