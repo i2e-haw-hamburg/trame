@@ -47,6 +47,17 @@ skeleton& skeleton::operator=(skeleton&& s)
     return *this;
 }
 
+bool skeleton::update_joint(joint_type jt, joint j)
+{
+    return root.update(jt,j);
+}
+
+joint skeleton::get_joint(joint_type jt)
+{
+    return root.deep_find(jt);
+}
+
+
 skeleton skeleton::default_skeleton()
 {
     int center_y = 1100;

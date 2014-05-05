@@ -56,6 +56,10 @@ public:
      * @return TRUE if the skeletons are equal.
      */
     bool operator==(skeleton &rhs);
+
+    bool update_joint(joint_type jt, joint j);
+
+    joint get_joint(joint_type jt);
 public:
     /**
      * @brief Returns the skeleton of and average male standing in a relaxed

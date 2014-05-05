@@ -59,6 +59,7 @@ joint leap_adapter::build_hand(Leap::Hand hand, u_int8_t side)
     joint middle;
     joint ring;
     joint little;
+    joint hand_joint;
 
     if(side == 1) {
         thumb.type = joint_type::THUMB_LEFT;
@@ -75,28 +76,33 @@ joint leap_adapter::build_hand(Leap::Hand hand, u_int8_t side)
     }
 
     if(hand.isValid()) {
+        Leap::Vector normal = hand.palmNormal();
+        Leap::Vector position = hand.palmPosition();
+
+        hand_joint.normal << 10 * normal[0], 10 * normal[1], 10 * normal[2];
+        hand_joint.point << position[0], position[1], position[2];
+    }
+
+    if(hand.isValid()) {
         Leap::FingerList fingers = hand.fingers();
         if(fingers.count() > 0) {
             Leap::Vector normal = fingers[0].direction();
             Leap::Vector position = fingers[0].tipPosition();
 
             thumb.point << position[0], position[1], position[2];
-            thumb.normal << normal[0], normal[1], normal[2];
+            thumb.normal << 10 * normal[0], 10 * normal[1], 10 * normal[2];
         }
 
-    }
-
-    joint hand_joint = joint::create_parent({thumb, index, middle, ring, little});
-
-    if(hand.isValid()) {
-        Leap::Vector normal = hand.palmNormal();
-        Leap::Vector position = hand.palmPosition();
-
-        hand_joint.normal << normal[0], normal[1], normal[2];
-
-        hand_joint.point << position[0], position[1], position[2];
         hand_joint.valid = true;
     }
+
+    hand_joint.add_child(thumb);
+    hand_joint.add_child(index);
+    hand_joint.add_child(middle);
+    hand_joint.add_child(ring);
+    hand_joint.add_child(little);
+
+
 
     return hand_joint;
 }

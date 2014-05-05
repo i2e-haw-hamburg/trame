@@ -84,6 +84,40 @@ joint joint::find_child(joint_type jt)
     return joint();
 }
 
+joint joint::deep_find(joint_type jt)
+{
+    joint j = find_child(jt);
+    if(j.type != jt) {
+        std::vector<joint>::iterator iter;
+        for (iter = children.begin(); iter != children.end(); ++iter) {
+            j = iter->deep_find(jt);
+            if(j.type == jt) {
+                break;
+            }
+        }
+    }
+
+    return j;
+}
+
+bool joint::update(joint_type jt, joint j)
+{
+    bool result = false;
+
+    if(find_child(jt).type != jt) {
+        std::vector<joint>::iterator iter;
+        for (iter = children.begin(); iter != children.end(); ++iter) {
+            result = iter->update(jt, j);
+        }
+    } else {
+        remove_child(jt);
+        add_child(j);
+        result = true;
+    }
+
+    return result;
+}
+
 bool joint::remove_child(joint_type jt)
 {
     std::vector<joint>::iterator iter;

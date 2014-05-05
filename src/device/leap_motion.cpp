@@ -20,23 +20,29 @@ leap_motion::~leap_motion()
 
 skeleton leap_motion::get()
 {
-    skeleton s;
+    skeleton s = skeleton::default_skeleton();
 
-    joint neck;
-    neck.type = joint_type::NECK;
-    // assuming the person stands on 0,0,0 and looks straight to z+
-    neck.point << 0, -100, 80;
-    neck.normal << 0, 0, 100;
-    joint left_arm, right_arm;
-    left_arm = get_arm(side::LEFT);
-    right_arm = get_arm(side::RIGHT);
-    neck.valid = left_arm.valid && right_arm.valid;
+    // get left and right wrist joints from default skeleton
+    joint left_wrist, right_wrist;
+    left_wrist = s.get_joint(joint_type::WRIST_LEFT);
+    right_wrist = s.get_joint(joint_type::WRIST_RIGHT);
+    // build left hand with leap
+    joint left_hand = adapter.get_left_hand();
+    left_wrist.valid = left_hand.valid;
+    left_wrist.add_child(std::move(left_hand));
+    // build right hand with leap
+    joint right_hand = adapter.get_right_hand();
+    right_wrist.valid = right_hand.valid;
+    right_wrist.add_child(std::move(right_hand));
 
-    neck.add_child(std::move(left_arm));
-    neck.add_child(std::move(right_arm));
+    // update skeleton
+    s.update_joint(joint_type::WRIST_LEFT, left_wrist);
+    s.update_joint(joint_type::WRIST_RIGHT, right_wrist);
 
-    s.root = neck;
-    s.valid = neck.valid;
+    s.id = 0;
+    s.timestamp = current_time();
+    s.valid = left_wrist.valid && right_wrist.valid;
+
     return s;
 }
 
@@ -62,13 +68,14 @@ joint leap_motion::get_arm(side s)
         wrist.add_child(std::move(hand));
     }
 
-    // shoulders relative to neck
-    shoulder.point << (s * 250), 50, 0;
-
     // elbows relative to shoulders
-    elbow.point << (s * 50), 280, 60;
-
+    elbow.point << (s * 50), -280, 60;
+    elbow.valid = wrist.valid;
     elbow.add_child(std::move(wrist));
+
+    // shoulders relative to neck
+    shoulder.point << (s * 250), 0, 0;
+    shoulder.valid = elbow.valid;
     shoulder.add_child(std::move(elbow));
 
     return shoulder;
