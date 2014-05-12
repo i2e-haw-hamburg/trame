@@ -19,11 +19,6 @@ public:
 
 private:
     /**
-     * @brief get_arm
-     * @return
-     */
-    joint get_arm(side);
-    /**
      * @brief reference to the leap adapter
      */
     leap_adapter adapter;

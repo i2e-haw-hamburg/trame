@@ -2,6 +2,9 @@
 #define TRAME_SKELETON_SKELETON_HPP
 
 #include "joint.hpp"
+#include <iostream>
+
+using namespace std;
 
 namespace trame
 {
@@ -60,6 +63,7 @@ public:
     bool update_joint(joint_type jt, joint j);
 
     joint get_joint(joint_type jt);
+
 public:
     /**
      * @brief Returns the skeleton of and average male standing in a relaxed
@@ -122,5 +126,6 @@ private:
 
 } // trame
 
+ostream& operator<<(ostream& ost, const trame::skeleton &s);
 
 #endif

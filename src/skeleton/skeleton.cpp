@@ -57,7 +57,6 @@ joint skeleton::get_joint(joint_type jt)
     return root.deep_find(jt);
 }
 
-
 skeleton skeleton::default_skeleton()
 {
     int center_y = 1100;
@@ -219,4 +218,11 @@ bool skeleton::operator==(skeleton &rhs)
     return equals(rhs);
 }
 
+}
+
+ostream& operator<<(ostream& ost, const trame::skeleton &s)
+{
+    ost << "skeleton: timestamp - " << s.timestamp << " | id - " << s.id <<
+           " | root - " << s.root;
+    return ost;
 }

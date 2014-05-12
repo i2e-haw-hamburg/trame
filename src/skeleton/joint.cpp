@@ -150,3 +150,13 @@ bool joint::operator==(joint &rhs)
 }
 
 }
+
+ostream& operator<<(ostream& ost, const trame::joint &j)
+{
+    ost << "joint: type - " << (int)j.type << " | point - " << j.point <<
+           " | children - ";
+    for(auto& child : j.children) {
+        ost << child << endl;
+    }
+    return ost;
+}

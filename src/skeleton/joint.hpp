@@ -4,6 +4,9 @@
 #include <vector>
 #include <eigen3/Eigen/Dense>
 #include <initializer_list>
+#include <iostream>
+
+using namespace std;
 
 namespace trame {
 /**
@@ -84,7 +87,7 @@ public:
      * Use this only for iterations. To add or remove a child, use 
      * {@see addChild} and {@see removeChild}.
      */
-    std::vector<joint> children;
+    vector<joint> children;
     /**
      * The normal vector of a joint.
      * 
@@ -160,8 +163,9 @@ public:
     static joint create_parent(std::initializer_list<joint> list);
 };
 
-
-
 } // trame
+
+ostream& operator<<(ostream& ost, const trame::joint &j);
+
 
 #endif

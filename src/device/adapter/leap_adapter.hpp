@@ -13,11 +13,11 @@ public:
     leap_adapter();
     ~leap_adapter();
 
-    joint get_left_hand();
-    joint get_right_hand();
+    joint get_left_hand(joint wrist);
+    joint get_right_hand(joint wrist);
 
 private:
-    joint build_hand(Leap::Hand, u_int8_t);
+    joint build_hand(Leap::Hand, u_int8_t, joint wrist);
 
     Leap::Controller leap_controller;
 };
