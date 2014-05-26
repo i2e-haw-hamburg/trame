@@ -1,5 +1,6 @@
 #include "serializer.hpp"
 
-namespace trame {
+namespace trame
+{
 
 }

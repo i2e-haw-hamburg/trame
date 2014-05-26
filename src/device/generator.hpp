@@ -1,5 +1,5 @@
-#ifndef TRAME_LEAP_MOTION_HPP
-#define TRAME_LEAP_MOTION_HPP
+#ifndef TRAME_GENERATOR_HPP
+#define TRAME_GENERATOR_HPP
 
 #include "../skeleton/skeleton.hpp"
 #include "device_abstraction.hpp"

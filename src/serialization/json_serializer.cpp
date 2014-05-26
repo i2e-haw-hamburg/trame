@@ -2,42 +2,51 @@
 #include <json/json.h>
 #include <iostream>
 
-namespace trame {
+namespace trame
+{
 
-json_serializer::json_serializer() : writer(new Json::FastWriter) {
-
-}
-
-json_serializer::json_serializer(const json_serializer&) {
+json_serializer::json_serializer()
+{
 
 }
 
-json_serializer::~json_serializer() {
-    delete writer;
+json_serializer::json_serializer(const json_serializer&)
+{
+
 }
 
-std::vector<unsigned char> json_serializer::serialize(skeleton s) {
+json_serializer::~json_serializer()
+{
+
+}
+
+std::vector<unsigned char> json_serializer::serialize(skeleton s)
+{
     Json::Value node;
 
     node["timestamp"] = s.timestamp;
     node["id"] = s.id;
     node["root"] = object_from_joint(s.root);
+    node["valid"] = static_cast<bool>(s.valid);
 
-    std::string serialized = writer->write(node);
+    std::string serialized = writer.write(node);
     std::vector<unsigned char> bytes(serialized.begin(), serialized.end());
 
     return bytes;
 }
 
-output_type json_serializer::get_type() {
+output_type json_serializer::get_type()
+{
     return output_type::JSON;
 }
 
-Json::Value json_serializer::object_from_joint(joint j) {
+Json::Value json_serializer::object_from_joint(joint j)
+{
     Json::Value joint_obj;
-    joint_obj["type"] = (int)j.type;
+    joint_obj["type"] = static_cast<int>(j.type);
     joint_obj["normal"] = array_from_vector(j.normal);
     joint_obj["point"] = array_from_vector(j.point);
+    joint_obj["valid"] = static_cast<bool>(j.valid);
     Json::Value children(Json::arrayValue);
 
     for (joint child : j.children) {
@@ -48,7 +57,8 @@ Json::Value json_serializer::object_from_joint(joint j) {
     return joint_obj;
 }
 
-Json::Value json_serializer::array_from_vector(Eigen::Vector3d v) {
+Json::Value json_serializer::array_from_vector(Eigen::Vector3d v)
+{
     if(v.norm() > 0) {
         Json::Value vector_arr;
         vector_arr.append(v(0));
