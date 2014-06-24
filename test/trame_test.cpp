@@ -32,13 +32,11 @@ void test_performance(int times) {
 
 int main(int argc, char* argv[])
 {
-
     int times = 100;
 
     if(argc >= 2) {
         times = atoi(argv[1]);
     }
-
 
     test_performance(times);
 

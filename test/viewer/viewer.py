@@ -60,8 +60,13 @@ def display_joint(joint, parent_point, start = False):
 
 
 def get_skeleton():
+    json_file_name = "skeleton.json"
     cmd = '../../build/trame-viewer'
-    return json.loads(check_output([cmd]))
+    
+    #content = check_output([cmd])
+    with open(json_file_name) as json_file:
+        json_data = json.load(json_file)        
+        return json_data
 
 
 def draw():

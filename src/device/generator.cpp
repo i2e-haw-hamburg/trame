@@ -8,7 +8,7 @@ namespace trame
 
 generator::generator()
 {
-    device = new leap_motion;
+    device = new skeleton_mockup;
 }
 
 generator::generator(const generator&)
