@@ -9,6 +9,8 @@ int main(int argc, char* argv[])
 {
     trame::trame t;
 
+    t.set_output(trame::output_type::JSON);
+
     while(!t.get_skeleton().valid) {
         std::this_thread::sleep_for(std::chrono::milliseconds(30));
     }
