@@ -15,7 +15,7 @@ namespace Trame
 
         public Trame()
         {
-            last = Creator.InvalidSkeleton;
+            last = Creator.GetNewInvalidSkeleton();
 
             t = new Thread(this.run);
             t.Start();
@@ -34,8 +34,7 @@ namespace Trame
         {
             while (true)
             {
-                FireNewSkeleton(Creator.DefaultSkeleton);
-                Thread.Sleep(1000);
+                FireNewSkeleton(Creator.GetNewDefaultSkeleton());
             }
         }
 

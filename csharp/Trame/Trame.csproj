@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Implementation\Skeleton\Creator.cs" />
     <Compile Include="Implementation\Skeleton\Joint.cs" />
+    <Compile Include="Implementation\Skeleton\Enums.cs" />
     <Compile Include="Implementation\Skeleton\Skeleton.cs" />
     <Compile Include="Implementation\Trame.cs" />
     <Compile Include="Interface\IJoint.cs" />
