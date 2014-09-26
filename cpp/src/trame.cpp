@@ -4,7 +4,7 @@
 
 namespace trame {
 
-trame::trame() : default_output(output_type::PROTOBUF)
+trame::trame() : default_output(output_type::JSON)
 {
     set_output(default_output);
 }

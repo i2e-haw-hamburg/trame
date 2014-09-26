@@ -1,44 +1,70 @@
 #include <iostream>
 #include <cstdlib>
 #include "trame.hpp"
+#include <sys/time.h>
+#include <ctime>
+#include <vector>
+#include <sys/resource.h>
 
 using namespace std;
 
-void test_performance(int times) {
-    cout << "Trame - Test Performance" << endl
-       << "========================" << endl << endl;
+void test_performance(int time, bool hold) {
+    timeval startTime;
+    timeval runTime;
+    long diff = 0;
+    trame::trame t;    
+    gettimeofday(&startTime, NULL);
+    int count = 0;
+    int valid_count = 0;
+    vector<trame::skeleton> skeletons;
+    trame::skeleton s;
+    int who = RUSAGE_SELF;
+    struct rusage usage;
 
-    cout << "Run " << times << " times!" << endl;
 
-    trame::trame t;
+    long printed = 0;
+    cout << "sec;count;valid;memory" << endl;
 
-    bool print = false;
+    do {
+        s = t.get_skeleton();
+        if (hold) {
+            skeletons.push_back(s);
 
-    for(int i = 0; i < times; ++i) {
-        t.get_serialized_skeleton();
-        int percent = i * 100 / times;
-        if(((int)(percent % 10)) == 0) {
-            if(!print) {
-                cout << percent << "% done" << endl;
-                print = true;
-            }
-        } else {
-            print = false;
         }
-    }
+        if(s.valid) {
+            valid_count++;
+        }
 
-    cout << "100% done" << endl << endl;
+        gettimeofday(&runTime, NULL);
+        count++;
+        diff = ((runTime.tv_sec * 1000) + (runTime.tv_usec / 1000))
+            - ((startTime.tv_sec * 1000) + (startTime.tv_usec / 1000));
+        diff = (int)(diff / 1000);
+
+        if(printed < diff) {            
+            getrusage(who,&usage);
+            cout << diff << ";" << count << ";" << valid_count << ";" << usage.ru_maxrss << endl;
+            printed = diff;
+        }
+    } while(diff <= time);
+
+    cout << diff << ";" << count << ";" << 0 << endl;
 }
 
 int main(int argc, char* argv[])
 {
-    int times = 100;
+    int time = 100;
+    bool hold = true;
 
     if(argc >= 2) {
-        times = atoi(argv[1]);
+        time = atoi(argv[1]);
     }
 
-    test_performance(times);
+    if(argc >= 3) {
+        hold = true;
+    }
+
+    test_performance(time, hold);
 
     return 0;
 }
