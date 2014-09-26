@@ -11,7 +11,7 @@ namespace TrameRunner
     {
         static void Main(string[] args)
         {
-            ITrame trame = new Trame.Trame();
+            ICameraAbstraction trame = new Trame.Trame();
             
             trame.NewSkeleton += (skel) => {
                 Console.WriteLine(skel);

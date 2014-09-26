@@ -45,12 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\Skeleton\Creator.cs" />
     <Compile Include="Implementation\Skeleton\Joint.cs" />
     <Compile Include="Implementation\Skeleton\Skeleton.cs" />
     <Compile Include="Implementation\Trame.cs" />
     <Compile Include="Interface\IJoint.cs" />
     <Compile Include="Interface\ISkeleton.cs" />
-    <Compile Include="Interface\ITrame.cs" />
+    <Compile Include="Interface\ICameraAbstraction.cs" />
     <Compile Include="Interface\JointType.cs" />
     <Compile Include="Interface\OutputType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

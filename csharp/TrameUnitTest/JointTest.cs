@@ -7,22 +7,22 @@ namespace TrameUnitTest
     [TestClass]
     public class JointTest
     {
-        ITrame trame = new Trame.Trame();
+        ICameraAbstraction trame = new Trame.Trame();
 
         [TestMethod]
         public void CheckNormal()
         {
             ISkeleton s = trame.GetSkeleton();
-            IJoint j = s.GetRoot();
-            Assert.AreEqual(j.GetNormal(), null);
+            IJoint j = s.Root;
+            Assert.AreEqual(j.Normal, null);
         }
 
         [TestMethod]
         public void CheckPoint()
         {
             ISkeleton s = trame.GetSkeleton();
-            IJoint j = s.GetRoot();
-            Assert.AreEqual(j.GetPoint(), null);
+            IJoint j = s.Root;
+            Assert.AreEqual(j.Point, null);
         }
     }
 }

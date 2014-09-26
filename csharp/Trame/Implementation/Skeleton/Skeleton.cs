@@ -13,45 +13,73 @@ namespace Trame.Implementation.Skeleton
         uint id;
         uint timestamp;
 
-
-        public bool UpdateSkeleton(JointType jt, IJoint j)
+        public Skeleton()
         {
-            throw new NotImplementedException();
+            valid = false;
+            id = 0;
+            timestamp = (uint)(DateTime.Now.Ticks / TimeSpan.TicksPerSecond);
+        }
+
+        public void UpdateSkeleton(JointType jt, IJoint j)
+        {
+            root.Update(jt, j);
         }
 
         public IJoint GetJoint(JointType jt)
         {
-            throw new NotImplementedException();
+            return root.DeepFind(jt);
         }
-
-        public IJoint GetRoot()
-        {
-            throw new NotImplementedException();
-        }
-
-        public uint GetTimestamp()
-        {
-            throw new NotImplementedException();
-        }
-
-        public uint GetID()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsValid()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public bool Equals(ISkeleton other)
         {
-            throw new NotImplementedException();
+            return valid == other.Valid && root.Equals(other.Root);
         }
 
         public override string ToString()
         {
             return "Skelton";
+        }
+
+
+        public IJoint Root
+        {
+            get
+            {
+                return root;
+            }
+            set
+            {
+                root = value;
+            }
+        }
+
+        public uint Timestamp
+        {
+            get
+            {
+                return timestamp;
+            }
+        }
+
+        public uint ID
+        {
+            get
+            {
+                return id;
+            }
+            
+        }
+
+        public bool Valid
+        {
+            get
+            {
+                return valid;
+            }
+            set
+            {
+                valid = value;
+            }
         }
     }
 }
