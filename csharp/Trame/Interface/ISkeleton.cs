@@ -7,11 +7,11 @@ namespace Trame
 {
     public interface ISkeleton : IEquatable<ISkeleton>
     {
-        bool UpdateSkeleton(JointType jt, IJoint j);
+        void UpdateSkeleton(JointType jt, IJoint j);
         IJoint GetJoint(JointType jt);
-        IJoint GetRoot();
-        UInt32 GetTimestamp();
-        UInt32 GetID();
-        bool IsValid();
+        IJoint Root { get; set; }
+        UInt32 Timestamp { get; }
+        UInt32 ID { get; }
+        bool Valid { get; set; }
     }
 }

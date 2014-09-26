@@ -12,39 +12,26 @@ namespace Trame.Implementation.Skeleton
         IDictionary<JointType, IJoint> children = new Dictionary<JointType, IJoint>();
         Vector3 normal;
         Vector3 point;
-        bool isValid;
+        bool isValid = false;
         JointType type;
+
+        public Joint()
+        {
+            normal = new Vector3();
+            point = new Vector3();
+            type = JointType.UNSPECIFIED;
+        }
 
         public IList<IJoint> GetChildren()
         {
-            throw new NotImplementedException();
+            return children.Select(x => x.Value).ToList();
         }
-
-        public Vector3 GetNormal()
-        {
-            return normal;
-        }
-
-        public Vector3 GetPoint()
-        {
-            return point;
-        }
-
-        public JointType GetJointType()
-        {
-            return type;
-        }
-
-        public bool IsValid()
-        {
-            return isValid;
-        }
-
+               
         public bool AddChild(IJoint j)
         {
             try
             {
-                children.Add(j.GetJointType(), j);
+                children.Add(j.JointType, j);
             }
             catch (Exception ex)
             {
@@ -86,22 +73,104 @@ namespace Trame.Implementation.Skeleton
 
         public IJoint DeepFind(JointType jt)
         {
-            throw new NotImplementedException();
+            IJoint j = FindChild(jt);
+            if (j.JointType != jt)
+            {
+                foreach (var child in children)
+                {
+                    j = child.Value.DeepFind(jt);
+                    if (j.JointType == jt)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return j;
         }
 
-        public bool Update(JointType jt, IJoint j)
+        public void Update(JointType jt, IJoint j)
         {
-            throw new NotImplementedException();
+            if (FindChild(jt).JointType == jt)
+            {
+                foreach (var child in children)
+                {
+                    child.Value.Update(jt, j);
+                }
+            }
+            else
+            {
+                RemoveChild(jt);
+                AddChild(j);
+            }
         }
 
-        public bool Equals(IJoint other)
+        public bool Equals(IJoint o)
         {
-            throw new NotImplementedException();
+            foreach(var child in children) {
+                IJoint oc = o.FindChild(child.Value.JointType);
+                if (!oc.Equals(child))
+                {
+                    return false;
+                }
+            }
+
+            return isValid == o.Valid && type == o.JointType 
+                && normal.Equals(o.Normal) && point.Equals(o.Point);
         }
 
         public override string ToString()
         {
             return "Joint";
+        }
+
+
+        public Vector3 Normal
+        {
+            get
+            {
+                return normal;
+            }
+            set
+            {
+                normal = value;
+            }
+        }
+
+        public Vector3 Point
+        {
+            get
+            {
+                return point;
+            }
+            set
+            {
+                point = value;
+            }
+        }
+
+        public JointType JointType
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                type = value;
+            }
+        }
+
+        public bool Valid
+        {
+            get
+            {
+                return isValid;
+            }
+            set
+            {
+                isValid = value;
+            }
         }
     }
 }

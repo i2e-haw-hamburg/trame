@@ -113,6 +113,7 @@ joint skeleton::create_arm(side s)
     joint elbow;
     joint wrist;
     joint hand;
+
     if(s == side::LEFT) {
         shoulder.type = joint_type::SHOULDER_LEFT;
         elbow.type = joint_type::ELBOW_LEFT;
@@ -124,7 +125,6 @@ joint skeleton::create_arm(side s)
         wrist.type = joint_type::WRIST_RIGHT;
         hand.type = joint_type::HAND_RIGHT;
     }
-
 
     hand.normal = (-1 * s) * hand_normal;
     hand.point << 0, -hand_length, 0;

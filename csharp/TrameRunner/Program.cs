@@ -11,14 +11,17 @@ namespace TrameRunner
     {
         static void Main(string[] args)
         {
-            ITrame trame = new Trame.Trame();
+            ICameraAbstraction trame = new Trame.Trame();
             
             trame.NewSkeleton += (skel) => {
-                Console.WriteLine(skel);
+                IJoint j = skel.Root;
+                Console.WriteLine(j.Point);
             };
 
             Console.WriteLine("Press key to stop program\n");
             Console.ReadKey();
         }
+
+
     }
 }

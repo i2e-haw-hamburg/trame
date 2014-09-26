@@ -8,20 +8,20 @@ using Trame.Implementation.Skeleton;
 
 namespace Trame
 {
-    public class Trame : ITrame
+    public class Trame : ICameraAbstraction
     {
         Thread t = null;
         ISkeleton last = null;
 
         public Trame()
         {
-            last = new Skeleton();
+            last = Creator.GetNewInvalidSkeleton();
 
             t = new Thread(this.run);
             t.Start();
         }
 
-        ISkeleton ITrame.GetSkeleton()
+        ISkeleton ICameraAbstraction.GetSkeleton()
         {
             // return copy of last element
             return last;
@@ -34,12 +34,11 @@ namespace Trame
         {
             while (true)
             {
-                FireNewSkeleton(new Skeleton());
-                Thread.Sleep(1000);
+                FireNewSkeleton(Creator.GetNewDefaultSkeleton());
             }
         }
 
-        private void FireNewSkeleton(Skeleton skeleton)
+        private void FireNewSkeleton(ISkeleton skeleton)
         {
             last = skeleton;
 
