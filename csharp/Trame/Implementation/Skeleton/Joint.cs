@@ -121,7 +121,7 @@ namespace Trame.Implementation.Skeleton
 
         public override string ToString()
         {
-            return "Joint";
+            return string.Format("type:{0}, valid:{1}, point:{2}, children:[ {3} ]", type, isValid, point, string.Join(",", children.ToArray()));
         }
 
 

@@ -14,18 +14,25 @@ namespace TrameUnitTest
         public void CheckNormal()
         {
             trame = new Trame.Trame();
-            ISkeleton s = trame.GetSkeleton();
-            IJoint j = s.Root;
-            Assert.AreEqual(new Vector3(0, 0, -100), j.Normal);
+            trame.NewSkeleton += s =>
+            {
+                IJoint j = s.Root;
+                Assert.AreEqual(new Vector3(0, 0, -100), j.Normal);
+            };
+
         }
 
         [TestMethod]
         public void CheckPoint()
         {
             trame = new Trame.Trame();
-            ISkeleton s = trame.GetSkeleton();
-            IJoint j = s.Root;
-            Assert.AreEqual(new Vector3(0, 1100, 0), j.Point);
+            // wait until 
+            trame.NewSkeleton += s =>
+            {
+                IJoint j = s.Root;
+                Assert.AreEqual(new Vector3(0, 1000, 0), j.Point);
+            };
+
         }
     }
 }

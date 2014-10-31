@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Trame.Implementation.Device;
 using Trame.Implementation.Skeleton;
 
 namespace Trame
@@ -32,9 +33,11 @@ namespace Trame
 
         private void run()
         {
+            IDevice device = new LeapMotion();
+
             while (true)
             {
-                FireNewSkeleton(Creator.GetNewDefaultSkeleton());
+                FireNewSkeleton(device.GetSkeleton());
             }
         }
 

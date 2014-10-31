@@ -37,7 +37,7 @@ namespace Trame.Implementation.Skeleton
 
         public override string ToString()
         {
-            return "Skelton";
+            return string.Format("id:{0}, valid:{1}, timestamp:{2}, root:{3}", id, valid, timestamp, root);
         }
 
 
