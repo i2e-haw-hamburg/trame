@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Trame.Implementation.Skeleton
 {
-    class Joint : IJoint
+    public class Joint : IJoint
     {
         IDictionary<JointType, IJoint> children = new Dictionary<JointType, IJoint>();
         Vector3 normal;
@@ -91,7 +91,7 @@ namespace Trame.Implementation.Skeleton
 
         public void Update(JointType jt, IJoint j)
         {
-            if (FindChild(jt).JointType == jt)
+            if (FindChild(jt).JointType != jt)
             {
                 foreach (var child in children)
                 {

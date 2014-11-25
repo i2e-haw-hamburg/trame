@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Trame.Implementation.Skeleton
 {
-    class Creator
+    public class Creator
     {
         public static ISkeleton GetNewDefaultSkeleton()
         {

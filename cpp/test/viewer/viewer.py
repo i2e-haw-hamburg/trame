@@ -35,7 +35,7 @@ def display_joint(joint, parent_point, start = False):
             joint['point'][1] + parent_point[1], 
             joint['point'][2] + parent_point[2]]
     else:
-        joint_point = [0,0,0]
+        return
 
     if not (joint['normal'] is None):
         stroke(0,255,0)
@@ -67,24 +67,24 @@ def draw():
     Animate a 3D context free plant in processing/pyglet draw loop
     """
     global dim
-    try:
-        skeleton = get_skeleton()
-    except urllib2.URLError:
-        print "No connection to server"
-        exit()
+
     background(210, 210, 210)
     lights()  
 
     camera(width/2.0, -1400, -2000, 0, -1000, 0, 0, 1, 0) 
     speedRotation(4.5)
     pushMatrix()
-
     textAlign(CENTER)
-    text("ID: %d" % (skeleton['id']), 0, 60)
-    text("Time: %d" % (skeleton['timestamp']), 0, 80);
 
-    display_joint(skeleton['root'], [0,0,0], True)
+    try:
+        skeleton = get_skeleton()
+        text("ID: %d" % (skeleton['id']), 0, 60)
+        text("Time: %d" % (skeleton['timestamp']), 0, 80);
 
+        display_joint(skeleton['root'], [0,0,0], True)
+    except urllib2.URLError:
+        pass
+    
     popMatrix()
 
 run()  
