@@ -3,14 +3,13 @@
 
 """
 from pyprocessing import *
-from subprocess import check_output
 from math import pi, sin
 from time import time
 import json
+import urllib2
 
 angle = 0
 dim = 200
-skeleton = None
         
 def speedRotation(speed):
     global angle
@@ -29,9 +28,6 @@ def setup():
     strokeWeight(5)
     stroke(255,0,0) #red color  
     textSize(32)
-
-    global skeleton
-    skeleton = get_skeleton()
 
 def display_joint(joint, parent_point, start = False):
     if not (joint['point'] is None):
@@ -60,13 +56,10 @@ def display_joint(joint, parent_point, start = False):
 
 
 def get_skeleton():
-    json_file_name = "skeleton.json"
-    cmd = '../../build/trame-viewer'
-    
-    #content = check_output([cmd])
-    with open(json_file_name) as json_file:
-        json_data = json.load(json_file)        
-        return json_data
+    server_path = "http://localhost:12345/"
+    json_string = urllib2.urlopen(server_path)
+    json_data = json.load(json_string)
+    return json_data
 
 
 def draw():
@@ -74,8 +67,11 @@ def draw():
     Animate a 3D context free plant in processing/pyglet draw loop
     """
     global dim
-    global skeleton
-    
+    try:
+        skeleton = get_skeleton()
+    except urllib2.URLError:
+        print "No connection to server"
+        exit()
     background(210, 210, 210)
     lights()  
 
