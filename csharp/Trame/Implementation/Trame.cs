@@ -34,7 +34,7 @@ namespace Trame
 
         private void Run()
         {
-            IDevice device = new LeapMotion();
+            IDevice device = new KinectDevice();
 
             while (true)
             {

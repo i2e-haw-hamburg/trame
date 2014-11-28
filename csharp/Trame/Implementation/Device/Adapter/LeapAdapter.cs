@@ -66,7 +66,6 @@ namespace Trame.Implementation.Device.Adapter
                 handJoint.Point = new Vector3(0, 0, -100);
 
                 FingerList fingers = hand.Fingers;
-                Console.WriteLine("Found fingers: " + fingers.Count);
                 foreach (var t in fingers)
                 {
                     Vector normal = t.Direction;
