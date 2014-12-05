@@ -31,6 +31,11 @@ namespace Trame.Implementation.Device
             return lastSkeleton;
         }
 
+        public ISkeleton GetSkeleton(ISkeleton baseSkeleton)
+        {
+            return lastSkeleton;
+        }
+
         void OnFrameArrived(object sender, SkeletonFrameReadyEventArgs e)
         {
             using (var frame = e.OpenSkeletonFrame())
@@ -62,34 +67,34 @@ namespace Trame.Implementation.Device
             var rightElbow = initSkeleton.Joints[Microsoft.Kinect.JointType.ElbowRight];
             var leftWrist = initSkeleton.Joints[Microsoft.Kinect.JointType.WristLeft];
             var rightWrist = initSkeleton.Joints[Microsoft.Kinect.JointType.WristRight];
+            var leftHand = initSkeleton.Joints[Microsoft.Kinect.JointType.HandLeft];
+            var rightHand = initSkeleton.Joints[Microsoft.Kinect.JointType.HandRight];
 
             // left arm
-            var leftUnderArm = Skeleton.Creator.CreateParent(new List<IJoint>
+            var lHand = new Skeleton.Joint
             {
-               new Skeleton.Joint { JointType = JointType.WRIST_LEFT, Point = AbsoluteToRelative(leftElbow.Position, leftWrist.Position), Valid = true }
-            });
+                JointType = JointType.WRIST_LEFT,
+                Point = AbsoluteToRelative(leftElbow.Position, leftWrist.Position),
+                Valid = true
+            };
+            lHand.AddChild(new Skeleton.Joint { JointType = JointType.HAND_LEFT, Point = AbsoluteToRelative(leftWrist.Position, leftHand.Position) });
+            var leftUnderArm = Skeleton.Creator.CreateParent(new List<IJoint>{lHand});
             leftUnderArm.JointType = JointType.ELBOW_LEFT;
             leftUnderArm.Point = AbsoluteToRelative(leftShoulder.Position, leftElbow.Position);
             leftUnderArm.Valid = true;
-
             var leftArm = Skeleton.Creator.CreateParent(new List<IJoint>{leftUnderArm});
             leftArm.JointType = JointType.SHOULDER_LEFT;
             leftArm.Point = AbsoluteToRelative(neck.Position, leftShoulder.Position);
             leftArm.Valid = true;
 
             // right arm
-            var rightUnderArm = Skeleton.Creator.CreateParent(new List<IJoint>
-            {
-               new Skeleton.Joint { JointType = JointType.WRIST_RIGHT, Point = AbsoluteToRelative(rightElbow.Position, rightWrist.Position), Valid = true }
-            });
-            rightUnderArm.JointType = JointType.ELBOW_RIGHT;
-            rightUnderArm.Point = AbsoluteToRelative(rightShoulder.Position, rightElbow.Position);
-            rightUnderArm.Valid = true;
-            var rightArm = Skeleton.Creator.CreateParent(new List<IJoint>{rightUnderArm});
-            rightArm.JointType = JointType.SHOULDER_RIGHT;
-            rightArm.Point = AbsoluteToRelative(neck.Position, rightShoulder.Position);
-            rightArm.Valid = true;
-
+            var rightArm = new Skeleton.Joint { JointType = JointType.SHOULDER_RIGHT, Point = AbsoluteToRelative(neck.Position, rightShoulder.Position), Valid = true };
+            rightArm.Append(
+                new Skeleton.Joint { JointType = JointType.ELBOW_RIGHT, Point = AbsoluteToRelative(rightShoulder.Position, rightElbow.Position), Valid = true }
+            ).Append(
+                new Skeleton.Joint { JointType = JointType.WRIST_RIGHT, Point = AbsoluteToRelative(rightElbow.Position, rightWrist.Position), Valid = true }
+            ).AddChild(new Skeleton.Joint { JointType = JointType.HAND_RIGHT, Point = AbsoluteToRelative(rightWrist.Position, rightHand.Position) });
+            
             var jsNeck = Skeleton.Creator.CreateParent(new List<IJoint> { 
                 leftArm,
                 rightArm, 

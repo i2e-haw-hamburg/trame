@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Trame.Implementation.Device;
+using Trame.Implementation.Device.Adapter;
 using Trame.Implementation.Skeleton;
 
 namespace Trame
@@ -34,11 +35,12 @@ namespace Trame
 
         private void Run()
         {
-            IDevice device = new KinectDevice();
+            //IDevice leap = new LeapMotion();
+            IDevice kinect = new KinectDevice();
 
             while (true)
             {
-                FireNewSkeleton(device.GetSkeleton());
+                FireNewSkeleton(kinect.GetSkeleton());
             }
         }
 

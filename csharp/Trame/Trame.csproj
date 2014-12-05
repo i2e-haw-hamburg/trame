@@ -95,6 +95,7 @@
     <Compile Include="Implementation\Device\KinectDevice.cs" />
     <Compile Include="Implementation\Device\LeapMotion.cs" />
     <Compile Include="Implementation\Skeleton\Creator.cs" />
+    <Compile Include="Implementation\Skeleton\Default.cs" />
     <Compile Include="Implementation\Skeleton\Joint.cs" />
     <Compile Include="Implementation\Skeleton\Enums.cs" />
     <Compile Include="Implementation\Skeleton\Skeleton.cs" />

@@ -9,6 +9,6 @@ namespace Trame.Implementation.Device
     interface IDevice
     {
         ISkeleton GetSkeleton();
-
+        ISkeleton GetSkeleton(ISkeleton baseSkeleton);
     }
 }

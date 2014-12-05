@@ -15,6 +15,11 @@ namespace Trame.Implementation.Device
         public ISkeleton GetSkeleton()
         {
             ISkeleton s = Creator.GetNewDefaultSkeleton();
+            return GetSkeleton(s);
+        }
+
+        public ISkeleton GetSkeleton(ISkeleton s)
+        {
             IJoint leftWrist = s.GetJoint(JointType.WRIST_LEFT);
             IJoint rightWrist = s.GetJoint(JointType.WRIST_RIGHT);
 

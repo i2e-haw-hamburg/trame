@@ -172,5 +172,11 @@ namespace Trame.Implementation.Skeleton
                 isValid = value;
             }
         }
+
+        public IJoint Append(IJoint j)
+        {
+            AddChild(j);
+            return j;
+        }
     }
 }
