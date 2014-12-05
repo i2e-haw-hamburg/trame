@@ -10,19 +10,26 @@ namespace Trame.Implementation.Device.Adapter
     class KinectAdapter
     {
         private KinectSensor kinect = null;
-        private BodyFrameReader reader = null;
 
-        public void StartKinect(EventHandler<BodyFrameArrivedEventArgs> onFrameArrived)
+        public void StartKinect(EventHandler<SkeletonFrameReadyEventArgs> onFrameArrived)
         {
-            kinect = KinectSensor.GetDefault();
-            kinect.Open();
-            reader = kinect.BodyFrameSource.OpenReader();
-            reader.FrameArrived += onFrameArrived; 
+            var pot = KinectSensor.KinectSensors[0];
+            if (pot.Status == KinectStatus.Connected)
+            {
+                kinect = pot;
+            }
+            else
+            {
+                throw new Exception("No Kinect is connected");
+            }
+            kinect.SkeletonFrameReady += onFrameArrived;
+            kinect.Start();
+            kinect.SkeletonStream.Enable();
         }
 
         public void StopKinect()
         {
-            this.kinect.Close();
+            this.kinect.Stop();
             this.kinect = null;
         }
     }
