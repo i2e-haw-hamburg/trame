@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Trame.Implementation.Device;
+using Trame.Implementation.Device.Adapter;
 using Trame.Implementation.Skeleton;
 
 namespace Trame
@@ -14,11 +15,12 @@ namespace Trame
         Thread t = null;
         ISkeleton last = null;
 
+
         public Trame()
         {
             last = Creator.GetNewInvalidSkeleton();
 
-            t = new Thread(this.run);
+            t = new Thread(this.Run);
             t.Start();
         }
 
@@ -31,13 +33,14 @@ namespace Trame
         public event Action<ISkeleton> NewSkeleton;
 
 
-        private void run()
+        private void Run()
         {
-            IDevice device = new LeapMotion();
+            //IDevice leap = new LeapMotion();
+            IDevice kinect = new KinectDevice();
 
             while (true)
             {
-                FireNewSkeleton(device.GetSkeleton());
+                FireNewSkeleton(kinect.GetSkeleton());
             }
         }
 

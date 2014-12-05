@@ -3,14 +3,13 @@
 
 """
 from pyprocessing import *
-from subprocess import check_output
 from math import pi, sin
 from time import time
 import json
+import urllib2
 
 angle = 0
 dim = 200
-skeleton = None
         
 def speedRotation(speed):
     global angle
@@ -30,16 +29,13 @@ def setup():
     stroke(255,0,0) #red color  
     textSize(32)
 
-    global skeleton
-    skeleton = get_skeleton()
-
 def display_joint(joint, parent_point, start = False):
     if not (joint['point'] is None):
         joint_point = [joint['point'][0] + parent_point[0], 
             joint['point'][1] + parent_point[1], 
             joint['point'][2] + parent_point[2]]
     else:
-        joint_point = [0,0,0]
+        return
 
     if not (joint['normal'] is None):
         stroke(0,255,0)
@@ -60,13 +56,10 @@ def display_joint(joint, parent_point, start = False):
 
 
 def get_skeleton():
-    json_file_name = "skeleton.json"
-    cmd = '../../build/trame-viewer'
-    
-    #content = check_output([cmd])
-    with open(json_file_name) as json_file:
-        json_data = json.load(json_file)        
-        return json_data
+    server_path = "http://localhost:12345/"
+    json_string = urllib2.urlopen(server_path)
+    json_data = json.load(json_string)
+    return json_data
 
 
 def draw():
@@ -74,21 +67,24 @@ def draw():
     Animate a 3D context free plant in processing/pyglet draw loop
     """
     global dim
-    global skeleton
-    
+
     background(210, 210, 210)
     lights()  
 
     camera(width/2.0, -1400, -2000, 0, -1000, 0, 0, 1, 0) 
     speedRotation(4.5)
     pushMatrix()
-
     textAlign(CENTER)
-    text("ID: %d" % (skeleton['id']), 0, 60)
-    text("Time: %d" % (skeleton['timestamp']), 0, 80);
 
-    display_joint(skeleton['root'], [0,0,0], True)
+    try:
+        skeleton = get_skeleton()
+        text("ID: %d" % (skeleton['id']), 0, 60)
+        text("Time: %d" % (skeleton['timestamp']), 0, 80);
 
+        display_joint(skeleton['root'], [0,0,0], True)
+    except urllib2.URLError:
+        pass
+    
     popMatrix()
 
 run()  

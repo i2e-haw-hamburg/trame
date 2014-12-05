@@ -18,5 +18,6 @@ namespace Trame
         IJoint FindChild(JointType jt);
         IJoint DeepFind(JointType jt);
         void Update(JointType jt, IJoint j);
+        IJoint Append(IJoint j);
     }
 }

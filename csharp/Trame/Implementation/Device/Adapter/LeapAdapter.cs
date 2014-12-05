@@ -21,7 +21,10 @@ namespace Trame.Implementation.Device.Adapter
             {
                 Frame frame = leapController.Frame();
                 HandList hands = frame.Hands;
-                leftmost = hands.Leftmost;
+                if (hands.Leftmost.IsLeft)
+                {
+                    leftmost = hands.Leftmost;
+                }
             }
 
             IJoint left = BuildHand(leftmost, wrist, 1);
@@ -38,10 +41,13 @@ namespace Trame.Implementation.Device.Adapter
             {
                 Frame frame = leapController.Frame();
                 HandList hands = frame.Hands;
-                rightmost = hands.Rightmost;
+                if (hands.Rightmost.IsRight)
+                {
+                    rightmost = hands.Rightmost;
+                }
             }
 
-            IJoint right = BuildHand(rightmost, wrist, 1);
+            IJoint right = BuildHand(rightmost, wrist, 2);
             right.JointType = JointType.HAND_RIGHT;
 
             return right;
@@ -49,29 +55,7 @@ namespace Trame.Implementation.Device.Adapter
 
         private static IJoint BuildHand(Hand hand, IJoint wrist, int side)
         {
-            IJoint thumb = new Joint();
-            IJoint index = new Joint();
-            IJoint middle = new Joint();
-            IJoint ring = new Joint();
-            IJoint little = new Joint();
             IJoint handJoint = new Joint();
-
-            if (side == 1)
-            {
-                thumb.JointType = JointType.THUMB_LEFT;
-                index.JointType = JointType.INDEX_FINGER_LEFT;
-                middle.JointType = JointType.MIDDLE_FINGER_LEFT;
-                ring.JointType = JointType.RING_FINGER_LEFT;
-                little.JointType = JointType.LITTLE_FINGER_LEFT;
-            }
-            else
-            {
-                thumb.JointType = JointType.THUMB_RIGHT;
-                index.JointType = JointType.INDEX_FINGER_RIGHT;
-                middle.JointType = JointType.MIDDLE_FINGER_RIGHT;
-                ring.JointType = JointType.RING_FINGER_RIGHT;
-                little.JointType = JointType.LITTLE_FINGER_RIGHT;
-            }
 
             if (hand.IsValid)
             {
@@ -82,20 +66,55 @@ namespace Trame.Implementation.Device.Adapter
                 handJoint.Point = new Vector3(0, 0, -100);
 
                 FingerList fingers = hand.Fingers;
-                if (fingers.Count > 0)
+                foreach (var t in fingers)
                 {
-                    Vector normal = fingers[0].Direction;
-                    Vector position = fingers[0].TipPosition - handPosition;
+                    Vector normal = t.Direction;
+                    Vector position = t.TipPosition - handPosition;
 
-                    thumb.Point = new Vector3(position.x, position.y, position.z);
-                    thumb.Normal = new Vector3(100 * normal.x, 100 * normal.y, 100 * normal.z);
-                    handJoint.AddChild(thumb);
+                    handJoint.AddChild(CreateFinger(position, normal, FingerType2JointType(t.Type(), side)));
                 }
-
                 handJoint.Valid = true;
             }
 
             return handJoint;
+        }
+
+        private static IJoint CreateFinger(Vector position, Vector normal, JointType jt)
+        {
+            var finger = new Joint();
+            finger.JointType = jt;
+            finger.Point = new Vector3(position.x, position.y, position.z);
+            finger.Normal = new Vector3(100 * normal.x, 100 * normal.y, 100 * normal.z);
+            return finger;
+        }
+
+        private static JointType FingerType2JointType(Finger.FingerType ft, int side)
+        {
+            JointType jt;
+
+            switch (ft)
+            {
+                case Finger.FingerType.TYPE_INDEX:
+                    jt = (side == 1) ? JointType.INDEX_FINGER_LEFT : JointType.INDEX_FINGER_RIGHT;
+                    break;
+                case Finger.FingerType.TYPE_MIDDLE:
+                    jt = (side == 1) ? JointType.MIDDLE_FINGER_LEFT : JointType.MIDDLE_FINGER_RIGHT;
+                    break;
+                case Finger.FingerType.TYPE_PINKY:
+                    jt = (side == 1) ? JointType.LITTLE_FINGER_LEFT : JointType.LITTLE_FINGER_RIGHT;
+                    break;
+                case Finger.FingerType.TYPE_RING:
+                    jt = (side == 1) ? JointType.RING_FINGER_LEFT : JointType.RING_FINGER_RIGHT;
+                    break;
+                case Finger.FingerType.TYPE_THUMB:
+                    jt = (side == 1) ? JointType.THUMB_LEFT : JointType.THUMB_RIGHT;
+                    break;
+                default:
+                    jt = JointType.UNSPECIFIED;
+                    break;
+            }
+
+            return jt;
         }
     }
 }
