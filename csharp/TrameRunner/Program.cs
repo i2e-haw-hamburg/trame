@@ -46,10 +46,15 @@ namespace TrameRunner
             }
         }
 
+        public void Endless()
+        {
+            trame.NewSkeleton += Console.WriteLine;
+        }
+
         static void Main(string[] args)
         {
             var p = new Program();
-            p.Run(100, true);
+            p.Endless();
 
             Console.WriteLine("Press key to stop program\n");
             Console.ReadKey();

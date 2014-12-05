@@ -147,7 +147,7 @@ namespace Trame.Implementation.Skeleton
             return hip;
         }
 
-        private static IJoint CreateHead()
+        public static IJoint CreateHead()
         {
             int headY = 180;
             var headNormal = new Vector3(0, 0, -100);
