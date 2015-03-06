@@ -74,9 +74,14 @@
     <Compile Include="ISerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization.cs" />
+    <Compile Include="Serializer\BasicSerializer.cs" />
     <Compile Include="Serializer\JSONSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
+      <Project>{80826d5e-c20a-4cd1-99ca-39d372ad1d4c}</Project>
+      <Name>TrameSkeleton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Trame\Trame.csproj">
       <Project>{0256ab60-4d96-4a69-9ab9-90da6ed2aa48}</Project>
       <Name>Trame</Name>

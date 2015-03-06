@@ -93,23 +93,18 @@
     <Compile Include="Implementation\Device\Adapter\LeapAdapter.cs" />
     <Compile Include="Implementation\Device\IDevice.cs" />
     <Compile Include="Implementation\Device\KinectDevice.cs" />
+    <Compile Include="Implementation\Device\KinectLeap.cs" />
     <Compile Include="Implementation\Device\LeapMotion.cs" />
-    <Compile Include="Implementation\Skeleton\Creator.cs" />
-    <Compile Include="Implementation\Skeleton\Default.cs" />
-    <Compile Include="Implementation\Skeleton\Joint.cs" />
-    <Compile Include="Implementation\Skeleton\Enums.cs" />
-    <Compile Include="Implementation\Skeleton\Skeleton.cs" />
     <Compile Include="Implementation\Trame.cs" />
-    <Compile Include="Interface\IJoint.cs" />
-    <Compile Include="Interface\ISkeleton.cs" />
     <Compile Include="Interface\ICameraAbstraction.cs" />
-    <Compile Include="Interface\JointType.cs" />
+    <Compile Include="Interface\DeviceType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Kinect10.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -125,6 +120,12 @@
     <Content Include="LeapCSharp.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
+      <Project>{80826d5e-c20a-4cd1-99ca-39d372ad1d4c}</Project>
+      <Name>TrameSkeleton</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

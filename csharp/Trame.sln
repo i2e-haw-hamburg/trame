@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameSerialization", "Trame
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameServer", "TrameServer\TrameServer.csproj", "{787FA0F7-B347-452A-BBE7-8E50F0C6E78C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameSkeleton", "TrameSkeleton\TrameSkeleton.csproj", "{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,18 @@ Global
 		{787FA0F7-B347-452A-BBE7-8E50F0C6E78C}.Release|x64.ActiveCfg = Release|Any CPU
 		{787FA0F7-B347-452A-BBE7-8E50F0C6E78C}.Release|x86.ActiveCfg = Release|x86
 		{787FA0F7-B347-452A-BBE7-8E50F0C6E78C}.Release|x86.Build.0 = Release|x86
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Release|x64.ActiveCfg = Release|Any CPU
+		{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

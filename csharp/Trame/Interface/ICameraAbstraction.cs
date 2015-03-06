@@ -19,5 +19,9 @@ namespace Trame
         /// Event is fired if a new skeleton was created.
         /// </summary>
         event Action<ISkeleton> NewSkeleton;
+
+        void SetDevice(DeviceType t);
+
+        void Stop();
     }
 }

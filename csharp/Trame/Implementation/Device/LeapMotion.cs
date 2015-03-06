@@ -38,5 +38,10 @@ namespace Trame.Implementation.Device
 
             return s;
         }
+
+        public void Stop()
+        {
+            adapter.Stop();
+        }
     }
 }

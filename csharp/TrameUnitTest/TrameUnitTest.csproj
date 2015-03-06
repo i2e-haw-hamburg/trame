@@ -98,11 +98,20 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BasicSerializationTest.cs" />
     <Compile Include="JointTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SkeletonTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TrameSerialization\TrameSerialization.csproj">
+      <Project>{DB5AECA4-951F-4C19-84E2-9C9E51294F57}</Project>
+      <Name>TrameSerialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
+      <Project>{80826d5e-c20a-4cd1-99ca-39d372ad1d4c}</Project>
+      <Name>TrameSkeleton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Trame\Trame.csproj">
       <Project>{0256ab60-4d96-4a69-9ab9-90da6ed2aa48}</Project>
       <Name>Trame</Name>

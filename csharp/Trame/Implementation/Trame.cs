@@ -14,17 +14,21 @@ namespace Trame
     {
         Thread t = null;
         ISkeleton last = null;
+        private DeviceType currentType = DeviceType.KINECT;
+        private IDevice currentDevice = null;
+        private bool _keepRunning = true;
 
 
         public Trame()
         {
             last = Creator.GetNewInvalidSkeleton();
+            updatedType();
 
             t = new Thread(this.Run);
             t.Start();
         }
 
-        ISkeleton ICameraAbstraction.GetSkeleton()
+        public ISkeleton GetSkeleton()
         {
             // return copy of last element
             return last;
@@ -32,26 +36,52 @@ namespace Trame
 
         public event Action<ISkeleton> NewSkeleton;
 
+        public void SetDevice(DeviceType t)
+        {
+            currentType = t;
+            updatedType();
+        }
+
+        private void updatedType()
+        {
+            switch (currentType)
+            {
+                case DeviceType.KINECT:
+                    currentDevice = new KinectDevice();
+                    break;
+                case DeviceType.LEAP_MOTION:
+                    currentDevice = new LeapMotion();
+                    break;
+                case DeviceType.LEAP_MOTION_AND_KINECT:
+                    currentDevice = new KinectLeap();
+                    break;
+            }
+        }
 
         private void Run()
         {
-            //IDevice leap = new LeapMotion();
-            IDevice kinect = new KinectDevice();
-
-            while (true)
+            while (_keepRunning)
             {
-                FireNewSkeleton(kinect.GetSkeleton());
+                FireNewSkeleton(currentDevice.GetSkeleton());
             }
+            // close all open ressources
+            currentDevice.Stop();
+
         }
 
         private void FireNewSkeleton(ISkeleton skeleton)
         {
             last = skeleton;
-
+           
             if (NewSkeleton != null)
             {
                 NewSkeleton(skeleton);
             }
+        }
+
+        public void Stop()
+        {
+            this._keepRunning = false;
         }
     
     }

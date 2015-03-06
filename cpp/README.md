@@ -1,8 +1,6 @@
 TRAME - TRAck ME (if you can)
 =============================
 
-Current Version: 0.01
-
 Skeleton tracking abstraction library.
 
 ## Build

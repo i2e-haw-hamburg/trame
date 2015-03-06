@@ -40,6 +40,10 @@ namespace Trame.Implementation.Device
         {
             using (var frame = e.OpenSkeletonFrame())
             {
+                if (frame == null)
+                {
+                    return;
+                }
                 if (this.foundedSkeletons == null)
                 {
                     this.foundedSkeletons = new Microsoft.Kinect.Skeleton[frame.SkeletonArrayLength];
@@ -105,7 +109,7 @@ namespace Trame.Implementation.Device
             jsNeck.Valid = true;
 
             s.UpdateSkeleton(JointType.NECK, jsNeck);
-
+            s.Valid = true;
             return s;
         }
 
@@ -116,6 +120,11 @@ namespace Trame.Implementation.Device
                 child.Y-parent.Y,
                 child.Z-parent.Z
             ) * 1000;
+        }
+
+        public void Stop()
+        {
+            this.adapter.StopKinect();
         }
     }
 }
