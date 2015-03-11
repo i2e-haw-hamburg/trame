@@ -1,4 +1,5 @@
 ﻿using System;
+using NetworkMessages.Trame;
 
 namespace Trame.Implementation.Skeleton
 {
@@ -11,10 +12,16 @@ namespace Trame.Implementation.Skeleton
         uint timestamp;
 
         public Skeleton()
+            : this(0, false, (uint)(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond))
         {
-            valid = false;
-            id = 0;
-            timestamp = (uint)(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
+            
+        }
+
+        public Skeleton(uint id, bool valid, uint timestamp)
+        {
+            this.valid = valid;
+            this.id = id;
+            this.timestamp = timestamp;
         }
 
         public void UpdateSkeleton(JointType jt, IJoint j)
@@ -89,6 +96,25 @@ namespace Trame.Implementation.Skeleton
             
             Root = r;
             return this;
+        }
+
+        public static ISkeleton FromMessage(SkeletonMessage message)
+        {
+            var skeleton = new Skeleton((uint)message.id, message.valid, (uint)message.timestamp);
+            skeleton.Root = Joint.FromMessage(message.root);
+
+            return skeleton;
+        }
+
+        public SkeletonMessage ToMessage()
+        {
+            var message = new SkeletonMessage();
+            message.id = id;
+            message.timestamp = timestamp;
+            message.valid = valid;
+            message.root = root.ToMessage();
+
+            return message;
         }
     }
 }

@@ -44,7 +44,9 @@ namespace TrameSerialization
                 case OutputType.BASIC:
                     serializer = new BasicSerializer();
                     break;
-                
+                case OutputType.PROTOBUF:
+                    serializer = new ProtobufSerializer();
+                    break;   
             }
         }
         /// <summary>

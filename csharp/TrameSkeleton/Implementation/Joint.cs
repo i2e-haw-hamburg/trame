@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NetworkMessages.Trame;
 
 namespace Trame.Implementation.Skeleton
 {
@@ -16,16 +17,24 @@ namespace Trame.Implementation.Skeleton
         IDictionary<JointType, IJoint> children = new Dictionary<JointType, IJoint>();
         Vector3 normal;
         Vector3 point;
-        bool isValid = false;
+        bool isValid;
         JointType type;
+
         /// <summary>
         /// 
         /// </summary>
-        public Joint()
+        public Joint() : this(JointType.UNSPECIFIED, false)
         {
             normal = new Vector3();
             point = new Vector3();
-            type = JointType.UNSPECIFIED;
+        }
+
+        public Joint(JointType type, bool valid)
+        {
+            this.type = type;
+            this.isValid = valid;
+            normal = new Vector3();
+            point = new Vector3();
         }
         /// <summary>
         /// 
@@ -229,6 +238,31 @@ namespace Trame.Implementation.Skeleton
         {
             AddChild(j);
             return j;
+        }
+
+        public SkeletonMessage.Joint ToMessage()
+        {
+            var joint = new SkeletonMessage.Joint();
+            joint.valid = isValid;
+            var o = (Convert.ChangeType(type, TypeCode.Int32));
+            if (o != null)
+            {
+                joint.type = (int)o;
+            }
+            joint.normal.AddRange(normal.ToArray());
+            joint.point.AddRange(point.ToArray());
+
+            joint.children.AddRange(children.Select(child => child.Value.ToMessage()));
+
+            return joint;
+        }
+
+        public static IJoint FromMessage(SkeletonMessage.Joint j)
+        {
+            var joint = new Joint((JointType)j.type, j.valid);
+            joint.normal = new Vector3();
+            joint.point = new Vector3();
+            return joint;
         }
     }
 }

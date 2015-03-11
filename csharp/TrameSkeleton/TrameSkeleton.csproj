@@ -36,6 +36,9 @@
     <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,11 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Implementation\Creator.cs" />
     <Compile Include="Implementation\Default.cs" />
     <Compile Include="Implementation\Enums.cs" />
     <Compile Include="Implementation\Joint.cs" />
+    <Compile Include="Implementation\Message\SkeletonMessage.cs" />
     <Compile Include="Implementation\Skeleton.cs" />
     <Compile Include="Interface\IJoint.cs" />
     <Compile Include="Interface\ISkeleton.cs" />
