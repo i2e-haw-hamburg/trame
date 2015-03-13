@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2C12C211-9B4C-4827-80AD-D7425899EAA1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TrameService</RootNamespace>
+    <AssemblyName>TrameService</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Messages\CameraScreenMessage.cs" />
+    <Compile Include="Messages\ErrorOnProcessingMessage.cs" />
+    <Compile Include="Messages\NetworkMessage.cs" />
+    <Compile Include="Messages\ObjectLost.cs" />
+    <Compile Include="Messages\ObjectNew.cs" />
+    <Compile Include="Messages\PositionChanged.cs" />
+    <Compile Include="Messages\RegisterForGestureInterfaceMessage.cs" />
+    <Compile Include="Messages\RegisterForObjectTrackingMessages.cs" />
+    <Compile Include="Messages\RegisterForTrameMessage.cs" />
+    <Compile Include="Messages\RegisterMobileDeviceMessage.cs" />
+    <Compile Include="Messages\RequestConnectionEncryptionMessage.cs" />
+    <Compile Include="Messages\RotationChanged.cs" />
+    <Compile Include="Messages\SetCameraFieldOfViewMessage.cs" />
+    <Compile Include="Messages\SetCameraResolutionMessage.cs" />
+    <Compile Include="Messages\SetCameraTransformMessage.cs" />
+    <Compile Include="Messages\SkeletonMessage.cs" />
+    <Compile Include="Messages\SOARegisterService.cs" />
+    <Compile Include="Messages\SOARequestServiceMetadata.cs" />
+    <Compile Include="Messages\UnregisterFromGestureInterfaceMessage.cs" />
+    <Compile Include="Messages\UnregisterFromObjectTrackingMessages.cs" />
+    <Compile Include="Messages\UnregisterFromTrameMessage.cs" />
+    <Compile Include="Messages\UnregisterMobileDeviceMessage.cs" />
+    <Compile Include="Messages\UserInitMessage.cs" />
+    <Compile Include="Messages\UserRemoveMessage.cs" />
+    <Compile Include="Messages\UserUpdateMessage.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\i2e-network-middleware\C#\beardwire\BeardWire\BeardUtilities\BeardUtilities.csproj">
+      <Project>{813323ae-166d-4cda-bdf2-669d1d534830}</Project>
+      <Name>BeardUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\i2e-network-middleware\C#\beardwire\BeardWire\BeardWire\BeardWire.csproj">
+      <Project>{f75c9489-246a-4e7a-93d0-65dd0e71bf39}</Project>
+      <Name>BeardWire</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\i2e-network-middleware\C#\beardwire\BeardWire\ConfigFileReader\ConfigFileReader.csproj">
+      <Project>{39f1763c-e4c7-4ca3-bbd1-8bad13bc171b}</Project>
+      <Name>ConfigFileReader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\i2e-network-middleware\C#\beardwire\Logging\BeardLogger\BeardLogger\BeardLogger.csproj">
+      <Project>{2625801a-f96a-4b40-b085-2e5256c414e9}</Project>
+      <Name>BeardLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
+      <Project>{80826d5e-c20a-4cd1-99ca-39d372ad1d4c}</Project>
+      <Name>TrameSkeleton</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Trame\Trame.csproj">
+      <Project>{0256ab60-4d96-4a69-9ab9-90da6ed2aa48}</Project>
+      <Name>Trame</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="MessageTypes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
