@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="Implementation\Device\Adapter\KinectAdapter.cs" />
     <Compile Include="Implementation\Device\Adapter\LeapAdapter.cs" />
+    <Compile Include="Implementation\Device\DummyDevice.cs" />
     <Compile Include="Implementation\Device\IDevice.cs" />
     <Compile Include="Implementation\Device\KinectDevice.cs" />
     <Compile Include="Implementation\Device\KinectLeap.cs" />

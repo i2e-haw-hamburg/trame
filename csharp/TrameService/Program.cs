@@ -8,6 +8,7 @@ using BeardLogger.Implementation.Unity.Threading;
 using BeardLogger.Interface;
 using BeardWire.Interface;
 using NetworkMessages.Trame;
+using Trame;
 
 namespace TrameService
 {
@@ -31,6 +32,7 @@ namespace TrameService
         {
             this.port = port;
             this.trame = new Trame.Trame();
+            this.trame.SetDevice(DeviceType.EMPTY);
             this.networkAdapter = NetworkAdapterFactory.GetNewNetworkAdapter(MessageTypesFileName, LoggerFactory.GetNewDummyLogger());
             SubscribeToMessages();
         }
