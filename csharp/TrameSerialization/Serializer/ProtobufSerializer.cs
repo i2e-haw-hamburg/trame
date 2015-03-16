@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Json;
-using System.Linq;
-using System.Text;
-using AForge.Math;
+﻿using System.IO;
 using NetworkMessages.Trame;
 using Trame;
-using Trame.Implementation.Skeleton;
 using Trame.Implementation.Skeleton;
 
 

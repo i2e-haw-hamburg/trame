@@ -34,6 +34,15 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DeployToUnity|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DeployToUnity\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
@@ -47,31 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Messages\CameraScreenMessage.cs" />
-    <Compile Include="Messages\ErrorOnProcessingMessage.cs" />
-    <Compile Include="Messages\NetworkMessage.cs" />
-    <Compile Include="Messages\ObjectLost.cs" />
-    <Compile Include="Messages\ObjectNew.cs" />
-    <Compile Include="Messages\PositionChanged.cs" />
-    <Compile Include="Messages\RegisterForGestureInterfaceMessage.cs" />
-    <Compile Include="Messages\RegisterForObjectTrackingMessages.cs" />
-    <Compile Include="Messages\RegisterForTrameMessage.cs" />
-    <Compile Include="Messages\RegisterMobileDeviceMessage.cs" />
-    <Compile Include="Messages\RequestConnectionEncryptionMessage.cs" />
-    <Compile Include="Messages\RotationChanged.cs" />
-    <Compile Include="Messages\SetCameraFieldOfViewMessage.cs" />
-    <Compile Include="Messages\SetCameraResolutionMessage.cs" />
-    <Compile Include="Messages\SetCameraTransformMessage.cs" />
-    <Compile Include="Messages\SkeletonMessage.cs" />
-    <Compile Include="Messages\SOARegisterService.cs" />
-    <Compile Include="Messages\SOARequestServiceMetadata.cs" />
-    <Compile Include="Messages\UnregisterFromGestureInterfaceMessage.cs" />
-    <Compile Include="Messages\UnregisterFromObjectTrackingMessages.cs" />
-    <Compile Include="Messages\UnregisterFromTrameMessage.cs" />
-    <Compile Include="Messages\UnregisterMobileDeviceMessage.cs" />
-    <Compile Include="Messages\UserInitMessage.cs" />
-    <Compile Include="Messages\UserRemoveMessage.cs" />
-    <Compile Include="Messages\UserUpdateMessage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -96,6 +80,10 @@
       <Project>{2625801a-f96a-4b40-b085-2e5256c414e9}</Project>
       <Name>BeardLogger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TrameNetworkMessages\TrameNetworkMessages.csproj">
+      <Project>{4B86A1B2-B04D-45CC-8694-D821B61A3B4F}</Project>
+      <Name>TrameNetworkMessages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
       <Project>{80826d5e-c20a-4cd1-99ca-39d372ad1d4c}</Project>
       <Name>TrameSkeleton</Name>
@@ -105,7 +93,9 @@
       <Name>Trame</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Messages\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="MessageTypes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

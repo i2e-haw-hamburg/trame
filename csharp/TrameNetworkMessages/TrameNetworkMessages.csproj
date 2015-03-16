@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}</ProjectGuid>
+    <ProjectGuid>{4B86A1B2-B04D-45CC-8694-D821B61A3B4F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrameSkeleton</RootNamespace>
-    <AssemblyName>TrameSkeleton</AssemblyName>
+    <RootNamespace>NetworkMessages</RootNamespace>
+    <AssemblyName>TrameNetworkMessages</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,24 +29,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DeployToUnity|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\DeployToUnity\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
-      <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
-      <HintPath>..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
-    </Reference>
     <Reference Include="protobuf-net">
-      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net35\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,33 +41,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementation\Creator.cs" />
-    <Compile Include="Implementation\Default.cs" />
-    <Compile Include="Implementation\Enums.cs" />
-    <Compile Include="Implementation\Joint.cs" />
-    <Compile Include="Implementation\Skeleton.cs" />
-    <Compile Include="Interface\IJoint.cs" />
-    <Compile Include="Interface\ISkeleton.cs" />
-    <Compile Include="Interface\JointType.cs" />
+    <Compile Include="CameraScreenMessage.cs" />
+    <Compile Include="ErrorOnProcessingMessage.cs" />
+    <Compile Include="NetworkMessage.cs" />
+    <Compile Include="ObjectLost.cs" />
+    <Compile Include="ObjectNew.cs" />
+    <Compile Include="PositionChanged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Compile Include="RegisterForGestureInterfaceMessage.cs" />
+    <Compile Include="RegisterForObjectTrackingMessages.cs" />
+    <Compile Include="RegisterForTrameMessage.cs" />
+    <Compile Include="RegisterMobileDeviceMessage.cs" />
+    <Compile Include="RequestConnectionEncryptionMessage.cs" />
+    <Compile Include="RotationChanged.cs" />
+    <Compile Include="SetCameraFieldOfViewMessage.cs" />
+    <Compile Include="SetCameraResolutionMessage.cs" />
+    <Compile Include="SetCameraTransformMessage.cs" />
+    <Compile Include="SkeletonMessage.cs" />
+    <Compile Include="SOARegisterService.cs" />
+    <Compile Include="SOARequestServiceMetadata.cs" />
+    <Compile Include="UnregisterFromGestureInterfaceMessage.cs" />
+    <Compile Include="UnregisterFromObjectTrackingMessages.cs" />
+    <Compile Include="UnregisterFromTrameMessage.cs" />
+    <Compile Include="UnregisterMobileDeviceMessage.cs" />
+    <Compile Include="UserInitMessage.cs" />
+    <Compile Include="UserRemoveMessage.cs" />
+    <Compile Include="UserUpdateMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TrameNetworkMessages\TrameNetworkMessages.csproj">
-      <Project>{4b86a1b2-b04d-45cc-8694-d821b61a3b4f}</Project>
-      <Name>TrameNetworkMessages</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>del TrameNetworkMessages.dll</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
