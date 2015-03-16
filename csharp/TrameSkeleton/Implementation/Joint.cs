@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NetworkMessages.Trame;
 
 namespace Trame.Implementation.Skeleton
@@ -173,7 +171,7 @@ namespace Trame.Implementation.Skeleton
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("type:{0}, valid:{1}, point:{2}, children:[ {3} ]", type, isValid, point, string.Join(",", children.ToArray()));
+            return string.Format("type:{0}, valid:{1}, point:{2}, children:[ {3} ]", type, isValid, point, string.Join(",", children.Select(x => x.ToString()).ToArray()));
         }
 
         /// <summary>

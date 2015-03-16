@@ -20,19 +20,20 @@ namespace TrameService
         private INetworkAdapter networkAdapter;
         private Trame.ICameraAbstraction trame;
 
-        private List<IPEndPoint> receivers = new List<IPEndPoint>(); 
+        private List<IPEndPoint> receivers = new List<IPEndPoint>();
+        private bool run;
 
         public Program()
-            : this(DefaultPort)
+            : this(DefaultPort, DeviceType.EMPTY)
         {
             
         }
 
-        public Program(int port)
+        public Program(int port, DeviceType type)
         {
             this.port = port;
             this.trame = new Trame.Trame();
-            this.trame.SetDevice(DeviceType.EMPTY);
+            this.trame.SetDevice(type);
             this.networkAdapter = NetworkAdapterFactory.GetNewNetworkAdapter(MessageTypesFileName, LoggerFactory.GetNewDummyLogger());
             SubscribeToMessages();
         }
@@ -68,19 +69,24 @@ namespace TrameService
         }
 
         public void Run()
-        {        
-            var s = Trame.Implementation.Skeleton.Creator.GetNewDefaultSkeleton();
+        {
+            trame.NewSkeleton += FireNewSkeleton;
 
-            while (true)
+            while (run)
             {
-                if (receivers.Count > 0)
+            }
+
+        }
+
+        public void FireNewSkeleton(ISkeleton skeleton)
+        {
+            if (receivers.Count > 0)
+            {
+                var m = skeleton.ToMessage();
+                receivers.ForEach(receiver =>
                 {
-                    receivers.ForEach(receiver =>
-                    {
-                        var m = s.ToMessage();
-                        networkAdapter.SendMessageOverTCP(m, receiver.Address, receiver.Port);
-                    });
-                }
+                    networkAdapter.SendMessageOverTCP(m, receiver.Address, receiver.Port);
+                });
             }
         }
 
@@ -91,6 +97,7 @@ namespace TrameService
 
         public void Close()
         {
+            run = false;
             trame.Stop();
         }
         
