@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
-using BeardLogger.Implementation.Unity.Threading;
 using BeardLogger.Interface;
 using BeardWire.Interface;
 using NetworkMessages.Trame;
@@ -15,7 +11,7 @@ namespace TrameService
     class Program
     {
         private const int DefaultPort = 11111;
-        private const string MessageTypesFileName = "MessageTypes.txt";
+        private const string MessageTypesFileName = "C:\\Users\\squad\\git\\trame\\csharp\\TrameNetworkMessages\\MessageTypes.txt";
         private int port;
         private INetworkAdapter networkAdapter;
         private Trame.ICameraAbstraction trame;
@@ -103,7 +99,30 @@ namespace TrameService
         
         static void Main(string[] args)
         {
-            var program = new Program();
+            int port = DefaultPort;
+            DeviceType dt = DeviceType.EMPTY;
+            
+            if (args.Length >= 1)
+            {
+                string type = args[0];
+                switch (type)
+                {
+                    case "kinect":
+                        dt = DeviceType.KINECT;
+                        break;
+                    case "leap":
+                        dt = DeviceType.LEAP_MOTION;
+                        break;
+                    default:
+                        dt = DeviceType.EMPTY;
+                        break;
+                }
+            }
+            if (args.Length >= 2)
+            {
+                int.TryParse(args[1], out port);
+            }
+            var program = new Program(port, dt);
             Console.WriteLine(program.NiceString());
             program.Run();
 
