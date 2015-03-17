@@ -66,6 +66,33 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DeployToUnity|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DeployToUnity\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DeployToUnity|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\DeployToUnity\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DeployToUnity|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\DeployToUnity\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
@@ -91,25 +118,21 @@
   <ItemGroup>
     <Compile Include="Implementation\Device\Adapter\KinectAdapter.cs" />
     <Compile Include="Implementation\Device\Adapter\LeapAdapter.cs" />
+    <Compile Include="Implementation\Device\DummyDevice.cs" />
     <Compile Include="Implementation\Device\IDevice.cs" />
     <Compile Include="Implementation\Device\KinectDevice.cs" />
+    <Compile Include="Implementation\Device\KinectLeap.cs" />
     <Compile Include="Implementation\Device\LeapMotion.cs" />
-    <Compile Include="Implementation\Skeleton\Creator.cs" />
-    <Compile Include="Implementation\Skeleton\Default.cs" />
-    <Compile Include="Implementation\Skeleton\Joint.cs" />
-    <Compile Include="Implementation\Skeleton\Enums.cs" />
-    <Compile Include="Implementation\Skeleton\Skeleton.cs" />
     <Compile Include="Implementation\Trame.cs" />
-    <Compile Include="Interface\IJoint.cs" />
-    <Compile Include="Interface\ISkeleton.cs" />
     <Compile Include="Interface\ICameraAbstraction.cs" />
-    <Compile Include="Interface\JointType.cs" />
+    <Compile Include="Interface\DeviceType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Kinect10.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -125,6 +148,12 @@
     <Content Include="LeapCSharp.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
+      <Project>{80826d5e-c20a-4cd1-99ca-39d372ad1d4c}</Project>
+      <Name>TrameSkeleton</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -40,9 +40,9 @@ def display_joint(joint, parent_point, start = False):
     if not (joint['normal'] is None):
         stroke(0,255,0)
         line(joint_point[0], -joint_point[1], joint_point[2], 
-            joint['normal'][0] + joint_point[0],
+            (joint['normal'][0] + joint_point[0]),
             -(joint['normal'][1] + joint_point[1]),
-            joint['normal'][2] + joint_point[2])
+            (joint['normal'][2] + joint_point[2]))
         stroke(255,0,0)
 
     if not start:

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Json;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,10 @@ namespace TrameSerialization.Serializer
             get { return OutputType.JSON; }
         }
 
-        public string Serialize(Trame.ISkeleton s)
+        public Stream Serialize(Trame.ISkeleton s)
         {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
             var jsonSkeleton = new JsonObject();
 
             jsonSkeleton["id"] = s.ID;
@@ -25,11 +28,23 @@ namespace TrameSerialization.Serializer
             jsonSkeleton["valid"] = s.Valid;
             jsonSkeleton["root"] = JointToObject(s.Root);
 
-            return jsonSkeleton.ToString();
+            writer.Write(jsonSkeleton.ToString());
+            writer.Flush();
+            stream.Position = 0;
+            return stream;;
+        }
+
+        public ISkeleton Deserialize(Stream stream)
+        {
+            throw new NotImplementedException();
         }
 
         private static JsonValue JointToObject(IJoint joint)
         {
+            if (joint == null)
+            {
+                return null;
+            }
             var jsonJoint = new JsonObject();
             jsonJoint["type"] = (int) (Convert.ChangeType(joint.JointType, TypeCode.Int32));
             jsonJoint["normal"] = VectorToArray(joint.Normal);

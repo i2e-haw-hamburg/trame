@@ -62,7 +62,7 @@ namespace Trame.Implementation.Device.Adapter
                 Vector palmNormal = hand.PalmNormal;
                 Vector handPosition = hand.PalmPosition;
 
-                handJoint.Normal = new Vector3(100*palmNormal.x, 100*palmNormal.y, 100*palmNormal.z);
+                handJoint.Normal = new Vector3(10*palmNormal.x, 10*palmNormal.y, 10*palmNormal.z);
                 handJoint.Point = new Vector3(0, 0, -100);
 
                 FingerList fingers = hand.Fingers;
@@ -84,7 +84,7 @@ namespace Trame.Implementation.Device.Adapter
             var finger = new Joint();
             finger.JointType = jt;
             finger.Point = new Vector3(position.x, position.y, position.z);
-            finger.Normal = new Vector3(100 * normal.x, 100 * normal.y, 100 * normal.z);
+            finger.Normal = new Vector3(10 * normal.x, 10 * normal.y, 10 * normal.z);
             return finger;
         }
 
@@ -115,6 +115,11 @@ namespace Trame.Implementation.Device.Adapter
             }
 
             return jt;
+        }
+
+        public void Stop()
+        {
+            
         }
     }
 }
