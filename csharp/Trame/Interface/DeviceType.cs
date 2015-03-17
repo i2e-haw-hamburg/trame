@@ -12,6 +12,7 @@ namespace Trame
     {
         KINECT,
         LEAP_MOTION,
-        LEAP_MOTION_AND_KINECT
+        LEAP_MOTION_AND_KINECT,
+        EMPTY
     }
 }

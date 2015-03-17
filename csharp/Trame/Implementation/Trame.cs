@@ -14,7 +14,7 @@ namespace Trame
     {
         Thread t = null;
         ISkeleton last = null;
-        private DeviceType currentType = DeviceType.KINECT;
+        private DeviceType currentType = DeviceType.EMPTY;
         private IDevice currentDevice = null;
         private bool _keepRunning = true;
 
@@ -54,6 +54,9 @@ namespace Trame
                     break;
                 case DeviceType.LEAP_MOTION_AND_KINECT:
                     currentDevice = new KinectLeap();
+                    break;
+                case DeviceType.EMPTY:
+                    currentDevice = new DummyDevice();
                     break;
             }
         }

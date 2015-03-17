@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Trame.Implementation.Skeleton
 {
@@ -16,16 +15,24 @@ namespace Trame.Implementation.Skeleton
         IDictionary<JointType, IJoint> children = new Dictionary<JointType, IJoint>();
         Vector3 normal;
         Vector3 point;
-        bool isValid = false;
+        bool isValid;
         JointType type;
+
         /// <summary>
         /// 
         /// </summary>
-        public Joint()
+        public Joint() : this(JointType.UNSPECIFIED, false)
         {
             normal = new Vector3();
             point = new Vector3();
-            type = JointType.UNSPECIFIED;
+        }
+
+        public Joint(JointType type, bool valid)
+        {
+            this.type = type;
+            this.isValid = valid;
+            normal = new Vector3();
+            point = new Vector3();
         }
         /// <summary>
         /// 
@@ -164,7 +171,7 @@ namespace Trame.Implementation.Skeleton
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("type:{0}, valid:{1}, point:{2}, children:[ {3} ]", type, isValid, point, string.Join(",", children.ToArray()));
+            return string.Format("type:{0}, valid:{1}, point:{2}, children:[ {3} ]", type, isValid, point, string.Join(",", children.Select(x => x.ToString()).ToArray()));
         }
 
         /// <summary>
@@ -230,5 +237,6 @@ namespace Trame.Implementation.Skeleton
             AddChild(j);
             return j;
         }
+
     }
 }
