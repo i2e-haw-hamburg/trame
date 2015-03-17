@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NetworkMessages.Trame;
+
 
 namespace Trame.Implementation.Skeleton
 {
@@ -238,41 +238,5 @@ namespace Trame.Implementation.Skeleton
             return j;
         }
 
-        public SkeletonMessage.Joint ToMessage()
-        {
-            var joint = new SkeletonMessage.Joint();
-            joint.valid = isValid;
-            var o = (Convert.ChangeType(type, TypeCode.Int32));
-            if (o != null)
-            {
-                joint.type = (int)o;
-            }
-            joint.normal.AddRange(normal.ToArray());
-            joint.point.AddRange(point.ToArray());
-
-            joint.children.AddRange(children.Select(child => child.Value.ToMessage()));
-
-            return joint;
-        }
-
-        public static IJoint FromMessage(SkeletonMessage.Joint j)
-        {
-            var joint = new Joint((JointType)j.type, j.valid);
-            joint.normal = ListToVector(j.normal);
-            joint.point = ListToVector(j.point);
-
-            j.children.ForEach(child => joint.AddChild(FromMessage(child)));
-
-            return joint;
-        }
-
-        private static Vector3 ListToVector(List<float> l)
-        {
-            if (l.Count >= 3)
-            {
-                return new Vector3(l[0], l[1], l[2]);
-            }
-            return new Vector3(0);
-        }
     }
 }

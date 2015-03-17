@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AForge.Math;
-using NetworkMessages.Trame;
 
 namespace Trame
 {
@@ -66,7 +65,5 @@ namespace Trame
         /// <param name="j"></param>
         /// <returns></returns>
         IJoint Append(IJoint j);
-
-        SkeletonMessage.Joint ToMessage();
     }
 }

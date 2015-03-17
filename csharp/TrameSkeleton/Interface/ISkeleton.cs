@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NetworkMessages.Trame;
 
 namespace Trame
 {
@@ -39,7 +38,5 @@ namespace Trame
         bool Valid { get; set; }
 
         ISkeleton GetArms();
-
-        SkeletonMessage ToMessage();
     }
 }

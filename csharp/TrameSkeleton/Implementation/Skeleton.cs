@@ -1,5 +1,5 @@
 ﻿using System;
-using NetworkMessages.Trame;
+
 
 namespace Trame.Implementation.Skeleton
 {
@@ -98,23 +98,5 @@ namespace Trame.Implementation.Skeleton
             return this;
         }
 
-        public static ISkeleton FromMessage(SkeletonMessage message)
-        {
-            var skeleton = new Skeleton((uint)message.id, message.valid, (uint)message.timestamp);
-            skeleton.Root = Joint.FromMessage(message.root);
-
-            return skeleton;
-        }
-
-        public SkeletonMessage ToMessage()
-        {
-            var message = new SkeletonMessage();
-            message.id = id;
-            message.timestamp = timestamp;
-            message.valid = valid;
-            message.root = root.ToMessage();
-
-            return message;
-        }
     }
 }

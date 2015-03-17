@@ -5,6 +5,7 @@ using BeardLogger.Interface;
 using BeardWire.Interface;
 using NetworkMessages.Trame;
 using Trame;
+using TrameSerialization.Serializer;
 
 namespace TrameService
 {
@@ -15,6 +16,7 @@ namespace TrameService
         private int port;
         private INetworkAdapter networkAdapter;
         private Trame.ICameraAbstraction trame;
+        private ProtobufSerializer serializer = new ProtobufSerializer(); 
 
         private List<IPEndPoint> receivers = new List<IPEndPoint>();
         private bool run;
@@ -78,7 +80,7 @@ namespace TrameService
         {
             if (receivers.Count > 0)
             {
-                var m = skeleton.ToMessage();
+                var m = serializer.ToMessage(skeleton);
                 receivers.ForEach(receiver =>
                 {
                     networkAdapter.SendMessageOverTCP(m, receiver.Address, receiver.Port);
