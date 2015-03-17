@@ -10,7 +10,7 @@ namespace Trame.Implementation.Device
     {
         public ISkeleton GetSkeleton()
         {
-            return Creator.GetNewInvalidSkeleton();
+            return Creator.GetNewDefaultSkeleton();
         }
 
         public ISkeleton GetSkeleton(ISkeleton baseSkeleton)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using BeardLogger.Interface;
 using BeardWire.Interface;
+using BeardWire.Interface.Exceptions;
 using NetworkMessages.Trame;
 using Trame;
 using TrameSerialization.Serializer;
@@ -44,6 +45,7 @@ namespace TrameService
 
         private void SubscribeToMessages()
         {
+            networkAdapter.StartListeningForMessagesOnTCPPort(port);
             networkAdapter.SubscribeToMessagesOfType<RegisterForTrameMessage>(Register);
             networkAdapter.SubscribeToMessagesOfType<UnregisterFromTrameMessage>(Unregister);
         }
@@ -81,10 +83,16 @@ namespace TrameService
             if (receivers.Count > 0)
             {
                 var m = serializer.ToMessage(skeleton);
-                receivers.ForEach(receiver =>
+                try
                 {
-                    networkAdapter.SendMessageOverTCP(m, receiver.Address, receiver.Port);
-                });
+                    receivers.ForEach(receiver =>
+                    {
+                        networkAdapter.SendMessageOverTCP(m, receiver.Address, receiver.Port);
+                    });
+                }
+                catch (InvalidOperationException)
+                {}
+                catch (FailedToSendMessageException) { }
             }
         }
 

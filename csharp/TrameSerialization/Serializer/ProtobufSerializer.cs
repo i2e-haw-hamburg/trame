@@ -54,6 +54,10 @@ namespace TrameSerialization.Serializer
 
         private SkeletonMessage.Joint ToMessage(IJoint j)
         {
+            if (j == null)
+            {
+                return null;
+            }
             var joint = new SkeletonMessage.Joint { valid = j.Valid};
             var o = (Convert.ChangeType(j.JointType, TypeCode.Int32));
             if (o != null)
