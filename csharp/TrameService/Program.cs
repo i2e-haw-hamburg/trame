@@ -33,6 +33,7 @@ namespace TrameService
             this.port = port;
             this.trame = new Trame.Trame();
             this.trame.SetDevice(type);
+            Console.WriteLine(trame.ToString());
             this.networkAdapter = NetworkAdapterFactory.GetNewNetworkAdapter(MessageTypesFileName, LoggerFactory.GetNewDummyLogger());
             SubscribeToMessages();
         }
@@ -110,7 +111,7 @@ namespace TrameService
         static void Main(string[] args)
         {
             int port = DefaultPort;
-            DeviceType dt = DeviceType.EMPTY;
+            DeviceType dt = DeviceType.KINECT;
             
             if (args.Length >= 1)
             {

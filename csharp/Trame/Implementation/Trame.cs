@@ -86,6 +86,10 @@ namespace Trame
         {
             this._keepRunning = false;
         }
-    
+
+        public override string ToString()
+        {
+            return "Trame - Device: " + currentType.ToString();
+        }
     }
 }
