@@ -36,7 +36,19 @@ namespace Trame
         /// 
         /// </summary>
         bool Valid { get; set; }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         ISkeleton GetArms();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        ISkeleton Clone();
+        /// <summary>
+        /// 
+        /// </summary>
+        IJoint GetHead();
     }
 }

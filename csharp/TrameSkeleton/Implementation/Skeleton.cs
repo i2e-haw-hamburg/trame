@@ -98,5 +98,16 @@ namespace Trame.Implementation.Skeleton
             return this;
         }
 
+        public ISkeleton Clone()
+        {
+            var s = new Skeleton(id, valid, timestamp);
+            s.root = root.Clone();
+            return s;
+        }
+
+        public IJoint GetHead()
+        {
+            return Root.DeepFind(JointType.HEAD);
+        }
     }
 }

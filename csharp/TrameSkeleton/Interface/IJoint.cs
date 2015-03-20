@@ -65,5 +65,15 @@ namespace Trame
         /// <param name="j"></param>
         /// <returns></returns>
         IJoint Append(IJoint j);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        IJoint Clone();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="joints"></param>
+        void AddChildren(IEnumerable<IJoint> joints);
     }
 }

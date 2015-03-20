@@ -64,6 +64,18 @@ namespace Trame.Implementation.Skeleton
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="joints"></param>
+        public void AddChildren(IEnumerable<IJoint> joints)
+        {
+            foreach (var joint in joints)
+            {
+                AddChild(joint);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="jt"></param>
         /// <returns></returns>
         public bool RemoveChild(JointType jt)
@@ -238,5 +250,13 @@ namespace Trame.Implementation.Skeleton
             return j;
         }
 
+        public IJoint Clone()
+        {
+            var j = new Joint(JointType, isValid);
+            j.Point = Point;
+            j.Normal = Normal;
+            j.AddChildren(j.GetChildren());
+            return j;
+        }
     }
 }
