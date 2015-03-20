@@ -11,5 +11,6 @@ namespace Trame.Implementation.Device
         ISkeleton GetSkeleton();
         ISkeleton GetSkeleton(ISkeleton baseSkeleton);
         void Stop();
+        event Action<ISkeleton> NewSkeleton;
     }
 }

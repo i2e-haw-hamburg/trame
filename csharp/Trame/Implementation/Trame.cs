@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Trame.Implementation.Device;
-using Trame.Implementation.Device.Adapter;
 using Trame.Implementation.Skeleton;
 
 namespace Trame
@@ -44,6 +39,10 @@ namespace Trame
 
         private void updatedType()
         {
+            if (currentDevice != null)
+            {
+                currentDevice.NewSkeleton -= FireNewSkeleton;
+            }
             switch (currentType)
             {
                 case DeviceType.KINECT:
@@ -59,13 +58,14 @@ namespace Trame
                     currentDevice = new DummyDevice();
                     break;
             }
+            currentDevice.NewSkeleton += FireNewSkeleton;
         }
 
         private void Run()
         {
             while (_keepRunning)
             {
-                FireNewSkeleton(currentDevice.GetSkeleton());
+                
             }
             // close all open ressources
             currentDevice.Stop();

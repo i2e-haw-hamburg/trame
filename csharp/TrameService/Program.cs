@@ -15,7 +15,7 @@ namespace TrameService
     class Program
     {
         private const int DefaultPort = 11111;
-        private const string MessageTypesFileName = "C:\\Users\\squad\\git\\trame\\csharp\\TrameNetworkMessages\\MessageTypes.txt";
+        private const string MessageTypesFileName = "MessageTypes.txt";
         private int port;
         private INetworkAdapter networkAdapter;
         private Trame.ICameraAbstraction trame;

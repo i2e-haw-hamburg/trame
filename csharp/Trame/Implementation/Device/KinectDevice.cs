@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AForge;
 using AForge.Math;
@@ -18,14 +19,22 @@ namespace Trame.Implementation.Device
 
         private Microsoft.Kinect.Skeleton[] foundedSkeletons;
         private ISkeleton lastSkeleton;
-
+        private Thread t;
+        private bool running = true;
+        
+        private void Run()
+        {
+            while (running)
+            {}
+        }
         public KinectDevice()
         {
             adapter.StartKinect(OnFrameArrived);
             lastSkeleton = Skeleton.Creator.GetNewDefaultSkeleton();
+            t = new Thread(Run);
+            t.Start();
         }
 
-        
         public ISkeleton GetSkeleton()
         {
             return lastSkeleton;
@@ -54,6 +63,7 @@ namespace Trame.Implementation.Device
                 if (initSkeleton != null)
                 {
                     lastSkeleton = CreateSkeleon(initSkeleton);
+                    FireNewSkeleton(lastSkeleton);
                 }
             }
         }
@@ -125,6 +135,18 @@ namespace Trame.Implementation.Device
         public void Stop()
         {
             this.adapter.StopKinect();
+            running = false;
+            t.Join();
         }
+
+        private void FireNewSkeleton(ISkeleton s)
+        {
+            if (NewSkeleton != null)
+            {
+                NewSkeleton(s);
+            }
+        }
+
+        public event Action<ISkeleton> NewSkeleton;
     }
 }

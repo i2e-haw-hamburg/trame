@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Trame.Implementation.Device.Adapter;
 using Trame.Implementation.Skeleton;
@@ -11,6 +12,22 @@ namespace Trame.Implementation.Device
     class LeapMotion : IDevice
     {
         readonly LeapAdapter adapter = new LeapAdapter();
+        private Thread t;
+        private bool running = true;
+
+        public LeapMotion()
+        {
+            t = new Thread(Run);
+            t.Start();
+        }
+        
+        private void Run()
+        {
+            while (running)
+            {
+                FireNewSkeleton();
+            }
+        }
 
         public ISkeleton GetSkeleton()
         {
@@ -42,6 +59,18 @@ namespace Trame.Implementation.Device
         public void Stop()
         {
             adapter.Stop();
+            running = false;
+            t.Join();
         }
+
+        private void FireNewSkeleton()
+        {
+            if (NewSkeleton != null)
+            {
+                NewSkeleton(GetSkeleton());
+            }
+        }
+
+        public event Action<ISkeleton> NewSkeleton;
     }
 }

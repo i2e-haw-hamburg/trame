@@ -11,7 +11,7 @@ namespace TrameSkeleton.Implementation
     /// <summary>
     /// 
     /// </summary>
-    class SkeletonAlgebra
+    public class SkeletonAlgebra
     {
         /// <summary>
         /// 

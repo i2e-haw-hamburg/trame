@@ -10,7 +10,7 @@ namespace TrameSkeleton.Implementation
     /// <summary>
     /// 
     /// </summary>
-    class SkeletonDiff
+    public class SkeletonDiff
     {
         private IJoint root;
 

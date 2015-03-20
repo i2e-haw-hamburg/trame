@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Trame.Implementation.Device.Adapter;
 using Trame.Implementation.Skeleton;
@@ -12,6 +13,23 @@ namespace Trame.Implementation.Device
     {
         readonly KinectDevice kinect = new KinectDevice();
         readonly LeapMotion leap = new LeapMotion();
+        readonly LeapAdapter adapter = new LeapAdapter();
+        private Thread t;
+        private bool running = true;
+
+        public KinectLeap()
+        {
+            t = new Thread(Run);
+            t.Start();
+        }
+        
+        private void Run()
+        {
+            while (running)
+            {
+                FireNewSkeleton();
+            }
+        }
 
         public ISkeleton GetSkeleton()
         {
@@ -28,6 +46,17 @@ namespace Trame.Implementation.Device
         {
             kinect.Stop();
             leap.Stop();
+            running = false;
+            t.Join();
         }
+        private void FireNewSkeleton()
+        {
+            if (NewSkeleton != null)
+            {
+                NewSkeleton(GetSkeleton());
+            }
+        }
+
+        public event Action<ISkeleton> NewSkeleton;
     }
 }
