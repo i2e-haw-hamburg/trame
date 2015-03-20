@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.Remoting.Messaging;
 using BeardLogger.Interface;
 using BeardWire.Interface;
 using BeardWire.Interface.Exceptions;
@@ -54,19 +55,21 @@ namespace TrameService
         private void Register(RegisterForTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
         {
             // Sorry, but I play Black Flag at the moment, Aye!
+            var subscriber = new IPEndPoint(IPAddress.Parse(message.listenerip), message.listenerport);
             Console.WriteLine("Someone would like to register for some new skeletons.");
-            Console.WriteLine("He sits on: " + remoteEndPoint.Address + ":" + remoteEndPoint.Port);
+            Console.WriteLine("He sits on: " + subscriber.Address + ":" + subscriber.Port);
             Console.WriteLine("Let us send him some bones!!");
 
-            receivers.Add(remoteEndPoint);
+            receivers.Add(subscriber);
         }
 
         private void Unregister(UnregisterFromTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
         {
+            var subscriber = new IPEndPoint(IPAddress.Parse(message.listenerip), message.listenerport);
             Console.WriteLine("have a nice day old friend: " + remoteEndPoint.Address + ":" + remoteEndPoint.Port);
             Console.WriteLine("BYE");
 
-            receivers.Remove(remoteEndPoint);
+            receivers.Remove(subscriber);
         }
 
         public void Run()
