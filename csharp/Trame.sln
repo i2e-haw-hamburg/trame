@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameService", "TrameServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameNetworkMessages", "TrameNetworkMessages\TrameNetworkMessages.csproj", "{4B86A1B2-B04D-45CC-8694-D821B61A3B4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameSkeletonUnitTest", "TrameSkeletonUnitTest\TrameSkeletonUnitTest.csproj", "{F5C25F93-0B0A-4482-B305-4C28448AA55B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BuildToUnity|Any CPU = BuildToUnity|Any CPU
@@ -558,11 +560,48 @@ Global
 		{4B86A1B2-B04D-45CC-8694-D821B61A3B4F}.Unity|Mixed Platforms.Build.0 = Release|Any CPU
 		{4B86A1B2-B04D-45CC-8694-D821B61A3B4F}.Unity|x64.ActiveCfg = Release|Any CPU
 		{4B86A1B2-B04D-45CC-8694-D821B61A3B4F}.Unity|x86.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.BuildToUnity|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.BuildToUnity|Any CPU.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.BuildToUnity|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.BuildToUnity|Mixed Platforms.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.BuildToUnity|x64.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.BuildToUnity|x86.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.CoreOnly|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.CoreOnly|Any CPU.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.CoreOnly|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.CoreOnly|Mixed Platforms.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.CoreOnly|x64.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.CoreOnly|x86.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.iOS|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.iOS|Any CPU.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.iOS|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.iOS|Mixed Platforms.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.iOS|x64.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.iOS|x86.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Release|x86.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Unity|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Unity|Any CPU.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Unity|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Unity|Mixed Platforms.Build.0 = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Unity|x64.ActiveCfg = Release|Any CPU
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B}.Unity|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C5AAEEDB-51D2-49DA-855F-10FBD5961145} = {BD9D33B6-6A09-4DB1-9BBF-60810CB47FB7}
+		{F5C25F93-0B0A-4482-B305-4C28448AA55B} = {BD9D33B6-6A09-4DB1-9BBF-60810CB47FB7}
 	EndGlobalSection
 EndGlobal

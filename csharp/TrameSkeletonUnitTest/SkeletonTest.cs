@@ -13,7 +13,7 @@ namespace TrameUnitTest
         [TestMethod]
         public void TestUpdate()
         {
-            var s = Trame.Implementation.Skeleton.Creator.GetNewDefaultSkeleton();
+            var s = Creator.GetNewDefaultSkeleton();
             var head = new Joint();
             head.JointType = JointType.HEAD;
             head.Point = new Vector3(1, 2, 3);
@@ -24,6 +24,24 @@ namespace TrameUnitTest
             Assert.AreEqual(head, head2);
 
             Assert.AreEqual(3, s.Root.GetChildren().Count);
+        }
+
+        [TestMethod]
+        public void TestEquals()
+        {
+            
+        }
+
+        [TestMethod]
+        public void TestGetArms()
+        {
+            
+        }
+
+        [TestMethod]
+        public void TestHead()
+        {
+            
         }
     }
 }

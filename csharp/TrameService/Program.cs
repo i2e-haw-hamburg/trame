@@ -63,7 +63,7 @@ namespace TrameService
             Console.WriteLine("He sits on: " + subscriber.Address + ":" + subscriber.Port);
             Console.WriteLine("Let us send him some bones!!");
 
-            receivers.Add(subscriber);
+            receivers.Add(remoteEndPoint);
         }
 
         private void Unregister(UnregisterFromTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
@@ -83,7 +83,7 @@ namespace TrameService
             {
                 Console.SetCursorPosition(0, Console.CursorTop);
                 Console.Write("Messages send: "+ sendedMessages);
-                Thread.Sleep(100);
+                Thread.Sleep(200);
             }
 
         }
