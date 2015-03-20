@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.Remoting.Messaging;
+using System.Threading;
 using BeardLogger.Interface;
 using BeardWire.Interface;
 using BeardWire.Interface.Exceptions;
@@ -18,10 +19,11 @@ namespace TrameService
         private int port;
         private INetworkAdapter networkAdapter;
         private Trame.ICameraAbstraction trame;
-        private ProtobufSerializer serializer = new ProtobufSerializer(); 
+        private ProtobufSerializer serializer = new ProtobufSerializer();
+        private int sendedMessages = 0;
 
         private List<IPEndPoint> receivers = new List<IPEndPoint>();
-        private bool run;
+        private bool run = true;
 
         public Program()
             : this(DefaultPort, DeviceType.EMPTY)
@@ -56,6 +58,7 @@ namespace TrameService
         {
             // Sorry, but I play Black Flag at the moment, Aye!
             var subscriber = new IPEndPoint(IPAddress.Parse(message.listenerip), message.listenerport);
+            networkAdapter.ConnectToTCPRemote(subscriber.Address, subscriber.Port);
             Console.WriteLine("Someone would like to register for some new skeletons.");
             Console.WriteLine("He sits on: " + subscriber.Address + ":" + subscriber.Port);
             Console.WriteLine("Let us send him some bones!!");
@@ -66,7 +69,7 @@ namespace TrameService
         private void Unregister(UnregisterFromTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
         {
             var subscriber = new IPEndPoint(IPAddress.Parse(message.listenerip), message.listenerport);
-            Console.WriteLine("have a nice day old friend: " + remoteEndPoint.Address + ":" + remoteEndPoint.Port);
+            Console.WriteLine("have a nice day old friend: " + subscriber.Address + ":" + subscriber.Port);
             Console.WriteLine("BYE");
 
             receivers.Remove(subscriber);
@@ -78,6 +81,9 @@ namespace TrameService
 
             while (run)
             {
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write("Messages send: "+ sendedMessages);
+                Thread.Sleep(100);
             }
 
         }
@@ -86,6 +92,7 @@ namespace TrameService
         {
             if (receivers.Count > 0)
             {
+                sendedMessages++;
                 var m = serializer.ToMessage(skeleton);
                 try
                 {

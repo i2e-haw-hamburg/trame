@@ -132,7 +132,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Kinect10.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
