@@ -30,6 +30,7 @@ namespace Trame.Implementation.Device
         {
             while (running)
             {
+                Thread.Sleep(20);
                 FireNewSkeleton();
             }
         }

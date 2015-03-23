@@ -25,7 +25,9 @@ namespace Trame.Implementation.Device
         private void Run()
         {
             while (running)
-            {}
+            {
+                Thread.Sleep(500);
+            }
         }
         public KinectDevice()
         {

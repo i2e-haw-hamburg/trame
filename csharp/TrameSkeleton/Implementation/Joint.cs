@@ -121,22 +121,23 @@ namespace Trame.Implementation.Skeleton
         /// <returns></returns>
         public IJoint DeepFind(JointType jt)
         {
-            IJoint j = FindChild(jt);
-            if (j.JointType != jt)
+            var j = FindChild(jt);
+            if (j.JointType == jt)
             {
-                foreach (var child in children)
-                {
-                    j = child.Value.DeepFind(jt);
-                    if (j.JointType == jt)
-                    {
-                        break;
-                    }
-                }
+                return j;
             }
-
+            var sorted = children.Keys.OrderByDescending(x => x);
+            try
+            {
+                var key = sorted.First(x => x < jt);
+                j = children[key].DeepFind(jt);
+            }
+            catch (InvalidOperationException)
+            {}
+            
             return j;
         }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -146,10 +147,14 @@ namespace Trame.Implementation.Skeleton
         {
             if (FindChild(jt).JointType != jt)
             {
-                foreach (var child in children)
+                var sorted = children.Keys.OrderByDescending(x => x);
+                try
                 {
-                    child.Value.Update(jt, j);
+                    var key = sorted.First(x => x < jt);
+                    children[key].Update(jt, j);
                 }
+                catch (InvalidOperationException)
+                { }
             }
             else
             {
@@ -166,8 +171,8 @@ namespace Trame.Implementation.Skeleton
         public bool Equals(IJoint o)
         {
             foreach(var child in children) {
-                IJoint oc = o.FindChild(child.Value.JointType);
-                if (!oc.Equals(child))
+                var oc = o.FindChild(child.Value.JointType);
+                if (!oc.Equals(child.Value))
                 {
                     return false;
                 }
@@ -252,9 +257,7 @@ namespace Trame.Implementation.Skeleton
 
         public IJoint Clone()
         {
-            var j = new Joint(JointType, isValid);
-            j.Point = Point;
-            j.Normal = Normal;
+            var j = new Joint(JointType, isValid) {Point = Point, Normal = Normal};
             j.AddChildren(j.GetChildren());
             return j;
         }

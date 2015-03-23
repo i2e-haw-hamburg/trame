@@ -29,5 +29,10 @@ namespace Trame.Implementation.Skeleton
             }
             return parent;
         }
+
+        public static IJoint CreateHead()
+        {
+            return Default.CreateHead();
+        }
     }
 }

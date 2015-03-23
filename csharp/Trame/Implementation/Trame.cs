@@ -9,14 +9,17 @@ namespace Trame
     {
         Thread t = null;
         ISkeleton last = null;
-        private DeviceType currentType = DeviceType.EMPTY;
+        private DeviceType currentType;
         private IDevice currentDevice = null;
         private bool _keepRunning = true;
 
+        public Trame() : this(DeviceType.EMPTY)
+        {}
 
-        public Trame()
+        public Trame(DeviceType dt)
         {
             last = Creator.GetNewInvalidSkeleton();
+            currentType = dt;
             updatedType();
 
             t = new Thread(this.Run);
@@ -57,6 +60,9 @@ namespace Trame
                 case DeviceType.EMPTY:
                     currentDevice = new DummyDevice();
                     break;
+                default:
+                    currentDevice = new DummyDevice();
+                    break;
             }
             currentDevice.NewSkeleton += FireNewSkeleton;
         }
@@ -65,7 +71,7 @@ namespace Trame
         {
             while (_keepRunning)
             {
-                Thread.Sleep(200);
+                Thread.Sleep(500);
             }
             // close all open ressources
             currentDevice.Stop();

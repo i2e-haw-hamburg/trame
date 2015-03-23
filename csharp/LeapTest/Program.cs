@@ -1,60 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AForge.Math;
 using Leap;
-using Trame.Implementation.Device.Adapter;
+using Trame;
 using Trame.Implementation.Skeleton;
 
-namespace Trame.Implementation.Device
+namespace LeapTest
 {
-    class LeapMotion : IDevice
+    class Program
     {
-        readonly LeapAdapter adapter = new LeapAdapter();
-        private Thread t;
-        private bool running = true;
-        private ISkeleton lastSkeleton;
 
-        public LeapMotion()
-        {
-            lastSkeleton = Creator.GetNewDefaultSkeleton();
-            adapter.StartController(OnFrameArrived);
-            t = new Thread(Run);
-            t.Start();
-        }
+        static ISkeleton lastSkeleton = Creator.GetNewDefaultSkeleton();
 
-        private void Run()
+        static void Init()
         {
-            while (running)
+            var count = 0;
+            var start = System.DateTime.Now;
+            var con = new Controller(new FrameListener(x =>
             {
-                Thread.Sleep(200);
-            }
+                count++;
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write("Frames: " + count);
+                var cur = System.DateTime.Now - start;
+                Console.Write(" | FPS: " + (count / cur.TotalSeconds));
+                OnFrameArrived(x);
+            }));
+            con.SetPolicy(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
         }
 
-        public ISkeleton GetSkeleton()
-        {
-            return GetSkeleton(Creator.GetNewDefaultSkeleton());
-        }
-
-        public ISkeleton GetSkeleton(ISkeleton s)
-        {
-            var result = lastSkeleton;
-            lastSkeleton = s;
-            return result;
-        }
-
-        public void Stop()
-        {
-            adapter.Stop();
-            running = false;
-            t.Join();
-        }
-
-        private void OnFrameArrived(Frame frame)
+        private static void OnFrameArrived(Frame frame)
         {
             var leftWrist = lastSkeleton.GetJoint(JointType.WRIST_LEFT);
             var rightWrist = lastSkeleton.GetJoint(JointType.WRIST_RIGHT);
@@ -69,19 +47,8 @@ namespace Trame.Implementation.Device
 
             lastSkeleton.UpdateSkeleton(JointType.WRIST_LEFT, leftWrist);
             lastSkeleton.UpdateSkeleton(JointType.WRIST_RIGHT, rightWrist);
-
-            lastSkeleton.Valid = leftWrist.Valid && rightHand.Valid;
-
-            FireNewSkeleton();
         }
 
-        private void FireNewSkeleton()
-        {
-            if (NewSkeleton != null)
-            {
-                NewSkeleton(GetSkeleton());
-            }
-        }
 
         private static IJoint LeftHand(IJoint wrist, Frame frame)
         {
@@ -176,7 +143,26 @@ namespace Trame.Implementation.Device
 
             return jt;
         }
-        
-        public event Action<ISkeleton> NewSkeleton;
+
+        static void Main(string[] args)
+        {
+            Init();
+            Console.ReadKey();
+        }
+    }
+
+    class FrameListener : Listener
+    {
+        private Action<Frame> onFrameArrived;
+
+        public FrameListener(Action<Frame> onFrameArrived)
+        {
+            this.onFrameArrived = onFrameArrived;
+        }
+
+        public override void OnFrame(Controller controller)
+        {
+            onFrameArrived(controller.Frame());
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace Trame.Implementation.Skeleton
             int centerY = 1100;
             int upperBodyY = 350;
             var centerNormal = new Vector3(0, 0, -100);
-            var s = new Skeleton();
+            var s = new Skeleton {Valid = true};
 
             var leftShoulder = CreateArm(Side.LEFT);
             var rightShoulder = CreateArm(Side.RIGHT);

@@ -83,7 +83,7 @@ namespace TrameService
             {
                 Console.SetCursorPosition(0, Console.CursorTop);
                 Console.Write("Messages send: "+ sendedMessages);
-                Thread.Sleep(200);
+                Thread.Sleep(100);
             }
 
         }
@@ -121,8 +121,8 @@ namespace TrameService
         static void Main(string[] args)
         {
             int port = DefaultPort;
-            DeviceType dt = DeviceType.KINECT;
-            
+            var dt = DeviceType.KINECT;
+
             if (args.Length >= 1)
             {
                 string type = args[0];
@@ -134,6 +134,9 @@ namespace TrameService
                     case "leap":
                         dt = DeviceType.LEAP_MOTION;
                         break;
+                    case "both":
+                        dt = DeviceType.LEAP_MOTION_AND_KINECT;
+                        break;
                     default:
                         dt = DeviceType.EMPTY;
                         break;
@@ -143,9 +146,17 @@ namespace TrameService
             {
                 int.TryParse(args[1], out port);
             }
+
             var program = new Program(port, dt);
-            Console.WriteLine(program.NiceString());
-            program.Run();
+            try
+            {
+                Console.WriteLine(program.NiceString());
+                program.Run();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("An error occured.");
+            }
 
             Console.ReadKey();
             program.Close();
