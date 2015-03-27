@@ -91,7 +91,7 @@ namespace Trame.Implementation.Skeleton
             var r = Root.FindChild(JointType.NECK);
 
             r.RemoveChild(JointType.HEAD);
-            r.Normal = Root.Normal;
+            r.Orientation = Root.Orientation;
             r.Point += Root.Point;
             
             Root = r;

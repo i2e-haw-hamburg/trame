@@ -9,7 +9,7 @@
 8,SetCameraFieldOfViewMessage
 9,SetCameraResolutionMessage
 10,SetCameraTransformMessage
-11,UnregisterFromTrameMessage
+11,UnregisterMobileDeviceMessage
 12,NetworkMessage
 13,ObjectLost
 14,ObjectNew

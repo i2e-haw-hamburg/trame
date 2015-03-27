@@ -41,9 +41,11 @@ namespace TrameSkeleton.Implementation
             {
                 throw new Exception("Joint types defer from each other.");
             }
-            var newJoint = new Joint(j1.JointType, j1.Valid);
-            newJoint.Point = j1.Point - j2.Point;
-            newJoint.Normal = j1.Normal - j2.Normal;
+            var newJoint = new OrientedJoint(j1.JointType, j1.Valid)
+            {
+                Point = j1.Point - j2.Point,
+                Orientation = j1.Orientation - j2.Orientation
+            };
             foreach (var child in j1.GetChildren())
             {
                 newJoint.AddChild(Diff(child, j2.FindChild(child.JointType)));
@@ -54,9 +56,9 @@ namespace TrameSkeleton.Implementation
 
         public static IJoint Div(IJoint j, int divisor)
         {
-            var newJoint = new Joint(j.JointType, j.Valid);
+            var newJoint = new OrientedJoint(j.JointType, j.Valid);
             newJoint.Point = j.Point / divisor;
-            newJoint.Normal = j.Normal / divisor;
+            newJoint.Orientation = j.Orientation / divisor;
             foreach (var child in j.GetChildren())
             {
                 newJoint.AddChild(Div(child, divisor));
@@ -67,9 +69,9 @@ namespace TrameSkeleton.Implementation
 
         public static IJoint Add(IJoint j1, IJoint j2)
         {
-            var newJoint = new Joint(j1.JointType, j1.Valid);
+            var newJoint = new OrientedJoint(j1.JointType, j1.Valid);
             newJoint.Point = j1.Point + j2.Point;
-            newJoint.Normal = j1.Normal + j2.Normal;
+            newJoint.Orientation = j1.Orientation + j2.Orientation;
             foreach (var child in j1.GetChildren())
             {
                 newJoint.AddChild(Add(child, j2.FindChild(child.JointType)));

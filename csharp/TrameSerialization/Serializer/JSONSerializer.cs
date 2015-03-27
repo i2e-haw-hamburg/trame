@@ -47,8 +47,8 @@ namespace TrameSerialization.Serializer
             }
             var jsonJoint = new JsonObject();
             jsonJoint["type"] = (int) (Convert.ChangeType(joint.JointType, TypeCode.Int32));
-            jsonJoint["normal"] = VectorToArray(joint.Normal);
-            jsonJoint["point"] = VectorToArray(joint.Point);
+            jsonJoint["orientation"] = Vector4ToArray(joint.Orientation);
+            jsonJoint["point"] = Vector3ToArray(joint.Point);
             jsonJoint["valid"] = joint.Valid;
             var children = new JsonArray();
 
@@ -62,14 +62,24 @@ namespace TrameSerialization.Serializer
             return jsonJoint;
         }
 
-        private static JsonArray VectorToArray(Vector3 vector)
+        private static JsonArray Vector3ToArray(Vector3 vector)
         {
             if (vector.Norm > 0)
             {
-                var arr = new JsonArray();
-                arr.Add(vector.X);
-                arr.Add(vector.Y);
-                arr.Add(vector.Z);
+                var arr = new JsonArray {vector.X, vector.Y, vector.Z};
+                return arr;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static JsonArray Vector4ToArray(Vector4 vector)
+        {
+            if (vector.Norm > 0)
+            {
+                var arr = new JsonArray {vector.X, vector.Y, vector.Z, vector.W};
                 return arr;
             }
             else

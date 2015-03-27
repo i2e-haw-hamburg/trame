@@ -16,7 +16,7 @@ namespace Trame
         /// <summary>
         /// 
         /// </summary>
-        Vector3 Normal { get; set; }
+        Vector4 Orientation { get; set; }
         /// <summary>
         /// 
         /// </summary>

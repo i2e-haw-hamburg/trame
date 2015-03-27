@@ -115,14 +115,14 @@ namespace Trame.Implementation.Device
 
         private static IJoint BuildHand(Hand hand, IJoint wrist, int side)
         {
-            var handJoint = new Joint();
+            var handJoint = new OrientedJoint();
 
             if (hand.IsValid)
             {
                 var palmNormal = hand.PalmNormal;
                 var handPosition = hand.PalmPosition;
 
-                handJoint.Normal = new Vector3(10 * palmNormal.x, 10 * palmNormal.y, 10 * palmNormal.z);
+                handJoint.Orientation = new Vector4(10 * palmNormal.x, 10 * palmNormal.y, 10 * palmNormal.z, 0);
                 handJoint.Point = new Vector3(0, 0, -100);
 
                 var fingers = hand.Fingers;
@@ -141,10 +141,10 @@ namespace Trame.Implementation.Device
 
         private static IJoint CreateFinger(Vector position, Vector normal, JointType jt)
         {
-            var finger = new Joint();
+            var finger = new OrientedJoint();
             finger.JointType = jt;
             finger.Point = new Vector3(position.x, position.y, position.z);
-            finger.Normal = new Vector3(10 * normal.x, 10 * normal.y, 10 * normal.z);
+            finger.Orientation = new Vector4(10 * normal.x, 10 * normal.y, 10 * normal.z, 0);
             return finger;
         }
 

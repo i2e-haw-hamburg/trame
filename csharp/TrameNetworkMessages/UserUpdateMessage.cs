@@ -92,43 +92,64 @@ namespace NetworkMessages
       get { return _bodyPartVelocityZ; }
     }
   
+    private readonly global::System.Collections.Generic.List<float> _bodyPartAccelerationX = new global::System.Collections.Generic.List<float>();
+    [global::ProtoBuf.ProtoMember(13, Name=@"bodyPartAccelerationX", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    public global::System.Collections.Generic.List<float> bodyPartAccelerationX
+    {
+      get { return _bodyPartAccelerationX; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<float> _bodyPartAccelerationY = new global::System.Collections.Generic.List<float>();
+    [global::ProtoBuf.ProtoMember(14, Name=@"bodyPartAccelerationY", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    public global::System.Collections.Generic.List<float> bodyPartAccelerationY
+    {
+      get { return _bodyPartAccelerationY; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<float> _bodyPartAccelerationZ = new global::System.Collections.Generic.List<float>();
+    [global::ProtoBuf.ProtoMember(15, Name=@"bodyPartAccelerationZ", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    public global::System.Collections.Generic.List<float> bodyPartAccelerationZ
+    {
+      get { return _bodyPartAccelerationZ; }
+    }
+  
     private readonly global::System.Collections.Generic.List<float> _bodyPartAngularVelocityX = new global::System.Collections.Generic.List<float>();
-    [global::ProtoBuf.ProtoMember(13, Name=@"bodyPartAngularVelocityX", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    [global::ProtoBuf.ProtoMember(16, Name=@"bodyPartAngularVelocityX", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<float> bodyPartAngularVelocityX
     {
       get { return _bodyPartAngularVelocityX; }
     }
   
     private readonly global::System.Collections.Generic.List<float> _bodyPartAngularVelocityY = new global::System.Collections.Generic.List<float>();
-    [global::ProtoBuf.ProtoMember(14, Name=@"bodyPartAngularVelocityY", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    [global::ProtoBuf.ProtoMember(17, Name=@"bodyPartAngularVelocityY", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<float> bodyPartAngularVelocityY
     {
       get { return _bodyPartAngularVelocityY; }
     }
   
     private readonly global::System.Collections.Generic.List<float> _bodyPartAngularVelocityZ = new global::System.Collections.Generic.List<float>();
-    [global::ProtoBuf.ProtoMember(15, Name=@"bodyPartAngularVelocityZ", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    [global::ProtoBuf.ProtoMember(18, Name=@"bodyPartAngularVelocityZ", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<float> bodyPartAngularVelocityZ
     {
       get { return _bodyPartAngularVelocityZ; }
     }
   
     private readonly global::System.Collections.Generic.List<float> _bodyPartAngularAccelerationX = new global::System.Collections.Generic.List<float>();
-    [global::ProtoBuf.ProtoMember(16, Name=@"bodyPartAngularAccelerationX", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    [global::ProtoBuf.ProtoMember(19, Name=@"bodyPartAngularAccelerationX", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<float> bodyPartAngularAccelerationX
     {
       get { return _bodyPartAngularAccelerationX; }
     }
   
     private readonly global::System.Collections.Generic.List<float> _bodyPartAngularAccelerationY = new global::System.Collections.Generic.List<float>();
-    [global::ProtoBuf.ProtoMember(17, Name=@"bodyPartAngularAccelerationY", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    [global::ProtoBuf.ProtoMember(20, Name=@"bodyPartAngularAccelerationY", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<float> bodyPartAngularAccelerationY
     {
       get { return _bodyPartAngularAccelerationY; }
     }
   
     private readonly global::System.Collections.Generic.List<float> _bodyPartAngularAccelerationZ = new global::System.Collections.Generic.List<float>();
-    [global::ProtoBuf.ProtoMember(18, Name=@"bodyPartAngularAccelerationZ", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    [global::ProtoBuf.ProtoMember(21, Name=@"bodyPartAngularAccelerationZ", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
     public global::System.Collections.Generic.List<float> bodyPartAngularAccelerationZ
     {
       get { return _bodyPartAngularAccelerationZ; }

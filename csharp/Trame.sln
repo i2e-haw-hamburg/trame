@@ -31,8 +31,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameNetworkMessages", "Tra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameSkeletonUnitTest", "TrameSkeletonUnitTest\TrameSkeletonUnitTest.csproj", "{F5C25F93-0B0A-4482-B305-4C28448AA55B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31E018E1-7ED6-4FB9-855D-3A321B251828}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeapTest", "LeapTest\LeapTest.csproj", "{66E993B1-682A-4C23-BD17-810B276988D7}"
 EndProject
 Global

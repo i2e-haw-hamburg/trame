@@ -22,7 +22,7 @@ namespace Trame.Implementation.Skeleton
 
         public static IJoint CreateParent(IEnumerable<IJoint> list)
         {
-            IJoint parent = new Joint();
+            IJoint parent = new OrientedJoint();
             foreach (var child in list)
             {
                 parent.AddChild(child);

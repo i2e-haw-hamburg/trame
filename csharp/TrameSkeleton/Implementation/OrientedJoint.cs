@@ -10,10 +10,10 @@ namespace Trame.Implementation.Skeleton
     /// 
     /// </summary>
     [Serializable()]
-    public class Joint : IJoint
+    public class OrientedJoint : IJoint
     {
         IDictionary<JointType, IJoint> children = new Dictionary<JointType, IJoint>();
-        Vector3 normal;
+        Vector4 orientation;
         Vector3 point;
         bool isValid;
         JointType type;
@@ -21,17 +21,14 @@ namespace Trame.Implementation.Skeleton
         /// <summary>
         /// 
         /// </summary>
-        public Joint() : this(JointType.UNSPECIFIED, false)
-        {
-            normal = new Vector3();
-            point = new Vector3();
-        }
+        public OrientedJoint() : this(JointType.UNSPECIFIED, false)
+        {}
 
-        public Joint(JointType type, bool valid)
+        public OrientedJoint(JointType type, bool valid)
         {
             this.type = type;
             this.isValid = valid;
-            normal = new Vector3();
+            orientation = new Vector4();
             point = new Vector3();
         }
         /// <summary>
@@ -110,7 +107,7 @@ namespace Trame.Implementation.Skeleton
             }
             catch (Exception ex)
             {
-                return new Joint();
+                return new OrientedJoint();
             }
         }
 
@@ -179,7 +176,7 @@ namespace Trame.Implementation.Skeleton
             }
 
             return isValid == o.Valid && type == o.JointType 
-                && normal.Equals(o.Normal) && point.Equals(o.Point);
+                && orientation.Equals(o.Orientation) && point.Equals(o.Point);
         }
 
         /// <summary>
@@ -194,15 +191,15 @@ namespace Trame.Implementation.Skeleton
         /// <summary>
         /// 
         /// </summary>
-        public Vector3 Normal
+        public Vector4 Orientation
         {
             get
             {
-                return normal;
+                return orientation;
             }
             set
             {
-                normal = value;
+                orientation = value;
             }
         }
 
@@ -257,7 +254,7 @@ namespace Trame.Implementation.Skeleton
 
         public IJoint Clone()
         {
-            var j = new Joint(JointType, isValid) {Point = Point, Normal = Normal};
+            var j = new OrientedJoint(JointType, isValid) { Point = Point, Orientation = Orientation };
             j.AddChildren(j.GetChildren());
             return j;
         }

@@ -126,7 +126,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BasicSerializationTest.cs" />
-    <Compile Include="JointTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -62,11 +62,11 @@ namespace NetworkMessages.Trame
       get { return _valid; }
       set { _valid = value; }
     }
-    private readonly global::System.Collections.Generic.List<float> _normal = new global::System.Collections.Generic.List<float>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"normal", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
-    public global::System.Collections.Generic.List<float> normal
+    private readonly global::System.Collections.Generic.List<float> _orientation = new global::System.Collections.Generic.List<float>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"orientation", DataFormat = global::ProtoBuf.DataFormat.FixedSize, Options = global::ProtoBuf.MemberSerializationOptions.Packed)]
+    public global::System.Collections.Generic.List<float> orientation
     {
-      get { return _normal; }
+      get { return _orientation; }
     }
   
     private readonly global::System.Collections.Generic.List<float> _point = new global::System.Collections.Generic.List<float>();

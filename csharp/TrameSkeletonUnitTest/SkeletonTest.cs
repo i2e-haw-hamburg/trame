@@ -14,7 +14,7 @@ namespace TrameUnitTest
         public void TestUpdate()
         {
             var s = Creator.GetNewDefaultSkeleton();
-            var head = new Joint();
+            var head = new OrientedJoint();
             head.JointType = JointType.HEAD;
             head.Point = new Vector3(1, 2, 3);
             s.UpdateSkeleton(JointType.HEAD, head);

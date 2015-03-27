@@ -64,7 +64,7 @@ namespace TrameSerialization.Serializer
             {
                 joint.type = (int)o;
             }
-            joint.normal.AddRange(j.Normal.ToArray());
+            joint.orientation.AddRange(j.Orientation.ToArray());
             joint.point.AddRange(j.Point.ToArray());
 
             joint.children.AddRange(j.GetChildren().Select(ToMessage));
@@ -74,22 +74,23 @@ namespace TrameSerialization.Serializer
 
         public IJoint FromMessage(SkeletonMessage.Joint j)
         {
-            var joint = new Joint((JointType)j.type, j.valid);
-            joint.Normal = ListToVector(j.normal);
-            joint.Point = ListToVector(j.point);
+            var joint = new OrientedJoint((JointType)j.type, j.valid);
+            joint.Orientation = ListToVector4(j.orientation);
+            joint.Point = ListToVector3(j.point);
 
             j.children.ForEach(child => joint.AddChild(FromMessage(child)));
 
             return joint;
         }
 
-        private static Vector3 ListToVector(List<float> l)
+        private static Vector3 ListToVector3(List<float> l)
         {
-            if (l.Count >= 3)
-            {
-                return new Vector3(l[0], l[1], l[2]);
-            }
-            return new Vector3(0);
+            return l.Count >= 3 ? new Vector3(l[0], l[1], l[2]) : new Vector3(0);
+        }
+
+        private static Vector4 ListToVector4(List<float> l)
+        {
+            return l.Count >= 3 ? new Vector4(l[0], l[1], l[2], l[3]) : new Vector4(0);
         }
     }
 }

@@ -10,10 +10,10 @@
 // Generated from: i2enetworkmessagedefinitions/MobileDevice/UnregisterMobileDeviceMessage.proto
 namespace NetworkMessages
 {
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UnregisterFromTrameMessage")]
-  public partial class UnregisterFromTrameMessage : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"UnregisterMobileDeviceMessage")]
+  public partial class UnregisterMobileDeviceMessage : global::ProtoBuf.IExtensible
   {
-    public UnregisterFromTrameMessage() {}
+    public UnregisterMobileDeviceMessage() {}
     
     private long _id;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"id", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
