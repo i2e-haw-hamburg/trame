@@ -18,17 +18,10 @@ There are different SDKs available so it is possible, that you must write a new 
 The most significant part of **Trame** is the uniform `skeleton` model.
 
 
-## ToDo
- * add additional sensor data (i.e. as meta data). 
+## TODO
+ * add quaternion data for each joint
 
  **Kinect**
-
-        NUI_SKELETON_DATA {
-            DWORD dwTrackingID
-            Vector4 Position
-            Vector4 SkeletonPositions[NUI_SKELETON_POSITION_COUNT]
-            NUI_SKELETON_POSITION_TRACKING_STATE eSkeletonPositionTrackingState[NUI_SKELETON_POSITION_COUNT]
-        }
         
         NUI_SKELETON_BONE_ORIENTATION {
             NUI_SKELETON_BONE_ROTATION hierarchicalRotation
@@ -36,18 +29,9 @@ The most significant part of **Trame** is the uniform `skeleton` model.
   
   **Leap**
   
-        Hand {
-            Matrix Basis
-            Vector Direction
-            Vector PalmNormal
-        }
+        f.e. calculate quaternion from parent Basis and child Direction
         
-        Bones {
-            Matrix Basis
-            Vector Direction
-            BoneType Type
-        }
-       
+        
     *additional links* 
      * avateering (usage demo): https://kinectavateeringv2migration.codeplex.com/SourceControl/latest
      * leap bone docs: https://developer.leapmotion.com/documentation/csharp/api/Leap.Bone.html#csharpclass_leap_1_1_bone
