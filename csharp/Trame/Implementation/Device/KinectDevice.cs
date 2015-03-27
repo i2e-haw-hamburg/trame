@@ -85,6 +85,14 @@ namespace Trame.Implementation.Device
             var rightWrist = initSkeleton.Joints[Microsoft.Kinect.JointType.WristRight];
             var leftHand = initSkeleton.Joints[Microsoft.Kinect.JointType.HandLeft];
             var rightHand = initSkeleton.Joints[Microsoft.Kinect.JointType.HandRight];
+            var leftHip = initSkeleton.Joints[Microsoft.Kinect.JointType.HipLeft];
+            var rightHip = initSkeleton.Joints[Microsoft.Kinect.JointType.HipRight];
+            var leftKnee = initSkeleton.Joints[Microsoft.Kinect.JointType.KneeLeft];
+            var rightKnee = initSkeleton.Joints[Microsoft.Kinect.JointType.KneeRight];
+            var leftAnkle = initSkeleton.Joints[Microsoft.Kinect.JointType.AnkleLeft];
+            var rightAnkle = initSkeleton.Joints[Microsoft.Kinect.JointType.AnkleRight];
+            var leftFoot = initSkeleton.Joints[Microsoft.Kinect.JointType.FootLeft];
+            var rightFoot = initSkeleton.Joints[Microsoft.Kinect.JointType.FootRight];
 
             // left arm
             var lHand = new Skeleton.OrientedJoint
@@ -110,6 +118,23 @@ namespace Trame.Implementation.Device
             ).Append(
                 new Skeleton.OrientedJoint { JointType = JointType.WRIST_RIGHT, Point = AbsoluteToRelative(rightElbow.Position, rightWrist.Position), Valid = true }
             ).AddChild(new Skeleton.OrientedJoint { JointType = JointType.HAND_RIGHT, Point = AbsoluteToRelative(rightWrist.Position, rightHand.Position) });
+
+            // left leg
+            var leftLeg = new Skeleton.OrientedJoint { JointType = JointType.HIP_LEFT, Point = AbsoluteToRelative(spine.Position, leftHip.Position), Valid = true };
+            leftLeg.Append(
+                new Skeleton.OrientedJoint { JointType = JointType.KNEE_LEFT, Point = AbsoluteToRelative(leftHip.Position, leftKnee.Position), Valid = true }
+            ).Append(
+                new Skeleton.OrientedJoint { JointType = JointType.ANKLE_LEFT, Point = AbsoluteToRelative(leftKnee.Position, leftAnkle.Position), Valid = true }
+            ).AddChild(new Skeleton.OrientedJoint { JointType = JointType.FOOT_LEFT, Point = AbsoluteToRelative(leftAnkle.Position, leftFoot.Position) });
+
+            // right leg
+            var rightLeg = new Skeleton.OrientedJoint { JointType = JointType.HIP_RIGHT, Point = AbsoluteToRelative(spine.Position, rightHip.Position), Valid = true };
+            rightLeg.Append(
+                new Skeleton.OrientedJoint { JointType = JointType.KNEE_RIGHT, Point = AbsoluteToRelative(rightHip.Position, rightKnee.Position), Valid = true }
+            ).Append(
+                new Skeleton.OrientedJoint { JointType = JointType.ANKLE_RIGHT, Point = AbsoluteToRelative(rightKnee.Position, rightAnkle.Position), Valid = true }
+            ).AddChild(new Skeleton.OrientedJoint { JointType = JointType.FOOT_RIGHT, Point = AbsoluteToRelative(rightAnkle.Position, rightFoot.Position) });
+
             
             var jsNeck = Skeleton.Creator.CreateParent(new List<IJoint> { 
                 leftArm,
@@ -121,6 +146,8 @@ namespace Trame.Implementation.Device
             jsNeck.Valid = true;
 
             s.UpdateSkeleton(JointType.NECK, jsNeck);
+            s.UpdateSkeleton(JointType.HIP_LEFT, leftLeg);
+            s.UpdateSkeleton(JointType.HIP_RIGHT, rightLeg);
             s.Valid = true;
             return s;
         }
