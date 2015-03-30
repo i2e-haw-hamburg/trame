@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AForge.Math;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Trame;
 using Trame.Implementation.Skeleton;
@@ -9,7 +10,7 @@ namespace TrameUnitTest
     [TestClass]
     public class JointTest
     {
-        private IJoint root;
+        private IJoint<Vector4, Vector3> root;
 
         [TestInitialize()]
         public void Initialize()

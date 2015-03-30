@@ -17,7 +17,7 @@ namespace TrameSerialization.Serializer
             get { return OutputType.JSON; }
         }
 
-        public Stream Serialize(Trame.ISkeleton s)
+        public Stream Serialize(Trame.ISkeleton<Vector4, Vector3> s)
         {
             SkeletonMessage message = ToMessage(s);
             var stream = new MemoryStream();
@@ -26,22 +26,22 @@ namespace TrameSerialization.Serializer
             return stream;
         }
 
-        public ISkeleton Deserialize(Stream stream)
+        public ISkeleton<Vector4, Vector3> Deserialize(Stream stream)
         {
             var message = ProtoBuf.Serializer.Deserialize<SkeletonMessage>(stream);
             return FromMessage(message);
         }
 
 
-        public ISkeleton FromMessage(SkeletonMessage message)
+        public ISkeleton<Vector4, Vector3> FromMessage(SkeletonMessage message)
         {
-            var skeleton = new Skeleton((uint)message.id, message.valid, (uint)message.timestamp);
+            var skeleton = new Skeleton<Vector4, Vector3>((uint)message.id, message.valid, (uint)message.timestamp);
             skeleton.Root = FromMessage(message.root);
 
             return skeleton;
         }
 
-        public SkeletonMessage ToMessage(ISkeleton skeleton)
+        public SkeletonMessage ToMessage(ISkeleton<Vector4, Vector3> skeleton)
         {
             var message = new SkeletonMessage();
             message.id = skeleton.ID;
@@ -52,7 +52,7 @@ namespace TrameSerialization.Serializer
             return message;
         }
 
-        private SkeletonMessage.Joint ToMessage(IJoint j)
+        private SkeletonMessage.Joint ToMessage(IJoint<Vector4, Vector3> j)
         {
             if (j == null)
             {
@@ -72,9 +72,9 @@ namespace TrameSerialization.Serializer
             return joint;
         }
 
-        public IJoint FromMessage(SkeletonMessage.Joint j)
+        public IJoint<Vector4, Vector3> FromMessage(SkeletonMessage.Joint j)
         {
-            var joint = new OrientedJoint((JointType)j.type, j.valid);
+            var joint = new OrientedJoint<Vector4, Vector3>((JointType)j.type, j.valid);
             joint.Orientation = ListToVector4(j.orientation);
             joint.Point = ListToVector3(j.point);
 

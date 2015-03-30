@@ -14,12 +14,12 @@ namespace TrameUnitTest
         public void TestUpdate()
         {
             var s = Creator.GetNewDefaultSkeleton();
-            var head = new OrientedJoint();
+            var head = new OrientedJoint<Vector4, Vector3>();
             head.JointType = JointType.HEAD;
             head.Point = new Vector3(1, 2, 3);
             s.UpdateSkeleton(JointType.HEAD, head);
 
-            IJoint head2 = s.GetJoint(JointType.HEAD);
+            var head2 = s.GetJoint(JointType.HEAD);
             Assert.AreEqual(head.Point, head2.Point);
             Assert.AreEqual(head, head2);
 

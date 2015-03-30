@@ -4,9 +4,9 @@
 namespace Trame.Implementation.Skeleton
 {
     [Serializable]
-    public class Skeleton : ISkeleton
+    public class Skeleton<K, T> : ISkeleton<K, T>
     {
-        IJoint root;
+        IJoint<K, T> root;
         bool valid;
         uint id;
         uint timestamp;
@@ -24,17 +24,17 @@ namespace Trame.Implementation.Skeleton
             this.timestamp = timestamp;
         }
 
-        public void UpdateSkeleton(JointType jt, IJoint j)
+        public void UpdateSkeleton(JointType jt, IJoint<K, T> j)
         {
             root.Update(jt, j);
         }
 
-        public IJoint GetJoint(JointType jt)
+        public IJoint<K, T> GetJoint(JointType jt)
         {
             return root.DeepFind(jt);
         }
-        
-        public bool Equals(ISkeleton other)
+
+        public bool Equals(ISkeleton<K, T> other)
         {
             return valid == other.Valid && root.Equals(other.Root);
         }
@@ -45,7 +45,7 @@ namespace Trame.Implementation.Skeleton
         }
 
 
-        public IJoint Root
+        public IJoint<K, T> Root
         {
             get
             {
@@ -85,27 +85,27 @@ namespace Trame.Implementation.Skeleton
                 valid = value;
             }
         }
-        
-        public ISkeleton GetArms()
+
+        public ISkeleton<K, T> GetArms()
         {
             var r = Root.FindChild(JointType.NECK);
 
             r.RemoveChild(JointType.HEAD);
             r.Orientation = Root.Orientation;
-            r.Point += Root.Point;
+            r.Point = Root.Point;
             
             Root = r;
             return this;
         }
 
-        public ISkeleton Clone()
+        public ISkeleton<K, T> Clone()
         {
-            var s = new Skeleton(id, valid, timestamp);
+            var s = new Skeleton<K, T>(id, valid, timestamp);
             s.root = root.Clone();
             return s;
         }
 
-        public IJoint GetHead()
+        public IJoint<K, T> GetHead()
         {
             return Root.DeepFind(JointType.HEAD);
         }

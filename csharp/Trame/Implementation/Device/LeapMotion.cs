@@ -17,7 +17,7 @@ namespace Trame.Implementation.Device
         readonly LeapAdapter adapter = new LeapAdapter();
         private Thread t;
         private bool running = true;
-        private ISkeleton lastSkeleton;
+        private ISkeleton<Vector4, Vector3> lastSkeleton;
 
         public LeapMotion()
         {
@@ -35,12 +35,12 @@ namespace Trame.Implementation.Device
             }
         }
 
-        public ISkeleton GetSkeleton()
+        public ISkeleton<Vector4, Vector3> GetSkeleton()
         {
             return GetSkeleton(Creator.GetNewDefaultSkeleton());
         }
 
-        public ISkeleton GetSkeleton(ISkeleton s)
+        public ISkeleton<Vector4, Vector3> GetSkeleton(ISkeleton<Vector4, Vector3> s)
         {
             var result = lastSkeleton;
             lastSkeleton = s;
@@ -83,7 +83,7 @@ namespace Trame.Implementation.Device
             }
         }
 
-        private static IJoint LeftHand(IJoint wrist, Frame frame)
+        private static IJoint<Vector4, Vector3> LeftHand(IJoint<Vector4, Vector3> wrist, Frame frame)
         {
             var leftmost = new Hand();
             var hands = frame.Hands;
@@ -98,7 +98,7 @@ namespace Trame.Implementation.Device
             return left;
         }
 
-        private static IJoint RightHand(IJoint wrist, Frame frame)
+        private static IJoint<Vector4, Vector3> RightHand(IJoint<Vector4, Vector3> wrist, Frame frame)
         {
             var rightmost = new Hand();
             var hands = frame.Hands;
@@ -113,9 +113,9 @@ namespace Trame.Implementation.Device
             return right;
         }
 
-        private static IJoint BuildHand(Hand hand, IJoint wrist, int side)
+        private static IJoint<Vector4, Vector3> BuildHand(Hand hand, IJoint<Vector4, Vector3> wrist, int side)
         {
-            var handJoint = new OrientedJoint();
+            var handJoint = new OrientedJoint<Vector4, Vector3>();
 
             if (hand.IsValid)
             {
@@ -139,9 +139,9 @@ namespace Trame.Implementation.Device
             return handJoint;
         }
 
-        private static IJoint CreateFinger(Vector position, Vector normal, JointType jt)
+        private static IJoint<Vector4, Vector3> CreateFinger(Vector position, Vector normal, JointType jt)
         {
-            var finger = new OrientedJoint();
+            var finger = new OrientedJoint<Vector4, Vector3>();
             finger.JointType = jt;
             finger.Point = new Vector3(position.x, position.y, position.z);
             finger.Orientation = new Vector4(10 * normal.x, 10 * normal.y, 10 * normal.z, 0);
@@ -176,7 +176,7 @@ namespace Trame.Implementation.Device
 
             return jt;
         }
-        
-        public event Action<ISkeleton> NewSkeleton;
+
+        public event Action<ISkeleton<Vector4, Vector3>> NewSkeleton;
     }
 }

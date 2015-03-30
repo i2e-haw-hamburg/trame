@@ -17,7 +17,7 @@ namespace TrameSerialization.Serializer
             get { return OutputType.JSON; }
         }
 
-        public Stream Serialize(Trame.ISkeleton s)
+        public Stream Serialize(Trame.ISkeleton<Vector4, Vector3> s)
         {
             var stream = new MemoryStream();
             var writer = new StreamWriter(stream);
@@ -34,12 +34,12 @@ namespace TrameSerialization.Serializer
             return stream;;
         }
 
-        public ISkeleton Deserialize(Stream stream)
+        public ISkeleton<Vector4, Vector3> Deserialize(Stream stream)
         {
             throw new NotImplementedException();
         }
 
-        private static JsonValue JointToObject(IJoint joint)
+        private static JsonValue JointToObject(IJoint<Vector4, Vector3> joint)
         {
             if (joint == null)
             {

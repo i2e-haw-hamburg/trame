@@ -10,11 +10,11 @@ namespace Trame.Implementation.Skeleton
     /// 
     /// </summary>
     [Serializable()]
-    public class OrientedJoint : IJoint
+    public class OrientedJoint<K, T> : IJoint<K, T> where K : new() where T : new()
     {
-        IDictionary<JointType, IJoint> children = new Dictionary<JointType, IJoint>();
-        Vector4 orientation;
-        Vector3 point;
+        IDictionary<JointType, IJoint<K,T>> children = new Dictionary<JointType, IJoint<K,T>>();
+        K orientation;
+        T point;
         bool isValid;
         JointType type;
 
@@ -28,14 +28,14 @@ namespace Trame.Implementation.Skeleton
         {
             this.type = type;
             this.isValid = valid;
-            orientation = new Vector4();
-            point = new Vector3();
+            orientation = new K();
+            point = new T();
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public IList<IJoint> GetChildren()
+        public IList<IJoint<K, T>> GetChildren()
         {
             return children.Select(x => x.Value).ToList();
         }
@@ -45,7 +45,7 @@ namespace Trame.Implementation.Skeleton
         /// </summary>
         /// <param name="j"></param>
         /// <returns></returns>
-        public bool AddChild(IJoint j)
+        public bool AddChild(IJoint<K, T> j)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Trame.Implementation.Skeleton
         /// 
         /// </summary>
         /// <param name="joints"></param>
-        public void AddChildren(IEnumerable<IJoint> joints)
+        public void AddChildren(IEnumerable<IJoint<K, T>> joints)
         {
             foreach (var joint in joints)
             {
@@ -92,7 +92,7 @@ namespace Trame.Implementation.Skeleton
         /// </summary>
         /// <param name="jt"></param>
         /// <returns></returns>
-        public IJoint FindChild(JointType jt)
+        public IJoint<K, T> FindChild(JointType jt)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace Trame.Implementation.Skeleton
             }
             catch (Exception ex)
             {
-                return new OrientedJoint();
+                return new OrientedJoint<K, T>();
             }
         }
 
@@ -116,7 +116,7 @@ namespace Trame.Implementation.Skeleton
         /// </summary>
         /// <param name="jt"></param>
         /// <returns></returns>
-        public IJoint DeepFind(JointType jt)
+        public IJoint<K, T> DeepFind(JointType jt)
         {
             var j = FindChild(jt);
             if (j.JointType == jt)
@@ -140,7 +140,7 @@ namespace Trame.Implementation.Skeleton
         /// </summary>
         /// <param name="jt"></param>
         /// <param name="j"></param>
-        public void Update(JointType jt, IJoint j)
+        public void Update(JointType jt, IJoint<K, T> j)
         {
             if (FindChild(jt).JointType != jt)
             {
@@ -165,7 +165,7 @@ namespace Trame.Implementation.Skeleton
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        public bool Equals(IJoint o)
+        public bool Equals(IJoint<K, T> o)
         {
             foreach(var child in children) {
                 var oc = o.FindChild(child.Value.JointType);
@@ -191,7 +191,7 @@ namespace Trame.Implementation.Skeleton
         /// <summary>
         /// 
         /// </summary>
-        public Vector4 Orientation
+        public K Orientation
         {
             get
             {
@@ -206,7 +206,7 @@ namespace Trame.Implementation.Skeleton
         /// <summary>
         /// 
         /// </summary>
-        public Vector3 Point
+        public T Point
         {
             get
             {
@@ -246,15 +246,15 @@ namespace Trame.Implementation.Skeleton
         }
 
 
-        public IJoint Append(IJoint j)
+        public IJoint<K, T> Append(IJoint<K, T> j)
         {
             AddChild(j);
             return j;
         }
 
-        public IJoint Clone()
+        public IJoint<K, T> Clone()
         {
-            var j = new OrientedJoint(JointType, isValid) { Point = Point, Orientation = Orientation };
+            var j = new OrientedJoint<K, T>(JointType, isValid) { Point = Point, Orientation = Orientation };
             j.AddChildren(j.GetChildren());
             return j;
         }

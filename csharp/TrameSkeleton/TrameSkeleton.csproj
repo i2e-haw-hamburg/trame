@@ -57,6 +57,7 @@
     <Compile Include="Implementation\Creator.cs" />
     <Compile Include="Implementation\Default.cs" />
     <Compile Include="Implementation\Enums.cs" />
+    <Compile Include="Implementation\MessageDeserializer.cs" />
     <Compile Include="Implementation\OrientedJoint.cs" />
     <Compile Include="Implementation\Skeleton.cs" />
     <Compile Include="Implementation\SkeletonAlgebra.cs" />

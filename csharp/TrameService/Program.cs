@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
+using AForge.Math;
 using BeardLogger.Interface;
 using BeardWire.Interface;
 using BeardWire.Interface.Exceptions;
@@ -88,7 +89,7 @@ namespace TrameService
 
         }
 
-        public void FireNewSkeleton(ISkeleton skeleton)
+        public void FireNewSkeleton(ISkeleton<Vector4, Vector3> skeleton)
         {
             if (receivers.Count > 0)
             {

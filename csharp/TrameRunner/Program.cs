@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AForge.Math;
 using Trame;
 
 namespace TrameRunner
@@ -17,8 +18,8 @@ namespace TrameRunner
 
         void Run(int sec, bool hold)
         {
-            var list = new List<ISkeleton>();
-            ISkeleton tmp = null;
+            var list = new List<ISkeleton<Vector4, Vector3>>();
+            ISkeleton<Vector4, Vector3> tmp = null;
             long countOfValidSkeletons = 0;
             long countOfSkeletons = 0;
             var last = 0;

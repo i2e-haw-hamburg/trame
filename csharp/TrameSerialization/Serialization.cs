@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using AForge.Math;
 using Trame;
 using TrameSerialization.Serializer;
 
@@ -54,7 +55,7 @@ namespace TrameSerialization
         /// </summary>
         /// <param name="skeleton"></param>
         /// <returns></returns>
-        public Stream Serialize(ISkeleton skeleton)
+        public Stream Serialize(ISkeleton<Vector4, Vector3> skeleton)
         {
             return serializer.Serialize(skeleton);
         }
@@ -64,7 +65,7 @@ namespace TrameSerialization
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public ISkeleton Deserialize(Stream stream)
+        public ISkeleton<Vector4, Vector3> Deserialize(Stream stream)
         {
             return serializer.Deserialize(stream);
         }

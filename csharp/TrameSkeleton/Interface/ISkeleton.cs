@@ -6,24 +6,29 @@ using System.Text;
 
 namespace Trame
 {
-    public interface ISkeleton : IEquatable<ISkeleton>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="K">4 vector</typeparam>
+    /// <typeparam name="T"> 3 vector</typeparam>
+    public interface ISkeleton<K, T> : IEquatable<ISkeleton<K, T>>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="jt"></param>
         /// <param name="j"></param>
-        void UpdateSkeleton(JointType jt, IJoint j);
+        void UpdateSkeleton(JointType jt, IJoint<K, T> j);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="jt"></param>
         /// <returns></returns>
-        IJoint GetJoint(JointType jt);
+        IJoint<K, T> GetJoint(JointType jt);
         /// <summary>
         /// 
         /// </summary>
-        IJoint Root { get; set; }
+        IJoint<K, T> Root { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -40,15 +45,15 @@ namespace Trame
         /// 
         /// </summary>
         /// <returns></returns>
-        ISkeleton GetArms();
+        ISkeleton<K, T> GetArms();
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        ISkeleton Clone();
+        ISkeleton<K, T> Clone();
         /// <summary>
         /// 
         /// </summary>
-        IJoint GetHead();
+        IJoint<K, T> GetHead();
     }
 }

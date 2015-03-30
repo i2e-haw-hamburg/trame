@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using AForge.Math;
 using Trame;
 using Trame.Implementation.Skeleton;
 
@@ -22,7 +23,7 @@ namespace TrameSerialization.Serializer
             get { return OutputType.BASIC; }
         }
 
-        public Stream Serialize(ISkeleton s)
+        public Stream Serialize(ISkeleton<Vector4, Vector3> s)
         {
             var stream = new MemoryStream();
             formatter.Serialize(stream, s);
@@ -30,9 +31,9 @@ namespace TrameSerialization.Serializer
             return stream;
         }
 
-        public ISkeleton Deserialize(Stream stream)
+        public ISkeleton<Vector4, Vector3> Deserialize(Stream stream)
         {
-            return (Skeleton)formatter.Deserialize(stream);
+            return (Skeleton<Vector4, Vector3>)formatter.Deserialize(stream);
         }
     }
 }

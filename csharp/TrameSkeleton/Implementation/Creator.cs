@@ -8,21 +8,21 @@ namespace Trame.Implementation.Skeleton
 {
     public class Creator
     {
-        public static ISkeleton GetNewDefaultSkeleton()
+        public static ISkeleton<Vector4, Vector3> GetNewDefaultSkeleton()
         {
             return Default.CreateSkeleton();
         }
 
-        public static ISkeleton GetNewInvalidSkeleton()
+        public static ISkeleton<Vector4, Vector3> GetNewInvalidSkeleton()
         {
-            var s = new Skeleton();
+            var s = new Skeleton<Vector4, Vector3>();
             s.Valid = false;
             return s;
         }
 
-        public static IJoint CreateParent(IEnumerable<IJoint> list)
+        public static IJoint<K, T> CreateParent<K, T>(IEnumerable<IJoint<K, T>> list) where K : new() where T : new()
         {
-            IJoint parent = new OrientedJoint();
+            var parent = new OrientedJoint<K, T>();
             foreach (var child in list)
             {
                 parent.AddChild(child);
@@ -30,7 +30,7 @@ namespace Trame.Implementation.Skeleton
             return parent;
         }
 
-        public static IJoint CreateHead()
+        public static IJoint<Vector4, Vector3> CreateHead()
         {
             return Default.CreateHead();
         }
