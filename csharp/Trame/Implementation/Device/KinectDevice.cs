@@ -1,39 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using AForge;
 using AForge.Math;
 using Microsoft.Kinect;
 using Trame.Implementation.Device.Adapter;
-using Trame.Implementation;
+using Trame.Implementation.Skeleton;
 using Vector4 = AForge.Math.Vector4;
 
 namespace Trame.Implementation.Device
 {
-    class KinectDevice : IDevice
+    internal class KinectDevice : IDevice
     {
-        readonly KinectAdapter adapter = new KinectAdapter();
-
+        private readonly KinectAdapter adapter = new KinectAdapter();
+        private readonly Thread t;
         private Microsoft.Kinect.Skeleton[] foundedSkeletons;
         private ISkeleton<Vector4, Vector3> lastSkeleton;
-        private Thread t;
         private bool running = true;
-        
-        private void Run()
-        {
-            while (running)
-            {
-                Thread.Sleep(500);
-            }
-        }
+
         public KinectDevice()
         {
             adapter.StartKinect(OnFrameArrived);
-            lastSkeleton = Skeleton.Creator.GetNewDefaultSkeleton();
+            lastSkeleton = Creator.GetNewDefaultSkeleton();
             t = new Thread(Run);
             t.Start();
         }
@@ -48,7 +36,24 @@ namespace Trame.Implementation.Device
             return lastSkeleton;
         }
 
-        void OnFrameArrived(object sender, SkeletonFrameReadyEventArgs e)
+        public void Stop()
+        {
+            adapter.StopKinect();
+            running = false;
+            t.Join();
+        }
+
+        public event Action<ISkeleton<Vector4, Vector3>> NewSkeleton;
+
+        private void Run()
+        {
+            while (running)
+            {
+                Thread.Sleep(500);
+            }
+        }
+
+        private void OnFrameArrived(object sender, SkeletonFrameReadyEventArgs e)
         {
             using (var frame = e.OpenSkeletonFrame())
             {
@@ -56,24 +61,24 @@ namespace Trame.Implementation.Device
                 {
                     return;
                 }
-                if (this.foundedSkeletons == null)
+                if (foundedSkeletons == null)
                 {
-                    this.foundedSkeletons = new Microsoft.Kinect.Skeleton[frame.SkeletonArrayLength];
+                    foundedSkeletons = new Microsoft.Kinect.Skeleton[frame.SkeletonArrayLength];
                 }
                 frame.CopySkeletonDataTo(foundedSkeletons);
 
-                Microsoft.Kinect.Skeleton initSkeleton = this.foundedSkeletons.FirstOrDefault(s => s.TrackingState == SkeletonTrackingState.Tracked);
+                var initSkeleton = foundedSkeletons.FirstOrDefault(s => s.TrackingState == SkeletonTrackingState.Tracked);
                 if (initSkeleton != null)
                 {
-                    lastSkeleton = CreateSkeleon(initSkeleton);
+                    lastSkeleton = CreateSkeleton(initSkeleton);
                     FireNewSkeleton(lastSkeleton);
                 }
             }
         }
 
-        private ISkeleton<Vector4, Vector3> CreateSkeleon(Microsoft.Kinect.Skeleton initSkeleton)
+        private ISkeleton<Vector4, Vector3> CreateSkeleton(Microsoft.Kinect.Skeleton initSkeleton)
         {
-            var s = Skeleton.Creator.GetNewDefaultSkeleton();
+            var s = Creator.GetNewDefaultSkeleton();
 
             var neck = initSkeleton.Joints[Microsoft.Kinect.JointType.ShoulderCenter];
             var spine = initSkeleton.Joints[Microsoft.Kinect.JointType.Spine];
@@ -95,78 +100,185 @@ namespace Trame.Implementation.Device
             var leftFoot = initSkeleton.Joints[Microsoft.Kinect.JointType.FootLeft];
             var rightFoot = initSkeleton.Joints[Microsoft.Kinect.JointType.FootRight];
 
+            var neckOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderCenter].HierarchicalRotation.Quaternion;
+            var spineOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipCenter].HierarchicalRotation.Quaternion;
+            var headOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.Head].HierarchicalRotation.Quaternion;
+            var leftShoulderOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderLeft].HierarchicalRotation.Quaternion;
+            var rightShoulderOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderRight].HierarchicalRotation.Quaternion;
+            var leftElbowOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ElbowLeft].HierarchicalRotation.Quaternion;
+            var rightElbowOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ElbowRight].HierarchicalRotation.Quaternion;
+            var leftWristOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.WristLeft].HierarchicalRotation.Quaternion;
+            var rightWristOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.WristRight].HierarchicalRotation.Quaternion;
+            var leftHandOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HandLeft].HierarchicalRotation.Quaternion;
+            var rightHandOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HandRight].HierarchicalRotation.Quaternion;
+            var leftHipOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipLeft].HierarchicalRotation.Quaternion;
+            var rightHipOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipRight].HierarchicalRotation.Quaternion;
+            var leftKneeOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.KneeLeft].HierarchicalRotation.Quaternion;
+            var rightKneeOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.KneeRight].HierarchicalRotation.Quaternion;
+            var leftAnkleOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.AnkleLeft].HierarchicalRotation.Quaternion;
+            var rightAnkleOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.AnkleRight].HierarchicalRotation.Quaternion;
+            var leftFootOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.FootLeft].HierarchicalRotation.Quaternion;
+            var rightFootOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.FootRight].HierarchicalRotation.Quaternion;
+
             // left arm
-            var lHand = new Skeleton.OrientedJoint<Vector4, Vector3>
+            var lHand = new OrientedJoint<Vector4, Vector3>
             {
                 JointType = JointType.WRIST_LEFT,
                 Point = AbsoluteToRelative(leftElbow.Position, leftWrist.Position),
+                Orientation = ToVec4(leftWristOrientation),
                 Valid = true
             };
-            lHand.AddChild(new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.HAND_LEFT, Point = AbsoluteToRelative(leftWrist.Position, leftHand.Position) });
-            var leftUnderArm = Skeleton.Creator.CreateParent(new List<IJoint<Vector4, Vector3>> { lHand });
+            lHand.AddChild(new OrientedJoint<Vector4, Vector3>
+            {
+                JointType = JointType.HAND_LEFT,
+                Point = AbsoluteToRelative(leftWrist.Position, leftHand.Position),
+                Orientation = ToVec4(leftHandOrientation),
+            });
+            var leftUnderArm = Creator.CreateParent(new List<IJoint<Vector4, Vector3>> {lHand});
             leftUnderArm.JointType = JointType.ELBOW_LEFT;
+            leftUnderArm.Orientation = ToVec4(leftElbowOrientation);
             leftUnderArm.Point = AbsoluteToRelative(leftShoulder.Position, leftElbow.Position);
             leftUnderArm.Valid = true;
-            var leftArm = Skeleton.Creator.CreateParent(new List<IJoint<Vector4, Vector3>> { leftUnderArm });
+            var leftArm = Creator.CreateParent(new List<IJoint<Vector4, Vector3>> {leftUnderArm});
             leftArm.JointType = JointType.SHOULDER_LEFT;
             leftArm.Point = AbsoluteToRelative(neck.Position, leftShoulder.Position);
+            leftArm.Orientation = ToVec4(leftShoulderOrientation);
             leftArm.Valid = true;
 
             // right arm
-            var rightArm = new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.SHOULDER_RIGHT, Point = AbsoluteToRelative(neck.Position, rightShoulder.Position), Valid = true };
+            var rightArm = new OrientedJoint<Vector4, Vector3>
+            {
+                JointType = JointType.SHOULDER_RIGHT,
+                Orientation = ToVec4(rightShoulderOrientation),
+                Point = AbsoluteToRelative(neck.Position, rightShoulder.Position),
+                Valid = true
+            };
             rightArm.Append(
-                new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.ELBOW_RIGHT, Point = AbsoluteToRelative(rightShoulder.Position, rightElbow.Position), Valid = true }
-            ).Append(
-                new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.WRIST_RIGHT, Point = AbsoluteToRelative(rightElbow.Position, rightWrist.Position), Valid = true }
-            ).AddChild(new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.HAND_RIGHT, Point = AbsoluteToRelative(rightWrist.Position, rightHand.Position) });
+                new OrientedJoint<Vector4, Vector3>
+                {
+                    JointType = JointType.ELBOW_RIGHT,
+                    Point = AbsoluteToRelative(rightShoulder.Position, rightElbow.Position),
+                    Orientation = ToVec4(rightElbowOrientation),
+                    Valid = true
+                }
+                ).Append(
+                    new OrientedJoint<Vector4, Vector3>
+                    {
+                        JointType = JointType.WRIST_RIGHT,
+                        Point = AbsoluteToRelative(rightElbow.Position, rightWrist.Position),
+                        Orientation = ToVec4(rightWristOrientation),
+                        Valid = true
+                    }
+                )
+                .AddChild(new OrientedJoint<Vector4, Vector3>
+                {
+                    JointType = JointType.HAND_RIGHT,
+                    Point = AbsoluteToRelative(rightWrist.Position, rightHand.Position),
+                    Orientation = ToVec4(rightHandOrientation),
+                });
 
             // left leg
-            var leftLeg = new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.HIP_LEFT, Point = AbsoluteToRelative(spine.Position, leftHip.Position), Valid = true };
+            var leftLeg = new OrientedJoint<Vector4, Vector3>
+            {
+                JointType = JointType.HIP_LEFT,
+                Point = AbsoluteToRelative(spine.Position, leftHip.Position),
+                 Orientation = ToVec4(leftHipOrientation),
+                Valid = true
+            };
             leftLeg.Append(
-                new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.KNEE_LEFT, Point = AbsoluteToRelative(leftHip.Position, leftKnee.Position), Valid = true }
-            ).Append(
-                new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.ANKLE_LEFT, Point = AbsoluteToRelative(leftKnee.Position, leftAnkle.Position), Valid = true }
-            ).AddChild(new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.FOOT_LEFT, Point = AbsoluteToRelative(leftAnkle.Position, leftFoot.Position) });
+                new OrientedJoint<Vector4, Vector3>
+                {
+                    JointType = JointType.KNEE_LEFT,
+                    Point = AbsoluteToRelative(leftHip.Position, leftKnee.Position),
+                     Orientation = ToVec4(leftKneeOrientation),
+                    Valid = true
+                }
+                ).Append(
+                    new OrientedJoint<Vector4, Vector3>
+                    {
+                        JointType = JointType.ANKLE_LEFT,
+                        Point = AbsoluteToRelative(leftKnee.Position, leftAnkle.Position),
+                         Orientation = ToVec4(leftAnkleOrientation),
+                        Valid = true
+                    }
+                )
+                .AddChild(new OrientedJoint<Vector4, Vector3>
+                {
+                    JointType = JointType.FOOT_LEFT,
+                    Point = AbsoluteToRelative(leftAnkle.Position, leftFoot.Position),
+                     Orientation = ToVec4(leftFootOrientation)
+                });
 
             // right leg
-            var rightLeg = new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.HIP_RIGHT, Point = AbsoluteToRelative(spine.Position, rightHip.Position), Valid = true };
+            var rightLeg = new OrientedJoint<Vector4, Vector3>
+            {
+                JointType = JointType.HIP_RIGHT,
+                Point = AbsoluteToRelative(spine.Position, rightHip.Position),
+                Orientation = ToVec4(rightHipOrientation),
+                Valid = true
+            };
             rightLeg.Append(
-                new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.KNEE_RIGHT, Point = AbsoluteToRelative(rightHip.Position, rightKnee.Position), Valid = true }
-            ).Append(
-                new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.ANKLE_RIGHT, Point = AbsoluteToRelative(rightKnee.Position, rightAnkle.Position), Valid = true }
-            ).AddChild(new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.FOOT_RIGHT, Point = AbsoluteToRelative(rightAnkle.Position, rightFoot.Position) });
+                new OrientedJoint<Vector4, Vector3>
+                {
+                    JointType = JointType.KNEE_RIGHT,
+                    Point = AbsoluteToRelative(rightHip.Position, rightKnee.Position),
+                    Orientation = ToVec4(rightKneeOrientation),
+                    Valid = true
+                }
+                ).Append(
+                    new OrientedJoint<Vector4, Vector3>
+                    {
+                        JointType = JointType.ANKLE_RIGHT,
+                        Point = AbsoluteToRelative(rightKnee.Position, rightAnkle.Position),
+                        Orientation = ToVec4(rightAnkleOrientation),
+                        Valid = true
+                    }
+                )
+                .AddChild(new OrientedJoint<Vector4, Vector3>
+                {
+                    JointType = JointType.FOOT_RIGHT,
+                    Point = AbsoluteToRelative(rightAnkle.Position, rightFoot.Position),
+                    Orientation = ToVec4(rightFootOrientation),
+                });
 
 
-            var jsNeck = Skeleton.Creator.CreateParent(new List<IJoint<Vector4, Vector3>> { 
+            var jsNeck = Creator.CreateParent(new List<IJoint<Vector4, Vector3>>
+            {
                 leftArm,
-                rightArm, 
-                new Skeleton.OrientedJoint<Vector4, Vector3> { JointType = JointType.HEAD, Point = AbsoluteToRelative(neck.Position, head.Position), Valid = true }
+                rightArm,
+                new OrientedJoint<Vector4, Vector3>
+                {
+                    JointType = JointType.HEAD,
+                    Point = AbsoluteToRelative(neck.Position, head.Position),
+                    Orientation = ToVec4(headOrientation),
+                    Valid = true
+                }
             });
             jsNeck.JointType = JointType.NECK;
             jsNeck.Point = AbsoluteToRelative(spine.Position, neck.Position);
             jsNeck.Valid = true;
-
+            jsNeck.Orientation = ToVec4(neckOrientation);
             s.UpdateSkeleton(JointType.NECK, jsNeck);
             s.UpdateSkeleton(JointType.HIP_LEFT, leftLeg);
             s.UpdateSkeleton(JointType.HIP_RIGHT, rightLeg);
             s.Valid = true;
+            s.Root.Orientation = ToVec4(spineOrientation);
             return s;
         }
 
         private static Vector3 AbsoluteToRelative(SkeletonPoint parent, SkeletonPoint child)
         {
             return new Vector3(
-                child.X-parent.X,
-                child.Y-parent.Y,
-                child.Z-parent.Z
-            ) * 1000;
+                child.X - parent.X,
+                child.Y - parent.Y,
+                child.Z - parent.Z
+                )*1000;
         }
 
-        public void Stop()
+
+        private static Vector4 ToVec4(Microsoft.Kinect.Vector4 v)
         {
-            this.adapter.StopKinect();
-            running = false;
-            t.Join();
+            return new Vector4(v.X, v.Y, v.Z, v.W);
         }
 
         private void FireNewSkeleton(ISkeleton<Vector4, Vector3> s)
@@ -176,7 +288,5 @@ namespace Trame.Implementation.Device
                 NewSkeleton(s);
             }
         }
-
-        public event Action<ISkeleton<Vector4, Vector3>> NewSkeleton;
     }
 }
