@@ -59,7 +59,7 @@ namespace TrameSerialization.Serializer
                 return null;
             }
             var joint = new SkeletonMessage.Joint { valid = j.Valid};
-            var o = (Convert.ChangeType(j.JointType, TypeCode.Int32));
+            var o = Convert.ChangeType(j.JointType, TypeCode.Int32);
             if (o != null)
             {
                 joint.type = (int)o;

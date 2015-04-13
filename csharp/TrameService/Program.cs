@@ -64,7 +64,7 @@ namespace TrameService
             Console.WriteLine("He sits on: " + subscriber.Address + ":" + subscriber.Port);
             Console.WriteLine("Let us send him some bones!!");
 
-            receivers.Add(remoteEndPoint);
+            receivers.Add(subscriber);
         }
 
         private void Unregister(UnregisterFromTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
@@ -74,6 +74,7 @@ namespace TrameService
             Console.WriteLine("BYE");
 
             receivers.Remove(subscriber);
+            networkAdapter.DisconnectFromTCPRemote(subscriber.Address, subscriber.Port);
         }
 
         public void Run()
@@ -82,8 +83,10 @@ namespace TrameService
 
             while (run)
             {
-                Console.SetCursorPosition(0, Console.CursorTop);
-                Console.Write("Messages send: "+ sendedMessages);
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                Console.Write("Messages send: " + sendedMessages);
+                Console.SetCursorPosition(0, Console.CursorTop + 1);
+                Console.Write("Receivers: " + receivers.Count);
                 Thread.Sleep(100);
             }
 
@@ -93,18 +96,22 @@ namespace TrameService
         {
             if (receivers.Count > 0)
             {
-                sendedMessages++;
                 var m = serializer.ToMessage(skeleton);
                 try
                 {
                     receivers.ForEach(receiver =>
                     {
+                        sendedMessages++;
                         networkAdapter.SendMessageOverTCP(m, receiver.Address, receiver.Port);
                     });
                 }
                 catch (InvalidOperationException)
-                {}
-                catch (FailedToSendMessageException) { }
+                {
+                }
+                catch (FailedToSendMessageException)
+                {
+                    Console.WriteLine("Could not send message");
+                }
             }
         }
 
@@ -158,8 +165,8 @@ namespace TrameService
             {
                 Console.WriteLine("An error occured.");
             }
-
-            Console.ReadKey();
+            while (Console.ReadLine() != "exit")
+            { }
             program.Close();
         }
 

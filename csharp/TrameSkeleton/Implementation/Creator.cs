@@ -13,6 +13,11 @@ namespace Trame.Implementation.Skeleton
             return Default.CreateSkeleton();
         }
 
+        public static float GetDefaultBoneLength(JointType jt)
+        {
+            return Default.Lengths[jt];
+        }
+
         public static ISkeleton<Vector4, Vector3> GetNewInvalidSkeleton()
         {
             var s = new Skeleton<Vector4, Vector3>();
