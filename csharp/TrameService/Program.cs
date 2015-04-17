@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Runtime.Remoting.Messaging;
-using System.Threading;
 using AForge.Math;
-using BeardLogger.Interface;
-using BeardWire.Interface;
 using BeardWire.Interface.Exceptions;
 using NetworkMessages.Trame;
 using Trame;
@@ -13,49 +9,40 @@ using TrameSerialization.Serializer;
 
 namespace TrameService
 {
-    class Program
+    class Program : Service
     {
-        private const int DefaultPort = 11111;
-        private const string MessageTypesFileName = "MessageTypes.txt";
-        private int port;
-        private INetworkAdapter networkAdapter;
         private Trame.ICameraAbstraction trame;
         private ProtobufSerializer serializer = new ProtobufSerializer();
-        private int sendedMessages = 0;
+        private int _sendedSkeletons = 0;
 
         private List<IPEndPoint> receivers = new List<IPEndPoint>();
         private bool run = true;
 
-        public Program()
-            : this(DefaultPort, DeviceType.EMPTY)
+        Program(int localPort, int remotePort, DeviceType type)
+            : base(localPort, remotePort)
         {
-            
-        }
-
-        public Program(int port, DeviceType type)
-        {
-            this.port = port;
             this.trame = new Trame.Trame();
             this.trame.SetDevice(type);
             Console.WriteLine(trame.ToString());
-            this.networkAdapter = NetworkAdapterFactory.GetNewNetworkAdapter(MessageTypesFileName, LoggerFactory.GetNewDummyLogger());
-            SubscribeToMessages();
         }
-
-        public int Port
+        
+        protected override void SubscribeToMessages()
         {
-            get { return port; }
-            set { port = value; }
+            networkAdapter.SubscribeToMessagesOfType<RegisterForTrameMessage>(PerformNewRegistration);
+            networkAdapter.SubscribeToMessagesOfType<UnregisterFromTrameMessage>(PerformUnregistration);
         }
 
-        private void SubscribeToMessages()
+        protected override void UnregisterFromService()
         {
-            networkAdapter.StartListeningForMessagesOnTCPPort(port);
-            networkAdapter.SubscribeToMessagesOfType<RegisterForTrameMessage>(Register);
-            networkAdapter.SubscribeToMessagesOfType<UnregisterFromTrameMessage>(Unregister);
+            trame.NewSkeleton -= FireNewSkeleton;
         }
 
-        private void Register(RegisterForTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
+        protected override void RegisterForService()
+        {
+            trame.NewSkeleton += FireNewSkeleton;
+        }
+
+        private void PerformNewRegistration(RegisterForTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
         {
             // Sorry, but I play Black Flag at the moment, Aye!
             var subscriber = new IPEndPoint(IPAddress.Parse(message.listenerip), message.listenerport);
@@ -67,29 +54,35 @@ namespace TrameService
             receivers.Add(subscriber);
         }
 
-        private void Unregister(UnregisterFromTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
+        private void PerformUnregistration(UnregisterFromTrameMessage message, IPEndPoint remoteEndPoint, IPEndPoint localEndPoint, Guid transactionId)
         {
             var subscriber = new IPEndPoint(IPAddress.Parse(message.listenerip), message.listenerport);
             Console.WriteLine("have a nice day old friend: " + subscriber.Address + ":" + subscriber.Port);
-            Console.WriteLine("BYE");
 
-            receivers.Remove(subscriber);
-            networkAdapter.DisconnectFromTCPRemote(subscriber.Address, subscriber.Port);
+            Bye(subscriber);
         }
 
-        public void Run()
+        private void Bye(IPEndPoint subscriber)
         {
-            trame.NewSkeleton += FireNewSkeleton;
-
-            while (run)
+            receivers.Remove(subscriber);
+            try
             {
-                Console.SetCursorPosition(0, Console.CursorTop - 1);
-                Console.Write("Messages send: " + sendedMessages);
-                Console.SetCursorPosition(0, Console.CursorTop + 1);
-                Console.Write("Receivers: " + receivers.Count);
-                Thread.Sleep(100);
+                networkAdapter.DisconnectFromTCPRemote(subscriber.Address, subscriber.Port);
             }
+            catch (DisconnectFailedException)
+            {
+                Console.WriteLine("Remote already disconnected");
+            }
+            Console.WriteLine("BYE");
+        }
 
+
+        protected override void Update()
+        {
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+            Console.Write("Messages send: " + _sendedSkeletons);
+            Console.SetCursorPosition(0, Console.CursorTop + 1);
+            Console.Write("Receivers: " + receivers.Count);
         }
 
         public void FireNewSkeleton(ISkeleton<Vector4, Vector3> skeleton)
@@ -101,34 +94,26 @@ namespace TrameService
                 {
                     receivers.ForEach(receiver =>
                     {
-                        sendedMessages++;
-                        networkAdapter.SendMessageOverTCP(m, receiver.Address, receiver.Port);
+                        try
+                        {
+                            networkAdapter.SendMessageOverTCP(m, receiver.Address, receiver.Port);
+                        }
+                        catch (FailedToSendMessageException)
+                        {
+                            Bye(receiver);
+                        }
                     });
+                    _sendedSkeletons++;
                 }
                 catch (InvalidOperationException)
                 {
                 }
-                catch (FailedToSendMessageException)
-                {
-                    Console.WriteLine("Could not send message");
-                }
             }
-        }
-
-        public string NiceString()
-        {
-            return "Trame Service running on " + networkAdapter.LocalAddress.ToString() + ":" + port;
-        }
-
-        public void Close()
-        {
-            run = false;
-            trame.Stop();
         }
         
         static void Main(string[] args)
         {
-            int port = DefaultPort;
+            int port = DefaultLocalPort;
             var dt = DeviceType.KINECT;
 
             if (args.Length >= 1)
@@ -155,11 +140,10 @@ namespace TrameService
                 int.TryParse(args[1], out port);
             }
 
-            var program = new Program(port, dt);
+            var program = new Program(port, 0, dt);
             try
             {
                 Console.WriteLine(program.NiceString());
-                program.Run();
             }
             catch (Exception)
             {
@@ -169,7 +153,5 @@ namespace TrameService
             { }
             program.Close();
         }
-
-        
     }
 }

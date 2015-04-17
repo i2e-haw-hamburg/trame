@@ -72,9 +72,10 @@ namespace Trame
         {
             while (_keepRunning)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
             // close all open ressources
+            Console.WriteLine("Close all resources");
             currentDevice.Stop();
 
         }

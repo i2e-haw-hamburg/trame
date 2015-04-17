@@ -12,53 +12,41 @@ namespace TrameRunner
 {
     class Program
     {
-        readonly ICameraAbstraction trame = new Trame.Trame();
+        readonly ICameraAbstraction trame = new Trame.Trame(DeviceType.KINECT);
         readonly Timer t = new Timer();
 
+        long countOfValidSkeletons = 0;
+        long countOfSkeletons = 0;
 
-        void Run(int sec, bool hold)
+
+        void Run()
         {
-            var list = new List<ISkeleton<Vector4, Vector3>>();
-            ISkeleton<Vector4, Vector3> tmp = null;
-            long countOfValidSkeletons = 0;
-            long countOfSkeletons = 0;
-            var last = 0;
-            
             t.Start();
-            while (sec * 1000 > t.Now())
+            while (true)
             {
-                var proc = Process.GetCurrentProcess();
-                tmp = trame.GetSkeleton();
-                if (hold)
-                {
-                    list.Add(tmp);
-                }
-                if (tmp.Valid)
-                {
-                    countOfValidSkeletons++;
-                }
-                countOfSkeletons++;
-                var time = (int)(t.Now()/1000);
-                if (time > last)
-                {
-                    Console.WriteLine(string.Join(";", new long[] { time, countOfSkeletons, countOfValidSkeletons, proc.PrivateMemorySize64 }));
-                    last = time;
-                }
+                Console.SetCursorPosition(0, Console.CursorTop);
+                Console.Write("Current time: {0} - skeletons {1}", t.Now(), countOfSkeletons);
+                Thread.Sleep(17);
             }
-        }
-
-        public void Endless()
-        {
-            trame.NewSkeleton += Console.WriteLine;
         }
 
         static void Main(string[] args)
         {
             var p = new Program();
-            p.Endless();
+            p.trame.NewSkeleton += p.Update;
+            p.Run();
 
             Console.WriteLine("Press key to stop program\n");
             Console.ReadKey();
+        }
+
+        private void Update(ISkeleton<Vector4, Vector3> obj)
+        {
+            if (obj.Valid)
+            {
+                countOfValidSkeletons++;
+            }
+            countOfSkeletons++;
         }
     }
 
