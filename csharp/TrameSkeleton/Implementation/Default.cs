@@ -156,6 +156,16 @@ namespace Trame.Implementation.Skeleton
 
         public static IDictionary<JointType, float> Lengths = new Dictionary<JointType, float>
         {
+            {JointType.NECK, 600},
+            {JointType.HEAD, 200},
+            {JointType.HIP_LEFT, 250},
+            {JointType.HIP_RIGHT, 250},
+            {JointType.KNEE_LEFT, 450},
+            {JointType.KNEE_RIGHT, 450},
+            {JointType.ANKLE_LEFT, 450},
+            {JointType.ANKLE_RIGHT, 450},
+            {JointType.FOOT_LEFT, 250},
+            {JointType.FOOT_RIGHT, 250},
             {JointType.SHOULDER_LEFT, 300},
             {JointType.SHOULDER_RIGHT, 300},
             {JointType.ELBOW_LEFT, 400},
