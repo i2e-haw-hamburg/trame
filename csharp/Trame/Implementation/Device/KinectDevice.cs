@@ -263,6 +263,7 @@ namespace Trame.Implementation.Device
             s.UpdateSkeleton(JointType.HIP_RIGHT, rightLeg);
             s.Valid = true;
             s.Root.Orientation = ToVec4(spineOrientation);
+            s.Root.Point = ToVec3(spine.Position) * 1000;
             return s;
         }
 
@@ -279,6 +280,11 @@ namespace Trame.Implementation.Device
         private static Vector4 ToVec4(Microsoft.Kinect.Vector4 v)
         {
             return new Vector4(v.X, v.Y, v.Z, v.W);
+        }
+
+        private static Vector3 ToVec3(Microsoft.Kinect.SkeletonPoint v)
+        {
+            return new Vector3(v.X, v.Y, v.Z);
         }
 
         private void FireNewSkeleton(ISkeleton<Vector4, Vector3> s)

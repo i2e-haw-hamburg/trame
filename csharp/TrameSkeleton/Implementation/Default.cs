@@ -45,7 +45,7 @@ namespace Trame.Implementation.Skeleton
             int armX = 75;
             int armY = 320;
             int shoulderX = 220;
-            var handOrientation = new Vector4(100, 0, 0, 0);
+            var handOrientation = new Vector4(0, 0, 0, 0);
 
             var shoulder = new OrientedJoint<Vector4, Vector3>();
             var elbow = new OrientedJoint<Vector4, Vector3>();
@@ -98,7 +98,7 @@ namespace Trame.Implementation.Skeleton
             int hipX = 180;
             int hipY = 100;
 
-            var footOrientation = new Vector4(0, 0, -100, 0);
+            var footOrientation = new Vector4(0, 0, 0, 0);
 
             var foot = new OrientedJoint<Vector4, Vector3>();
             var ankle = new OrientedJoint<Vector4, Vector3>();
@@ -143,7 +143,7 @@ namespace Trame.Implementation.Skeleton
         public static IJoint<Vector4, Vector3> CreateHead()
         {
             int headY = 180;
-            var headOrientation = new Vector4(0, 0, -100, 0);
+            var headOrientation = new Vector4(0, 0, 0, 0);
 
             var head = new OrientedJoint<Vector4, Vector3>();
             head.Orientation = headOrientation;
@@ -166,12 +166,12 @@ namespace Trame.Implementation.Skeleton
             {JointType.ANKLE_RIGHT, 450},
             {JointType.FOOT_LEFT, 250},
             {JointType.FOOT_RIGHT, 250},
-            {JointType.SHOULDER_LEFT, 300},
-            {JointType.SHOULDER_RIGHT, 300},
-            {JointType.ELBOW_LEFT, 400},
-            {JointType.ELBOW_RIGHT, 400},
-            {JointType.WRIST_LEFT, 380},
-            {JointType.WRIST_RIGHT, 380},
+            {JointType.SHOULDER_LEFT, 220},
+            {JointType.SHOULDER_RIGHT, 220},
+            {JointType.ELBOW_LEFT, 328},
+            {JointType.ELBOW_RIGHT, 328},
+            {JointType.WRIST_LEFT, 358},
+            {JointType.WRIST_RIGHT, 358},
             {JointType.HAND_LEFT, 50},
             {JointType.HAND_RIGHT, 50},
         };

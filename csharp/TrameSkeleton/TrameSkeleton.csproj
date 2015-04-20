@@ -60,6 +60,7 @@
     <Compile Include="Implementation\MessageDeserializer.cs" />
     <Compile Include="Implementation\OrientedJoint.cs" />
     <Compile Include="Implementation\Skeleton.cs" />
+    <Compile Include="Math\Convert.cs" />
     <Compile Include="Math\SkeletonAlgebra.cs" />
     <Compile Include="Math\SkeletonDiff.cs" />
     <Compile Include="Interface\IJoint.cs" />
