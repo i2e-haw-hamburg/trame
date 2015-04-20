@@ -1,5 +1,4 @@
-﻿using AForge.Math;
-using Trame;
+﻿using Trame;
 using Trame.Implementation.Skeleton;
 using TrameSkeleton.Implementation;
 

@@ -100,25 +100,25 @@ namespace Trame.Implementation.Device
             var leftFoot = initSkeleton.Joints[Microsoft.Kinect.JointType.FootLeft];
             var rightFoot = initSkeleton.Joints[Microsoft.Kinect.JointType.FootRight];
 
-            var neckOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderCenter].HierarchicalRotation.Quaternion;
-            var spineOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipCenter].HierarchicalRotation.Quaternion;
-            var headOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.Head].HierarchicalRotation.Quaternion;
-            var leftShoulderOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderLeft].HierarchicalRotation.Quaternion;
-            var rightShoulderOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderRight].HierarchicalRotation.Quaternion;
-            var leftElbowOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ElbowLeft].HierarchicalRotation.Quaternion;
-            var rightElbowOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ElbowRight].HierarchicalRotation.Quaternion;
-            var leftWristOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.WristLeft].HierarchicalRotation.Quaternion;
-            var rightWristOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.WristRight].HierarchicalRotation.Quaternion;
-            var leftHandOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HandLeft].HierarchicalRotation.Quaternion;
-            var rightHandOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HandRight].HierarchicalRotation.Quaternion;
-            var leftHipOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipLeft].HierarchicalRotation.Quaternion;
-            var rightHipOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipRight].HierarchicalRotation.Quaternion;
-            var leftKneeOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.KneeLeft].HierarchicalRotation.Quaternion;
-            var rightKneeOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.KneeRight].HierarchicalRotation.Quaternion;
-            var leftAnkleOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.AnkleLeft].HierarchicalRotation.Quaternion;
-            var rightAnkleOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.AnkleRight].HierarchicalRotation.Quaternion;
-            var leftFootOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.FootLeft].HierarchicalRotation.Quaternion;
-            var rightFootOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.FootRight].HierarchicalRotation.Quaternion;
+            var neckOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderCenter].AbsoluteRotation.Quaternion;
+            var spineOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipCenter].AbsoluteRotation.Quaternion;
+            var headOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.Head].AbsoluteRotation.Quaternion;
+            var leftShoulderOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderLeft].AbsoluteRotation.Quaternion;
+            var rightShoulderOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ShoulderRight].AbsoluteRotation.Quaternion;
+            var leftElbowOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ElbowLeft].AbsoluteRotation.Quaternion;
+            var rightElbowOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.ElbowRight].AbsoluteRotation.Quaternion;
+            var leftWristOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.WristLeft].AbsoluteRotation.Quaternion;
+            var rightWristOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.WristRight].AbsoluteRotation.Quaternion;
+            var leftHandOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HandLeft].AbsoluteRotation.Quaternion;
+            var rightHandOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HandRight].AbsoluteRotation.Quaternion;
+            var leftHipOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipLeft].AbsoluteRotation.Quaternion;
+            var rightHipOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.HipRight].AbsoluteRotation.Quaternion;
+            var leftKneeOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.KneeLeft].AbsoluteRotation.Quaternion;
+            var rightKneeOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.KneeRight].AbsoluteRotation.Quaternion;
+            var leftAnkleOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.AnkleLeft].AbsoluteRotation.Quaternion;
+            var rightAnkleOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.AnkleRight].AbsoluteRotation.Quaternion;
+            var leftFootOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.FootLeft].AbsoluteRotation.Quaternion;
+            var rightFootOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.FootRight].AbsoluteRotation.Quaternion;
 
             // left arm
             var lHand = new OrientedJoint<Vector4, Vector3>
@@ -182,7 +182,7 @@ namespace Trame.Implementation.Device
             {
                 JointType = JointType.HIP_LEFT,
                 Point = AbsoluteToRelative(spine.Position, leftHip.Position),
-                 Orientation = ToVec4(leftHipOrientation),
+                 Orientation = ToVec4(leftKneeOrientation),
                 Valid = true
             };
             leftLeg.Append(
@@ -190,7 +190,7 @@ namespace Trame.Implementation.Device
                 {
                     JointType = JointType.KNEE_LEFT,
                     Point = AbsoluteToRelative(leftHip.Position, leftKnee.Position),
-                     Orientation = ToVec4(leftKneeOrientation),
+                     Orientation = ToVec4(leftAnkleOrientation),
                     Valid = true
                 }
                 ).Append(
@@ -198,7 +198,7 @@ namespace Trame.Implementation.Device
                     {
                         JointType = JointType.ANKLE_LEFT,
                         Point = AbsoluteToRelative(leftKnee.Position, leftAnkle.Position),
-                         Orientation = ToVec4(leftAnkleOrientation),
+                         Orientation = ToVec4(leftFootOrientation),
                         Valid = true
                     }
                 )
@@ -214,7 +214,7 @@ namespace Trame.Implementation.Device
             {
                 JointType = JointType.HIP_RIGHT,
                 Point = AbsoluteToRelative(spine.Position, rightHip.Position),
-                Orientation = ToVec4(rightHipOrientation),
+                Orientation = ToVec4(rightKneeOrientation),
                 Valid = true
             };
             rightLeg.Append(
@@ -222,7 +222,7 @@ namespace Trame.Implementation.Device
                 {
                     JointType = JointType.KNEE_RIGHT,
                     Point = AbsoluteToRelative(rightHip.Position, rightKnee.Position),
-                    Orientation = ToVec4(rightKneeOrientation),
+                    Orientation = ToVec4(rightAnkleOrientation),
                     Valid = true
                 }
                 ).Append(
@@ -230,7 +230,7 @@ namespace Trame.Implementation.Device
                     {
                         JointType = JointType.ANKLE_RIGHT,
                         Point = AbsoluteToRelative(rightKnee.Position, rightAnkle.Position),
-                        Orientation = ToVec4(rightAnkleOrientation),
+                        Orientation = ToVec4(rightFootOrientation),
                         Valid = true
                     }
                 )

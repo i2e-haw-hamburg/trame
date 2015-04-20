@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AForge.Math;
 using Trame;
+using TrameSkeleton.Math;
 using Trame.Implementation.Skeleton;
 
 namespace TrameSkeleton.Implementation
