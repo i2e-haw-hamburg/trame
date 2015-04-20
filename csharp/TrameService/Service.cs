@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -85,7 +84,7 @@ namespace TrameService
 
             while (run)
             {
-                Thread.Sleep(17);
+                Thread.Sleep(200);
                 Update();
             }
 

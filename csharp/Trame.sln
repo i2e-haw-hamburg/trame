@@ -33,11 +33,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrameSkeletonUnitTest", "Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeapTest", "LeapTest\LeapTest.csproj", "{66E993B1-682A-4C23-BD17-810B276988D7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6C28DC05-D3DA-4B5B-BF94-B33E9F461AEF}"
-	ProjectSection(SolutionItems) = preProject
-		Performance3.psess = Performance3.psess
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BuildToUnity|Any CPU = BuildToUnity|Any CPU
@@ -647,8 +642,5 @@ Global
 		{C5AAEEDB-51D2-49DA-855F-10FBD5961145} = {BD9D33B6-6A09-4DB1-9BBF-60810CB47FB7}
 		{F5C25F93-0B0A-4482-B305-4C28448AA55B} = {BD9D33B6-6A09-4DB1-9BBF-60810CB47FB7}
 		{66E993B1-682A-4C23-BD17-810B276988D7} = {BD9D33B6-6A09-4DB1-9BBF-60810CB47FB7}
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
