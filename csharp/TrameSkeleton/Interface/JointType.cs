@@ -49,4 +49,19 @@ namespace Trame
         RING_FINGER_RIGHT = 20604,
         LITTLE_FINGER_RIGHT = 20605
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class Extension
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jt"></param>
+        /// <returns>The represented integer value of the joint type</returns>
+        public static int ToInt(this JointType jt)
+        {
+            return (int) Convert.ChangeType(jt, TypeCode.Int32);
+        }
+    }
 }

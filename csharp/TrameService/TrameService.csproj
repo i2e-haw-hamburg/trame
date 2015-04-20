@@ -71,6 +71,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Documents\Visual Studio 2013\Projects\CoolKidsConsole\CoolKidsConsole\CoolKidsConsole.csproj">
+      <Project>{ebc2bbcb-e108-4eb9-8b80-349eee305304}</Project>
+      <Name>CoolKidsConsole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\i2e-network-middleware\C#\beardwire\BeardWire\BeardUtilities\BeardUtilities.csproj">
       <Project>{813323ae-166d-4cda-bdf2-669d1d534830}</Project>
       <Name>BeardUtilities</Name>

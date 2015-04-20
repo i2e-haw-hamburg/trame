@@ -85,7 +85,7 @@ namespace TrameService
 
             while (run)
             {
-                Thread.Sleep(17);
+                Thread.Sleep(200);
                 Update();
             }
 
