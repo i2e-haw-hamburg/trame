@@ -83,7 +83,8 @@ namespace TrameService
 
         protected override void Update()
         {
-            layout.Update(String.Format("Skeletons sended: {0}", _sendedSkeletons));
+            var service = NiceString();
+            layout.Update(String.Format("{1}  Skeletons sent: {0}", _sendedSkeletons, service));
         }
 
         public void FireNewSkeleton(ISkeleton<Vector4, Vector3> skeleton)

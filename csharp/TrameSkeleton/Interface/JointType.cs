@@ -14,9 +14,8 @@ namespace Trame
         /// 
         /// </summary>
         UNSPECIFIED = 0,
-        // main body parts
         /// <summary>
-        /// 
+        /// main body parts
         /// </summary>
         HEAD = 21200,
         NECK = 20100,

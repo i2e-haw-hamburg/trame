@@ -59,13 +59,13 @@ namespace TrameSerialization.Serializer
                 return null;
             }
             var joint = new SkeletonMessage.Joint { valid = j.Valid};
-            var o = Convert.ChangeType(j.JointType, TypeCode.Int32);
+            var o = j.JointType.ToInt();
             if (o != null)
             {
                 joint.type = (int)o;
             }
             joint.orientation.AddRange(j.Orientation.ToArray());
-            joint.point.AddRange(j.Point.ToArray());
+            joint.point.AddRange(TrameSkeleton.Math.Convert.InternalToWorldCoordinate(j.Point).ToArray());
 
             joint.children.AddRange(j.GetChildren().Select(ToMessage));
 
