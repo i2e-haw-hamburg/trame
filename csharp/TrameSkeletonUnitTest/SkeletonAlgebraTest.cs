@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using AForge.Math;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Trame;
 using Trame.Implementation.Skeleton;
 using TrameSkeleton.Implementation;
+using TrameSkeleton.Math;
 
 namespace TrameSkeletonUnitTest
 {
