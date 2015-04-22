@@ -233,6 +233,7 @@ $RECYCLE.BIN/
 # Libraries
 *.lib
 *.a
+!lib/*.lib
 
 # Shared objects (inc. Windows DLLs)
 *.dll
