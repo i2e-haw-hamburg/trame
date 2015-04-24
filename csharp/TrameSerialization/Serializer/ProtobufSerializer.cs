@@ -47,29 +47,35 @@ namespace TrameSerialization.Serializer
             message.id = skeleton.ID;
             message.timestamp = skeleton.Timestamp;
             message.valid = skeleton.Valid;
-            message.root = ToMessage(skeleton.Root);
+            message.root = ToMessage(skeleton.Root, true);
 
             return message;
         }
 
-        private SkeletonMessage.Joint ToMessage(IJoint<Vector4, Vector3> j)
+        private SkeletonMessage.Joint ToMessage(IJoint<Vector4, Vector3> j, bool root=false)
         {
             if (j == null)
             {
                 return null;
             }
-            var joint = new SkeletonMessage.Joint { valid = j.Valid};
+            var jointMessage = new SkeletonMessage.Joint { valid = j.Valid};
             var o = j.JointType.ToInt();
             if (o != null)
             {
-                joint.type = (int)o;
+                jointMessage.type = (int)o;
             }
-            joint.orientation.AddRange(j.Orientation.ToArray());
-            joint.point.AddRange(TrameSkeleton.Math.Convert.InternalToWorldCoordinate(j.Point).ToArray());
+            jointMessage.orientation.AddRange(j.Orientation.ToArray());
+            j.Point = TrameSkeleton.Math.Convert.InternalToWorldCoordinate(j.Point);
+            if (root)
+            {
+                j.Point = TrameSkeleton.Math.Convert.TransformToWorldSpace(j.Point);
+            }
+            jointMessage.point.AddRange(j.Point.ToArray());
 
-            joint.children.AddRange(j.GetChildren().Select(ToMessage));
 
-            return joint;
+            jointMessage.children.AddRange(j.GetChildren().Select(x => ToMessage(x)));
+
+            return jointMessage;
         }
 
         public IJoint<Vector4, Vector3> FromMessage(SkeletonMessage.Joint j)
