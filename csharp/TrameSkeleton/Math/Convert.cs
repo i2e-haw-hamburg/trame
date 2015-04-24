@@ -23,7 +23,7 @@ namespace TrameSkeleton.Math
         public static Vector3 InternalToWorldCoordinate(Vector3 vec)
         {
             var correctCoordinates = new Vector4(-vec.X, -vec.Z, vec.Y, 1);
-            var transformedVector = TransformationMatrix * correctCoordinates;
+            var transformedVector = correctCoordinates;
             return new Vector3(transformedVector.X, transformedVector.Y, transformedVector.Z);
         }
     }

@@ -49,11 +49,24 @@ namespace TrameSkeleton.Math
         /// <returns>Euler angles in a three dimensional vector</returns>
         public static Vector3 EulerAnglesFromQuarternion(Vector4 q)
         {
-            var phi = System.Math.Atan2(2*(q.X*q.Y + q.Z*q.W), 1 - 2*(q.Y*q.Y + q.Z*q.Z));
-            var rho = System.Math.Asin(2*(q.X*q.Z - q.W*q.Y));
-            var tau = System.Math.Atan2(2 * (q.X * q.W + q.Y * q.Z), 1 - 2 * (q.Z * q.Z + q.W * q.W)); ;
+            double x = q.X;
+            double y = q.Y;
+            double z = q.Z;
+            double w = q.W;
 
-            return new Vector3((float) phi, (float) rho, (float) tau);
+            // convert rotation quaternion to Euler angles in degrees
+            double yawD, pitchD, rollD;
+            pitchD = System.Math.Atan2(2 * ((y * z) + (w * x)), (w * w) - (x * x) - (y * y) + (z * z)) / System.Math.PI * 180.0;
+            yawD = System.Math.Asin(2 * ((w * y) - (x * z))) / System.Math.PI * 180.0;
+            rollD = System.Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / System.Math.PI * 180.0;
+
+
+            double increment = 0.5;
+            var pitch = (int)(System.Math.Floor((pitchD + ((increment / 2.0) * (pitchD > 0 ? 1.0 : -1.0))) / increment) * increment);
+            var yaw = (int)(System.Math.Floor((yawD + ((increment / 2.0) * (yawD > 0 ? 1.0 : -1.0))) / increment) * increment);
+            var roll = (int)(System.Math.Floor((rollD + ((increment / 2.0) * (rollD > 0 ? 1.0 : -1.0))) / increment) * increment);
+
+            return new Vector3((float)pitch, (float)yaw, (float)roll);
         }
     }
 }
