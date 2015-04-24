@@ -60,13 +60,11 @@ namespace TrameSkeleton.Math
             yawD = System.Math.Asin(2 * ((w * y) - (x * z))) / System.Math.PI * 180.0;
             rollD = System.Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / System.Math.PI * 180.0;
 
+            var pitch = (int)pitchD;
+            var yaw = (int)yawD;
+            var roll = (int)rollD;
 
-            double increment = 0.5;
-            var pitch = (int)(System.Math.Floor((pitchD + ((increment / 2.0) * (pitchD > 0 ? 1.0 : -1.0))) / increment) * increment);
-            var yaw = (int)(System.Math.Floor((yawD + ((increment / 2.0) * (yawD > 0 ? 1.0 : -1.0))) / increment) * increment);
-            var roll = (int)(System.Math.Floor((rollD + ((increment / 2.0) * (rollD > 0 ? 1.0 : -1.0))) / increment) * increment);
-
-            return new Vector3((float)pitch, (float)yaw, (float)roll);
+            return new Vector3(pitch, yaw, roll);
         }
     }
 }
