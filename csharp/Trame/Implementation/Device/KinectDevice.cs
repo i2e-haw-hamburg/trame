@@ -261,7 +261,7 @@ namespace Trame.Implementation.Device
             s.UpdateSkeleton(JointType.NECK, jsNeck);
             s.UpdateSkeleton(JointType.HIP_LEFT, leftLeg);
             s.UpdateSkeleton(JointType.HIP_RIGHT, rightLeg);
-            s.Valid = true;
+            s.Valid = initSkeleton.TrackingState == SkeletonTrackingState.Tracked;
             s.Root.Orientation = ToVec4(spineOrientation);
             s.Root.Point = ToVec3(spine.Position) * 1000;
             return s;
