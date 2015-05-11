@@ -1,53 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using AForge.Math;
 using Trame;
+using TrameSerialization;
 
 namespace TrameRunner
 {
     class Program
     {
+        Thread t = new Thread(Run);
         readonly ICameraAbstraction trame = new Trame.Trame(DeviceType.KINECT);
-        readonly Timer t = new Timer();
+        readonly static Timer timer = new Timer();
+        static long countOfSkeletons = 0;
+        private static bool run = true;
 
-        long countOfValidSkeletons = 0;
-        long countOfSkeletons = 0;
-
-
-        void Run()
+        static void Run()
         {
-            t.Start();
-            while (true)
+            timer.Start();
+            var skeleton = Trame.Implementation.Skeleton.Creator.GetNewDefaultSkeleton();
+            var serializer = new Serialization(OutputType.PROTOBUF);
+
+            while (run)
             {
+                var foo = serializer.Serialize(skeleton);
                 Console.SetCursorPosition(0, Console.CursorTop);
-                Console.Write("Current time: {0} - skeletons {1}", t.Now(), countOfSkeletons);
-                Thread.Sleep(17);
+                Console.Write("Current time: {0} - skeletons {1}", timer.Now(), countOfSkeletons++);
+                
             }
         }
 
-        static void Main(string[] args)
+        static void Main()
         {
             var p = new Program();
-            p.trame.NewSkeleton += p.Update;
-            p.Run();
+            p.t.Start();
 
             Console.WriteLine("Press key to stop program\n");
             Console.ReadKey();
+            run = false;
+            Console.ReadKey();
         }
 
-        private void Update(ISkeleton<Vector4, Vector3> obj)
-        {
-            if (obj.Valid)
-            {
-                countOfValidSkeletons++;
-            }
-            countOfSkeletons++;
-        }
     }
 
     class Timer

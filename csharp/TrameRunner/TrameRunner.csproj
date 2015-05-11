@@ -125,6 +125,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TrameSerialization\TrameSerialization.csproj">
+      <Project>{db5aeca4-951f-4c19-84e2-9c9e51294f57}</Project>
+      <Name>TrameSerialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
       <Project>{80826d5e-c20a-4cd1-99ca-39d372ad1d4c}</Project>
       <Name>TrameSkeleton</Name>

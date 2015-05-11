@@ -35,8 +35,10 @@ namespace TrameSerialization.Serializer
 
         public ISkeleton<Vector4, Vector3> FromMessage(SkeletonMessage message)
         {
-            var skeleton = new Skeleton<Vector4, Vector3>((uint)message.id, message.valid, (uint)message.timestamp);
-            skeleton.Root = FromMessage(message.root);
+            var skeleton = new Skeleton<Vector4, Vector3>((uint)message.id, message.valid, (uint)message.timestamp)
+            {
+                Root = FromMessage(message.root)
+            };
 
             return skeleton;
         }
