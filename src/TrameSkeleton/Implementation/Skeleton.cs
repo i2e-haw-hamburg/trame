@@ -4,9 +4,9 @@
 namespace Trame.Implementation.Skeleton
 {
     [Serializable]
-    public class Skeleton<K, T> : ISkeleton<K, T>
+    public class Skeleton : ISkeleton
     {
-        IJoint<K, T> root;
+        IJoint root;
         bool valid;
         uint id;
         uint timestamp;
@@ -24,17 +24,17 @@ namespace Trame.Implementation.Skeleton
             this.timestamp = timestamp;
         }
 
-        public void UpdateSkeleton(JointType jt, IJoint<K, T> j)
+        public void UpdateSkeleton(JointType jt, IJoint j)
         {
             root.Update(jt, j);
         }
 
-        public IJoint<K, T> GetJoint(JointType jt)
+        public IJoint GetJoint(JointType jt)
         {
             return root.DeepFind(jt);
         }
 
-        public bool Equals(ISkeleton<K, T> other)
+        public bool Equals(ISkeleton other)
         {
             return valid == other.Valid && root.Equals(other.Root);
         }
@@ -45,7 +45,7 @@ namespace Trame.Implementation.Skeleton
         }
 
 
-        public IJoint<K, T> Root
+        public IJoint Root
         {
             get
             {
@@ -86,7 +86,7 @@ namespace Trame.Implementation.Skeleton
             }
         }
 
-        public ISkeleton<K, T> GetArms()
+        public ISkeleton GetArms()
         {
             var r = Root.FindChild(JointType.NECK);
 
@@ -98,14 +98,14 @@ namespace Trame.Implementation.Skeleton
             return this;
         }
 
-        public ISkeleton<K, T> Clone()
+        public ISkeleton Clone()
         {
-            var s = new Skeleton<K, T>(id, valid, timestamp);
+            var s = new Skeleton(id, valid, timestamp);
             s.root = root.Clone();
             return s;
         }
 
-        public IJoint<K, T> GetHead()
+        public IJoint GetHead()
         {
             return Root.DeepFind(JointType.HEAD);
         }

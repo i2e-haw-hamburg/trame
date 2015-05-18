@@ -9,26 +9,24 @@ namespace Trame
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="K">4 vector</typeparam>
-    /// <typeparam name="T"> 3 vector</typeparam>
-    public interface ISkeleton<K, T> : IEquatable<ISkeleton<K, T>>
+    public interface ISkeleton : IEquatable<ISkeleton>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="jt"></param>
         /// <param name="j"></param>
-        void UpdateSkeleton(JointType jt, IJoint<K, T> j);
+        void UpdateSkeleton(JointType jt, IJoint j);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="jt"></param>
         /// <returns></returns>
-        IJoint<K, T> GetJoint(JointType jt);
+        IJoint GetJoint(JointType jt);
         /// <summary>
         /// 
         /// </summary>
-        IJoint<K, T> Root { get; set; }
+        IJoint Root { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -45,15 +43,15 @@ namespace Trame
         /// 
         /// </summary>
         /// <returns></returns>
-        ISkeleton<K, T> GetArms();
+        ISkeleton GetArms();
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        ISkeleton<K, T> Clone();
+        ISkeleton Clone();
         /// <summary>
         /// 
         /// </summary>
-        IJoint<K, T> GetHead();
+        IJoint GetHead();
     }
 }

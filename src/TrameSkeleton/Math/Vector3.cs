@@ -26,6 +26,7 @@ SOFTWARE.
 #endregion License
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -694,5 +695,10 @@ namespace TrameSkeleton.Math
         }
 
         #endregion
+
+        public IEnumerable<float> ToArray()
+        {
+            return new float[]{(float) X, (float) Y, (float) Z};
+        }
     }
 }

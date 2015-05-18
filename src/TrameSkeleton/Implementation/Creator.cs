@@ -1,14 +1,10 @@
-﻿using AForge.Math;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Trame.Implementation.Skeleton
 {
     public class Creator
     {
-        public static ISkeleton<Vector4, Vector3> GetNewDefaultSkeleton()
+        public static ISkeleton GetNewDefaultSkeleton()
         {
             return Default.CreateSkeleton();
         }
@@ -18,16 +14,16 @@ namespace Trame.Implementation.Skeleton
             return Default.Lengths[jt];
         }
 
-        public static ISkeleton<Vector4, Vector3> GetNewInvalidSkeleton()
+        public static ISkeleton GetNewInvalidSkeleton()
         {
-            var s = new Skeleton<Vector4, Vector3>();
+            var s = new Skeleton();
             s.Valid = false;
             return s;
         }
 
-        public static IJoint<K, T> CreateParent<K, T>(IEnumerable<IJoint<K, T>> list) where K : new() where T : new()
+        public static IJoint CreateParent(IEnumerable<IJoint> list)
         {
-            var parent = new OrientedJoint<K, T>();
+            var parent = new OrientedJoint();
             foreach (var child in list)
             {
                 parent.AddChild(child);
@@ -35,7 +31,7 @@ namespace Trame.Implementation.Skeleton
             return parent;
         }
 
-        public static IJoint<Vector4, Vector3> CreateHead()
+        public static IJoint CreateHead()
         {
             return Default.CreateHead();
         }

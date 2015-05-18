@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AForge.Math;
 using Leap;
 using Trame;
 using Trame.Implementation.Skeleton;
+using TrameSkeleton.Math;
 
 namespace LeapTest
 {
     class Program
     {
 
-        static ISkeleton<Vector4, Vector3> lastSkeleton = Creator.GetNewDefaultSkeleton();
+        static ISkeleton lastSkeleton = Creator.GetNewDefaultSkeleton();
 
         static void Init()
         {
@@ -50,7 +45,7 @@ namespace LeapTest
         }
 
 
-        private static IJoint<Vector4, Vector3> LeftHand(IJoint<Vector4, Vector3> wrist, Frame frame)
+        private static IJoint LeftHand(IJoint wrist, Frame frame)
         {
             var leftmost = new Hand();
             var hands = frame.Hands;
@@ -65,7 +60,7 @@ namespace LeapTest
             return left;
         }
 
-        private static IJoint<Vector4, Vector3> RightHand(IJoint<Vector4, Vector3> wrist, Frame frame)
+        private static IJoint RightHand(IJoint wrist, Frame frame)
         {
             var rightmost = new Hand();
             var hands = frame.Hands;
@@ -80,9 +75,9 @@ namespace LeapTest
             return right;
         }
 
-        private static IJoint<Vector4, Vector3> BuildHand(Hand hand, IJoint<Vector4, Vector3> wrist, int side)
+        private static IJoint BuildHand(Hand hand, IJoint wrist, int side)
         {
-            var handJoint = new OrientedJoint<Vector4, Vector3>();
+            var handJoint = new OrientedJoint();
 
             if (hand.IsValid)
             {
@@ -106,9 +101,9 @@ namespace LeapTest
             return handJoint;
         }
 
-        private static IJoint<Vector4, Vector3> CreateFinger(Vector position, Vector normal, JointType jt)
+        private static IJoint CreateFinger(Vector position, Vector normal, JointType jt)
         {
-            var finger = new OrientedJoint<Vector4, Vector3>();
+            var finger = new OrientedJoint();
             finger.JointType = jt;
             finger.Point = new Vector3(position.x, position.y, position.z);
             finger.Orientation = new Vector4(10 * normal.x, 10 * normal.y, 10 * normal.z, 0);

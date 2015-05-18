@@ -125,7 +125,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BasicSerializationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

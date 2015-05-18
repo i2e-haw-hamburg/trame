@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using AForge.Math;
 using Microsoft.Kinect;
 using Trame.Implementation.Device.Adapter;
 using Trame.Implementation.Skeleton;
-using Vector4 = AForge.Math.Vector4;
+using TrameSkeleton.Math;
+using Vector4 = TrameSkeleton.Math.Vector4;
 
 namespace Trame.Implementation.Device
 {
@@ -15,7 +15,7 @@ namespace Trame.Implementation.Device
         private readonly KinectAdapter adapter = new KinectAdapter();
         private readonly Thread t;
         private Microsoft.Kinect.Skeleton[] foundedSkeletons;
-        private ISkeleton<Vector4, Vector3> lastSkeleton;
+        private ISkeleton lastSkeleton;
         private bool running = true;
 
         public KinectDevice()
@@ -26,12 +26,12 @@ namespace Trame.Implementation.Device
             t.Start();
         }
 
-        public ISkeleton<Vector4, Vector3> GetSkeleton()
+        public ISkeleton GetSkeleton()
         {
             return lastSkeleton;
         }
 
-        public ISkeleton<Vector4, Vector3> GetSkeleton(ISkeleton<Vector4, Vector3> baseSkeleton)
+        public ISkeleton GetSkeleton(ISkeleton baseSkeleton)
         {
             return lastSkeleton;
         }
@@ -43,7 +43,7 @@ namespace Trame.Implementation.Device
             t.Join();
         }
 
-        public event Action<ISkeleton<Vector4, Vector3>> NewSkeleton;
+        public event Action<ISkeleton> NewSkeleton;
 
         private void Run()
         {
@@ -76,7 +76,7 @@ namespace Trame.Implementation.Device
             }
         }
 
-        private ISkeleton<Vector4, Vector3> CreateSkeleton(Microsoft.Kinect.Skeleton initSkeleton)
+        private ISkeleton CreateSkeleton(Microsoft.Kinect.Skeleton initSkeleton)
         {
             var s = Creator.GetNewDefaultSkeleton();
 
@@ -121,32 +121,32 @@ namespace Trame.Implementation.Device
             var rightFootOrientation = initSkeleton.BoneOrientations[Microsoft.Kinect.JointType.FootRight].AbsoluteRotation.Quaternion;
 
             // left arm
-            var lHand = new OrientedJoint<Vector4, Vector3>
+            var lHand = new OrientedJoint
             {
                 JointType = JointType.WRIST_LEFT,
                 Point = AbsoluteToRelative(leftElbow.Position, leftWrist.Position),
                 Orientation = ToVec4(leftWristOrientation),
                 Valid = true
             };
-            lHand.AddChild(new OrientedJoint<Vector4, Vector3>
+            lHand.AddChild(new OrientedJoint
             {
                 JointType = JointType.HAND_LEFT,
                 Point = AbsoluteToRelative(leftWrist.Position, leftHand.Position),
                 Orientation = ToVec4(leftHandOrientation),
             });
-            var leftUnderArm = Creator.CreateParent(new List<IJoint<Vector4, Vector3>> {lHand});
+            var leftUnderArm = Creator.CreateParent(new List<IJoint> {lHand});
             leftUnderArm.JointType = JointType.ELBOW_LEFT;
             leftUnderArm.Orientation = ToVec4(leftElbowOrientation);
             leftUnderArm.Point = AbsoluteToRelative(leftShoulder.Position, leftElbow.Position);
             leftUnderArm.Valid = true;
-            var leftArm = Creator.CreateParent(new List<IJoint<Vector4, Vector3>> {leftUnderArm});
+            var leftArm = Creator.CreateParent(new List<IJoint> {leftUnderArm});
             leftArm.JointType = JointType.SHOULDER_LEFT;
             leftArm.Point = AbsoluteToRelative(neck.Position, leftShoulder.Position);
             leftArm.Orientation = ToVec4(leftShoulderOrientation);
             leftArm.Valid = true;
 
             // right arm
-            var rightArm = new OrientedJoint<Vector4, Vector3>
+            var rightArm = new OrientedJoint
             {
                 JointType = JointType.SHOULDER_RIGHT,
                 Orientation = ToVec4(rightShoulderOrientation),
@@ -154,7 +154,7 @@ namespace Trame.Implementation.Device
                 Valid = true
             };
             rightArm.Append(
-                new OrientedJoint<Vector4, Vector3>
+                new OrientedJoint
                 {
                     JointType = JointType.ELBOW_RIGHT,
                     Point = AbsoluteToRelative(rightShoulder.Position, rightElbow.Position),
@@ -162,7 +162,7 @@ namespace Trame.Implementation.Device
                     Valid = true
                 }
                 ).Append(
-                    new OrientedJoint<Vector4, Vector3>
+                    new OrientedJoint
                     {
                         JointType = JointType.WRIST_RIGHT,
                         Point = AbsoluteToRelative(rightElbow.Position, rightWrist.Position),
@@ -170,7 +170,7 @@ namespace Trame.Implementation.Device
                         Valid = true
                     }
                 )
-                .AddChild(new OrientedJoint<Vector4, Vector3>
+                .AddChild(new OrientedJoint
                 {
                     JointType = JointType.HAND_RIGHT,
                     Point = AbsoluteToRelative(rightWrist.Position, rightHand.Position),
@@ -178,7 +178,7 @@ namespace Trame.Implementation.Device
                 });
 
             // left leg
-            var leftLeg = new OrientedJoint<Vector4, Vector3>
+            var leftLeg = new OrientedJoint
             {
                 JointType = JointType.HIP_LEFT,
                 Point = AbsoluteToRelative(spine.Position, leftHip.Position),
@@ -186,7 +186,7 @@ namespace Trame.Implementation.Device
                 Valid = true
             };
             leftLeg.Append(
-                new OrientedJoint<Vector4, Vector3>
+                new OrientedJoint
                 {
                     JointType = JointType.KNEE_LEFT,
                     Point = AbsoluteToRelative(leftHip.Position, leftKnee.Position),
@@ -194,7 +194,7 @@ namespace Trame.Implementation.Device
                     Valid = true
                 }
                 ).Append(
-                    new OrientedJoint<Vector4, Vector3>
+                    new OrientedJoint
                     {
                         JointType = JointType.ANKLE_LEFT,
                         Point = AbsoluteToRelative(leftKnee.Position, leftAnkle.Position),
@@ -202,7 +202,7 @@ namespace Trame.Implementation.Device
                         Valid = true
                     }
                 )
-                .AddChild(new OrientedJoint<Vector4, Vector3>
+                .AddChild(new OrientedJoint
                 {
                     JointType = JointType.FOOT_LEFT,
                     Point = AbsoluteToRelative(leftAnkle.Position, leftFoot.Position),
@@ -210,7 +210,7 @@ namespace Trame.Implementation.Device
                 });
 
             // right leg
-            var rightLeg = new OrientedJoint<Vector4, Vector3>
+            var rightLeg = new OrientedJoint
             {
                 JointType = JointType.HIP_RIGHT,
                 Point = AbsoluteToRelative(spine.Position, rightHip.Position),
@@ -218,7 +218,7 @@ namespace Trame.Implementation.Device
                 Valid = true
             };
             rightLeg.Append(
-                new OrientedJoint<Vector4, Vector3>
+                new OrientedJoint
                 {
                     JointType = JointType.KNEE_RIGHT,
                     Point = AbsoluteToRelative(rightHip.Position, rightKnee.Position),
@@ -226,7 +226,7 @@ namespace Trame.Implementation.Device
                     Valid = true
                 }
                 ).Append(
-                    new OrientedJoint<Vector4, Vector3>
+                    new OrientedJoint
                     {
                         JointType = JointType.ANKLE_RIGHT,
                         Point = AbsoluteToRelative(rightKnee.Position, rightAnkle.Position),
@@ -234,7 +234,7 @@ namespace Trame.Implementation.Device
                         Valid = true
                     }
                 )
-                .AddChild(new OrientedJoint<Vector4, Vector3>
+                .AddChild(new OrientedJoint
                 {
                     JointType = JointType.FOOT_RIGHT,
                     Point = AbsoluteToRelative(rightAnkle.Position, rightFoot.Position),
@@ -242,11 +242,11 @@ namespace Trame.Implementation.Device
                 });
 
 
-            var jsNeck = Creator.CreateParent(new List<IJoint<Vector4, Vector3>>
+            var jsNeck = Creator.CreateParent(new List<IJoint>
             {
                 leftArm,
                 rightArm,
-                new OrientedJoint<Vector4, Vector3>
+                new OrientedJoint
                 {
                     JointType = JointType.HEAD,
                     Point = AbsoluteToRelative(neck.Position, head.Position),
@@ -287,7 +287,7 @@ namespace Trame.Implementation.Device
             return new Vector3(v.X, v.Y, v.Z);
         }
 
-        private void FireNewSkeleton(ISkeleton<Vector4, Vector3> s)
+        private void FireNewSkeleton(ISkeleton s)
         {
             if (NewSkeleton != null)
             {

@@ -1,8 +1,8 @@
 ﻿using System;
-using AForge.Math;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Trame;
 using Trame.Implementation.Skeleton;
+using TrameSkeleton.Math;
 
 namespace TrameUnitTest
 {
@@ -14,7 +14,7 @@ namespace TrameUnitTest
         public void TestUpdate()
         {
             var s = Creator.GetNewDefaultSkeleton();
-            var head = new OrientedJoint<Vector4, Vector3>();
+            var head = new OrientedJoint();
             head.JointType = JointType.HEAD;
             head.Point = new Vector3(1, 2, 3);
             s.UpdateSkeleton(JointType.HEAD, head);

@@ -1,5 +1,4 @@
 ﻿using System;
-using AForge.Math;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Trame;
 using Trame.Implementation.Skeleton;
@@ -25,7 +24,7 @@ namespace TrameSkeletonUnitTest
             
         }
 
-        private void ChildRecursive(IJoint<Vector4, Vector3> child, Func<IJoint<Vector4, Vector3>, Vector3> same)
+        private void ChildRecursive(IJoint child, Func<IJoint, Vector3> same)
         {
             foreach (var c in child.GetChildren())
             {

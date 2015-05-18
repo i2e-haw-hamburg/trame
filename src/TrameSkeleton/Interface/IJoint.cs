@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AForge.Math;
+using TrameSkeleton.Math;
 
 namespace Trame
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="K">4 vector</typeparam>
-    /// <typeparam name="T">3 vector</typeparam>
-    public interface IJoint<K, T> : IEquatable<IJoint<K, T>>
+    public interface IJoint : IEquatable<IJoint>
     {
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        IList<IJoint<K,T>> GetChildren();
+        IList<IJoint> GetChildren();
+
         /// <summary>
         /// 
         /// </summary>
-        K Orientation { get; set; }
+        Vector4 Orientation { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
-        T Point { get; set; }
+        Vector3 Point { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -39,7 +39,7 @@ namespace Trame
         /// </summary>
         /// <param name="j"></param>
         /// <returns></returns>
-        bool AddChild(IJoint<K, T> j);
+        bool AddChild(IJoint j);
         /// <summary>
         /// 
         /// </summary>
@@ -51,34 +51,34 @@ namespace Trame
         /// </summary>
         /// <param name="jt"></param>
         /// <returns></returns>
-        IJoint<K, T> FindChild(JointType jt);
+        IJoint FindChild(JointType jt);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="jt"></param>
         /// <returns></returns>
-        IJoint<K, T> DeepFind(JointType jt);
+        IJoint DeepFind(JointType jt);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="jt"></param>
         /// <param name="j"></param>
-        void Update(JointType jt, IJoint<K, T> j);
+        void Update(JointType jt, IJoint j);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="j"></param>
         /// <returns></returns>
-        IJoint<K, T> Append(IJoint<K, T> j);
+        IJoint Append(IJoint j);
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        IJoint<K, T> Clone();
+        IJoint Clone();
         /// <summary>
         /// 
         /// </summary>
         /// <param name="joints"></param>
-        void AddChildren(IEnumerable<IJoint<K, T>> joints);
+        void AddChildren(IEnumerable<IJoint> joints);
     }
 }

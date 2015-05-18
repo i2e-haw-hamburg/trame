@@ -15,22 +15,22 @@ namespace TrameSkeleton.Math
         /// <param name="s1"></param>
         /// <param name="s2"></param>
         /// <returns></returns>
-        public static SkeletonDiff Diff(ISkeleton<Vector4, Vector3> s1, ISkeleton<Vector4, Vector3> s2)
+        public static SkeletonDiff Diff(ISkeleton s1, ISkeleton s2)
         {
             var skelDiff = new SkeletonDiff {Root = SkeletonDiff.Diff(s1.Root, s2.Root)};
             return skelDiff;
         }
 
-        public static ISkeleton<Vector4, Vector3> SkeletonSmoothing(ISkeleton<Vector4, Vector3> s1, ISkeleton<Vector4, Vector3> s2, int windowSize)
+        public static ISkeleton SkeletonSmoothing(ISkeleton s1, ISkeleton s2, int windowSize)
         {
             var mean = Div(Diff(s1, s2), windowSize);
 
             return Add(s1, mean);
         }
 
-        public static ISkeleton<Vector4, Vector3> Add(ISkeleton<Vector4, Vector3> s, SkeletonDiff diff)
+        public static ISkeleton Add(ISkeleton s, SkeletonDiff diff)
         {
-            var newSkeleton = new Skeleton<Vector4, Vector3> {Root = SkeletonDiff.Add(s.Root, diff.Root)};
+            var newSkeleton = new Skeleton {Root = SkeletonDiff.Add(s.Root, diff.Root)};
             return newSkeleton;
         }
 

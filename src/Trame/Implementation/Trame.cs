@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using AForge.Math;
 using Trame.Implementation.Device;
 using Trame.Implementation.Skeleton;
 
@@ -9,7 +8,7 @@ namespace Trame
     public class Trame : ICameraAbstraction
     {
         Thread t = null;
-        ISkeleton<Vector4, Vector3> last = null;
+        ISkeleton last = null;
         private DeviceType currentType;
         private IDevice currentDevice = null;
         private bool _keepRunning = true;
@@ -27,13 +26,13 @@ namespace Trame
             t.Start();
         }
 
-        public ISkeleton<Vector4, Vector3> GetSkeleton()
+        public ISkeleton GetSkeleton()
         {
             // return copy of last element
             return last;
         }
 
-        public event Action<ISkeleton<Vector4, Vector3>> NewSkeleton;
+        public event Action<ISkeleton> NewSkeleton;
 
         public void SetDevice(DeviceType t)
         {
@@ -80,7 +79,7 @@ namespace Trame
 
         }
 
-        private void FireNewSkeleton(ISkeleton<Vector4, Vector3> skeleton)
+        private void FireNewSkeleton(ISkeleton skeleton)
         {
             last = skeleton;
            

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using AForge.Math;
 using Trame.Implementation.Device.Adapter;
-using Trame.Implementation.Skeleton;
 
 namespace Trame.Implementation.Device
 {
@@ -32,13 +26,13 @@ namespace Trame.Implementation.Device
             }
         }
 
-        public ISkeleton<Vector4, Vector3> GetSkeleton()
+        public ISkeleton GetSkeleton()
         {
             var s = kinect.GetSkeleton();
             return GetSkeleton(s);
         }
 
-        public ISkeleton<Vector4, Vector3> GetSkeleton(ISkeleton<Vector4, Vector3> s)
+        public ISkeleton GetSkeleton(ISkeleton s)
         {
             return leap.GetSkeleton(s);
         }
@@ -58,6 +52,6 @@ namespace Trame.Implementation.Device
             }
         }
 
-        public event Action<ISkeleton<Vector4, Vector3>> NewSkeleton;
+        public event Action<ISkeleton> NewSkeleton;
     }
 }

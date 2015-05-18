@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using AForge.Math;
 using Trame.Implementation.Skeleton;
 
 namespace Trame.Implementation.Device
@@ -36,12 +31,12 @@ namespace Trame.Implementation.Device
             }
         }
 
-        public ISkeleton<Vector4, Vector3> GetSkeleton()
+        public ISkeleton GetSkeleton()
         {
             return Creator.GetNewDefaultSkeleton();
         }
 
-        public ISkeleton<Vector4, Vector3> GetSkeleton(ISkeleton<Vector4, Vector3> baseSkeleton)
+        public ISkeleton GetSkeleton(ISkeleton baseSkeleton)
         {
             return baseSkeleton;
         }
@@ -55,6 +50,6 @@ namespace Trame.Implementation.Device
             }
         }
 
-        public event Action<ISkeleton<Vector4, Vector3>> NewSkeleton;
+        public event Action<ISkeleton> NewSkeleton;
     }
 }
