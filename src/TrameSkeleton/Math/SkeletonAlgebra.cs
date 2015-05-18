@@ -48,11 +48,22 @@ namespace TrameSkeleton.Math
         /// <returns>Euler angles in a three dimensional vector</returns>
         public static Vector3 EulerAnglesFromQuarternion(Vector4 q)
         {
-            var phi = System.Math.Atan2(2*(q.X*q.Y + q.Z*q.W), 1 - 2*(q.Y*q.Y + q.Z*q.Z));
-            var rho = System.Math.Asin(2*(q.X*q.Z - q.W*q.Y));
-            var tau = System.Math.Atan2(2 * (q.X * q.W + q.Y * q.Z), 1 - 2 * (q.Z * q.Z + q.W * q.W)); ;
+            double x = q.X;
+            double y = q.Y;
+            double z = q.Z;
+            double w = q.W;
 
-            return new Vector3((float) phi, (float) rho, (float) tau);
+            // convert rotation quaternion to Euler angles in degrees
+            double yawD, pitchD, rollD;
+            pitchD = System.Math.Atan2(2 * ((y * z) + (w * x)), (w * w) - (x * x) - (y * y) + (z * z)) / System.Math.PI * 180.0;
+            yawD = System.Math.Asin(2 * ((w * y) - (x * z))) / System.Math.PI * 180.0;
+            rollD = System.Math.Atan2(2 * ((x * y) + (w * z)), (w * w) + (x * x) - (y * y) - (z * z)) / System.Math.PI * 180.0;
+
+            var pitch = (int)pitchD;
+            var yaw = (int)yawD;
+            var roll = (int)rollD;
+
+            return new Vector3(pitch, yaw, roll);
         }
     }
 }

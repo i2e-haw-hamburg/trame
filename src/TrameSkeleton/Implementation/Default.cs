@@ -172,8 +172,8 @@ namespace Trame.Implementation.Skeleton
             {JointType.ELBOW_RIGHT, 328},
             {JointType.WRIST_LEFT, 358},
             {JointType.WRIST_RIGHT, 358},
-            {JointType.HAND_LEFT, 50},
-            {JointType.HAND_RIGHT, 50},
+            {JointType.HAND_LEFT, 180},
+            {JointType.HAND_RIGHT, 180},
         };
     }
 }
