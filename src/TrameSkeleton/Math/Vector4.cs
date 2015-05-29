@@ -683,5 +683,10 @@ namespace TrameSkeleton.Math
         {
             return new float[]{(float) X, (float) Y, (float) Z, (float) W};
         }
+
+        public static Vector4 FromList(List<float> l)
+        {
+            return l.Count >= 4 ? new Vector4(l[0], l[1], l[2], l[3]) : new Vector4(0);
+        }
     }
 }
