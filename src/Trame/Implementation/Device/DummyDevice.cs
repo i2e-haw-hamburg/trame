@@ -4,11 +4,17 @@ using Trame.Implementation.Skeleton;
 
 namespace Trame.Implementation.Device
 {
+	/// <summary>
+	/// Dummy device.
+	/// </summary>
     class DummyDevice : IDevice
     {
         private Thread t;
         private bool running = true;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.DummyDevice"/> class.
+		/// </summary>
         public DummyDevice()
         {
             t = new Thread(Run);

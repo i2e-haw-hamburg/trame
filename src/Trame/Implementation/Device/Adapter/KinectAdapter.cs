@@ -7,10 +7,16 @@ using Microsoft.Kinect;
 
 namespace Trame.Implementation.Device.Adapter
 {
+	/// <summary>
+	/// Kinect adapter.
+	/// </summary>
     class KinectAdapter
     {
         private KinectSensor kinect = null;
-
+		/// <summary>
+		/// Starts the kinect.
+		/// </summary>
+		/// <param name="onFrameArrived">On frame arrived.</param>
         public void StartKinect(EventHandler<SkeletonFrameReadyEventArgs> onFrameArrived)
         {
             var pot = KinectSensor.KinectSensors[0];
@@ -33,7 +39,9 @@ namespace Trame.Implementation.Device.Adapter
                 MaxDeviationRadius = 0.04f
             });
         }
-
+		/// <summary>
+		/// Stops the kinect.
+		/// </summary>
         public void StopKinect()
         {
             this.kinect.Stop();

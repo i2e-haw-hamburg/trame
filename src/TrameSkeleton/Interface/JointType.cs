@@ -6,12 +6,12 @@ using System.Text;
 namespace Trame
 {
     /// <summary>
-    /// 
+    /// Joint type.
     /// </summary>
     public enum JointType
     {
         /// <summary>
-        /// 
+        /// The UNSPECIFIED
         /// </summary>
         UNSPECIFIED = 0,
         /// <summary>
@@ -48,16 +48,14 @@ namespace Trame
         RING_FINGER_RIGHT = 20604,
         LITTLE_FINGER_RIGHT = 20605
     }
-    /// <summary>
-    /// 
-    /// </summary>
+    
     public static class Extension
     {
         /// <summary>
-        /// 
+        /// To the int.
         /// </summary>
-        /// <param name="jt"></param>
-        /// <returns>The represented integer value of the joint type</returns>
+        /// <returns>The int.</returns>
+        /// <param name="jt">Jt.</param>
         public static int ToInt(this JointType jt)
         {
             return (int) Convert.ChangeType(jt, TypeCode.Int32);

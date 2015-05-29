@@ -15,8 +15,14 @@ namespace Trame
         /// </summary>
         event Action<ISkeleton> NewSkeleton;
 
+		/// <summary>
+		/// Sets the device.
+		/// </summary>
+		/// <param name="t">T.</param>
         void SetDevice(DeviceType t);
-
+		/// <summary>
+		/// Stop this instance.
+		/// </summary>
         void Stop();
     }
 }

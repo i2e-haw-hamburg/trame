@@ -4,6 +4,9 @@ using Trame.Implementation.Device.Adapter;
 
 namespace Trame.Implementation.Device
 {
+	/// <summary>
+	/// Kinect leap.
+	/// </summary>
     class KinectLeap : IDevice
     {
         readonly KinectDevice kinect = new KinectDevice();
@@ -12,6 +15,9 @@ namespace Trame.Implementation.Device
         private Thread t;
         private bool running = true;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.KinectLeap"/> class.
+		/// </summary>
         public KinectLeap()
         {
             t = new Thread(Run);

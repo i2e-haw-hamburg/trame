@@ -7,7 +7,7 @@ using TrameSkeleton.Math;
 namespace Trame.Implementation.Skeleton
 {
     /// <summary>
-    /// 
+    /// Oriented joint.
     /// </summary>
     [Serializable()]
     public class OrientedJoint : IJoint
@@ -19,11 +19,15 @@ namespace Trame.Implementation.Skeleton
         JointType type;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="Trame.Implementation.Skeleton.OrientedJoint"/> class.
         /// </summary>
         public OrientedJoint() : this(JointType.UNSPECIFIED, false)
         {}
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Trame.Implementation.Skeleton.OrientedJoint"/> class.
+		/// </summary>
+		/// <param name="type">Type.</param>
+		/// <param name="valid">If set to <c>true</c> valid.</param>
         public OrientedJoint(JointType type, bool valid)
         {
             this.type = type;
@@ -31,20 +35,12 @@ namespace Trame.Implementation.Skeleton
             orientation = new Vector4();
             point = new Vector3();
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+
         public IList<IJoint> GetChildren()
         {
             return children.Select(x => x.Value).ToList();
         }
               
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="j"></param>
-        /// <returns></returns>
         public bool AddChild(IJoint j)
         {
             try
@@ -58,10 +54,6 @@ namespace Trame.Implementation.Skeleton
             return true;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="joints"></param>
         public void AddChildren(IEnumerable<IJoint> joints)
         {
             foreach (var joint in joints)
@@ -70,11 +62,6 @@ namespace Trame.Implementation.Skeleton
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="jt"></param>
-        /// <returns></returns>
         public bool RemoveChild(JointType jt)
         {
             try
@@ -87,11 +74,6 @@ namespace Trame.Implementation.Skeleton
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="jt"></param>
-        /// <returns></returns>
         public IJoint FindChild(JointType jt)
         {
             try
@@ -111,11 +93,6 @@ namespace Trame.Implementation.Skeleton
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="jt"></param>
-        /// <returns></returns>
         public IJoint DeepFind(JointType jt)
         {
             var j = FindChild(jt);
@@ -135,11 +112,6 @@ namespace Trame.Implementation.Skeleton
             return j;
         }
         
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="jt"></param>
-        /// <param name="j"></param>
         public void Update(JointType jt, IJoint j)
         {
             if (FindChild(jt).JointType != jt)
@@ -160,11 +132,6 @@ namespace Trame.Implementation.Skeleton
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="o"></param>
-        /// <returns></returns>
         public bool Equals(IJoint o)
         {
             foreach(var child in children) {
@@ -178,19 +145,15 @@ namespace Trame.Implementation.Skeleton
             return isValid == o.Valid && type == o.JointType 
                 && orientation.Equals(o.Orientation) && point.Equals(o.Point);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="Trame.Implementation.Skeleton.OrientedJoint"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="Trame.Implementation.Skeleton.OrientedJoint"/>.</returns>
         public override string ToString()
         {
             return string.Format("type:{0}, valid:{1}, point:{2}, children:[ {3} ]", type, isValid, point, string.Join(",", children.Select(x => x.ToString()).ToArray()));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public Vector4 Orientation
         {
             get
@@ -203,9 +166,6 @@ namespace Trame.Implementation.Skeleton
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public Vector3 Point
         {
             get
@@ -218,9 +178,6 @@ namespace Trame.Implementation.Skeleton
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         public JointType JointType
         {
             get

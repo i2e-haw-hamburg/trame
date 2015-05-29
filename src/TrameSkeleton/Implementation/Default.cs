@@ -5,8 +5,15 @@ using Convert = System.Convert;
 
 namespace Trame.Implementation.Skeleton
 {
+	/// <summary>
+	/// Default.
+	/// </summary>
     class Default
     {
+		/// <summary>
+		/// Creates the skeleton.
+		/// </summary>
+		/// <returns>The skeleton.</returns>
         public static ISkeleton CreateSkeleton()
         {
             int centerY = 1100;
@@ -35,7 +42,11 @@ namespace Trame.Implementation.Skeleton
 
             return s;
         }
-
+		/// <summary>
+		/// Creates the arm.
+		/// </summary>
+		/// <returns>The arm.</returns>
+		/// <param name="side">Side.</param>
         public static IJoint CreateArm(Side side)
         {
             int handLength = 50;
@@ -88,7 +99,11 @@ namespace Trame.Implementation.Skeleton
 
             return shoulder;
         }
-
+		/// <summary>
+		/// Creates the leg.
+		/// </summary>
+		/// <returns>The leg.</returns>
+		/// <param name="side">Side.</param>
         public static IJoint CreateLeg(Side side)
         {
             int footLength = 255;
@@ -138,7 +153,10 @@ namespace Trame.Implementation.Skeleton
 
             return hip;
         }
-
+		/// <summary>
+		/// Creates the head.
+		/// </summary>
+		/// <returns>The head.</returns>
         public static IJoint CreateHead()
         {
             int headY = 180;
@@ -154,7 +172,9 @@ namespace Trame.Implementation.Skeleton
 
             return head;
         }
-
+		/// <summary>
+		/// The lengths.
+		/// </summary>
         public static IDictionary<JointType, float> Lengths = new Dictionary<JointType, float>
         {
             {JointType.NECK, 600},

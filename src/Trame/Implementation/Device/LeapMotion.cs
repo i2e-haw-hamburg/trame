@@ -7,13 +7,18 @@ using TrameSkeleton.Math;
 
 namespace Trame.Implementation.Device
 {
+	/// <summary>
+	/// Leap motion.
+	/// </summary>
     class LeapMotion : IDevice
     {
         readonly LeapAdapter adapter = new LeapAdapter();
         private Thread t;
         private bool running = true;
         private ISkeleton lastSkeleton;
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.LeapMotion"/> class.
+		/// </summary>
         public LeapMotion()
         {
             lastSkeleton = Creator.GetNewDefaultSkeleton();
@@ -48,7 +53,10 @@ namespace Trame.Implementation.Device
             running = false;
             t.Join();
         }
-
+		/// <summary>
+		/// Raises the frame arrived event.
+		/// </summary>
+		/// <param name="frame">Frame.</param>
         private void OnFrameArrived(Frame frame)
         {
             var leftWrist = lastSkeleton.GetJoint(JointType.WRIST_LEFT);
@@ -77,7 +85,12 @@ namespace Trame.Implementation.Device
                 NewSkeleton(GetSkeleton());
             }
         }
-
+		/// <summary>
+		/// Lefts the hand.
+		/// </summary>
+		/// <returns>The hand.</returns>
+		/// <param name="wrist">Wrist.</param>
+		/// <param name="frame">Frame.</param>
         private static IJoint LeftHand(IJoint wrist, Frame frame)
         {
             var leftmost = new Hand();
@@ -92,7 +105,12 @@ namespace Trame.Implementation.Device
 
             return left;
         }
-
+		/// <summary>
+		/// Rights the hand.
+		/// </summary>
+		/// <returns>The hand.</returns>
+		/// <param name="wrist">Wrist.</param>
+		/// <param name="frame">Frame.</param>
         private static IJoint RightHand(IJoint wrist, Frame frame)
         {
             var rightmost = new Hand();
@@ -107,7 +125,13 @@ namespace Trame.Implementation.Device
 
             return right;
         }
-
+		/// <summary>
+		/// Builds the hand.
+		/// </summary>
+		/// <returns>The hand.</returns>
+		/// <param name="hand">Hand.</param>
+		/// <param name="wrist">Wrist.</param>
+		/// <param name="side">Side.</param>
         private static IJoint BuildHand(Hand hand, IJoint wrist, int side)
         {
             var handJoint = new OrientedJoint();
@@ -133,7 +157,13 @@ namespace Trame.Implementation.Device
 
             return handJoint;
         }
-
+		/// <summary>
+		/// Creates the finger.
+		/// </summary>
+		/// <returns>The finger.</returns>
+		/// <param name="position">Position.</param>
+		/// <param name="normal">Normal.</param>
+		/// <param name="jt">Jt.</param>
         private static IJoint CreateFinger(Vector position, Vector normal, JointType jt)
         {
             var finger = new OrientedJoint

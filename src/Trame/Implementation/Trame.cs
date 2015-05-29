@@ -13,9 +13,15 @@ namespace Trame
         private IDevice currentDevice = null;
         private bool _keepRunning = true;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Trame.Trame"/> class.
+		/// </summary>
         public Trame() : this(DeviceType.EMPTY)
         {}
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Trame.Trame"/> class.
+		/// </summary>
+		/// <param name="dt">Dt.</param>
         public Trame(DeviceType dt)
         {
             last = Creator.GetNewInvalidSkeleton();
@@ -67,6 +73,9 @@ namespace Trame
             currentDevice.NewSkeleton += FireNewSkeleton;
         }
 
+		/// <summary>
+		/// Run this instance.
+		/// </summary>
         private void Run()
         {
             while (_keepRunning)
@@ -78,7 +87,10 @@ namespace Trame
             currentDevice.Stop();
 
         }
-
+		/// <summary>
+		/// Fires the new skeleton.
+		/// </summary>
+		/// <param name="skeleton">Skeleton.</param>
         private void FireNewSkeleton(ISkeleton skeleton)
         {
             last = skeleton;
@@ -93,7 +105,10 @@ namespace Trame
         {
             this._keepRunning = false;
         }
-
+		/// <summary>
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="Trame.Trame"/>.
+		/// </summary>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="Trame.Trame"/>.</returns>
         public override string ToString()
         {
             return "Trame - Device: " + currentType.ToString();

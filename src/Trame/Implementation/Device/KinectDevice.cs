@@ -10,6 +10,9 @@ using Vector4 = TrameSkeleton.Math.Vector4;
 
 namespace Trame.Implementation.Device
 {
+	/// <summary>
+	/// Kinect device.
+	/// </summary>
     internal class KinectDevice : IDevice
     {
         private readonly KinectAdapter adapter = new KinectAdapter();
@@ -17,7 +20,9 @@ namespace Trame.Implementation.Device
         private Microsoft.Kinect.Skeleton[] foundedSkeletons;
         private ISkeleton lastSkeleton;
         private bool running = true;
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.KinectDevice"/> class.
+		/// </summary>
         public KinectDevice()
         {
             adapter.StartKinect(OnFrameArrived);
@@ -52,7 +57,11 @@ namespace Trame.Implementation.Device
                 Thread.Sleep(500);
             }
         }
-
+		/// <summary>
+		/// Raises the frame arrived event.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
         private void OnFrameArrived(object sender, SkeletonFrameReadyEventArgs e)
         {
             using (var frame = e.OpenSkeletonFrame())
@@ -75,7 +84,11 @@ namespace Trame.Implementation.Device
                 }
             }
         }
-
+		/// <summary>
+		/// Creates the skeleton.
+		/// </summary>
+		/// <returns>The skeleton.</returns>
+		/// <param name="initSkeleton">Init skeleton.</param>
         private ISkeleton CreateSkeleton(Microsoft.Kinect.Skeleton initSkeleton)
         {
             var s = Creator.GetNewDefaultSkeleton();
@@ -266,7 +279,12 @@ namespace Trame.Implementation.Device
             s.Root.Point = ToVec3(spine.Position) * 1000;
             return s;
         }
-
+		/// <summary>
+		/// Absolutes to relative.
+		/// </summary>
+		/// <returns>The to relative.</returns>
+		/// <param name="parent">Parent.</param>
+		/// <param name="child">Child.</param>
         private static Vector3 AbsoluteToRelative(SkeletonPoint parent, SkeletonPoint child)
         {
             return new Vector3(
@@ -276,17 +294,28 @@ namespace Trame.Implementation.Device
                 )*1000;
         }
 
-
+		/// <summary>
+		/// Tos the vec4.
+		/// </summary>
+		/// <returns>The vec4.</returns>
+		/// <param name="v">V.</param>
         private static Vector4 ToVec4(Microsoft.Kinect.Vector4 v)
         {
             return new Vector4(v.X, v.Y, v.Z, v.W);
         }
-
+		/// <summary>
+		/// Tos the vec3.
+		/// </summary>
+		/// <returns>The vec3.</returns>
+		/// <param name="v">V.</param>
         private static Vector3 ToVec3(Microsoft.Kinect.SkeletonPoint v)
         {
             return new Vector3(v.X, v.Y, v.Z);
         }
-
+		/// <summary>
+		/// Fires the new skeleton.
+		/// </summary>
+		/// <param name="s">S.</param>
         private void FireNewSkeleton(ISkeleton s)
         {
             if (NewSkeleton != null)
