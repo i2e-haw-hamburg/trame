@@ -54,7 +54,7 @@ namespace Trame.Implementation.Device
         {
             while (running)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(300);
             }
         }
 		/// <summary>
