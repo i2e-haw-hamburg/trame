@@ -37,7 +37,7 @@ namespace Trame
         /// Gets the I.
         /// </summary>
         /// <value>The I.</value>
-        UInt32 ID { get; }
+        UInt32 ID { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Trame.ISkeleton"/> is valid.
         /// </summary>

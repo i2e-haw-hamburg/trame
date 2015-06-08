@@ -76,11 +76,12 @@ namespace Trame.Implementation.Device
                 }
                 frame.CopySkeletonDataTo(foundedSkeletons);
 
-                var initSkeleton = foundedSkeletons.FirstOrDefault(s => s.TrackingState == SkeletonTrackingState.Tracked);
-                if (initSkeleton != null)
+                var skeletons = foundedSkeletons.Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
+                foreach (var skeleton in skeletons)
                 {
-                    lastSkeleton = CreateSkeleton(initSkeleton);
-                    FireNewSkeleton(lastSkeleton);
+                    var trameSkeleton = CreateSkeleton(skeleton);
+                    lastSkeleton = trameSkeleton;
+                    FireNewSkeleton(trameSkeleton);
                 }
             }
         }
@@ -92,6 +93,7 @@ namespace Trame.Implementation.Device
         private ISkeleton CreateSkeleton(Microsoft.Kinect.Skeleton initSkeleton)
         {
             var s = Creator.GetNewDefaultSkeleton();
+		    s.ID = (uint) initSkeleton.TrackingId;
 
             var neck = initSkeleton.Joints[Microsoft.Kinect.JointType.ShoulderCenter];
             var spine = initSkeleton.Joints[Microsoft.Kinect.JointType.Spine];

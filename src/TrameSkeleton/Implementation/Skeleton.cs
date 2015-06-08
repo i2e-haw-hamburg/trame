@@ -86,7 +86,7 @@ namespace Trame.Implementation.Skeleton
             {
                 return id;
             }
-            
+            set { id = value; }
         }
 
         public bool Valid
