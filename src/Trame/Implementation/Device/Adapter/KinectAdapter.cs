@@ -29,6 +29,7 @@ namespace Trame.Implementation.Device.Adapter
                 throw new Exception("No Kinect is connected");
             }
             kinect.SkeletonFrameReady += onFrameArrived;
+
             kinect.Start();
             kinect.SkeletonStream.Enable(new TransformSmoothParameters()
             {
