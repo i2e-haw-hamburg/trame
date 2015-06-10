@@ -45,8 +45,11 @@ namespace Trame.Implementation.Device.Adapter
 		/// </summary>
         public void StopKinect()
         {
-            this.kinect.Stop();
-            this.kinect = null;
+		    if (kinect != null)
+            {
+                kinect.Stop();
+                kinect = null;
+		    }
         }
     }
 }
