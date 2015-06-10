@@ -11,15 +11,14 @@ namespace Trame
         ISkeleton last = null;
         private DeviceType currentType;
         private IDevice currentDevice = null;
-        private bool _keepRunning = true;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Trame.Trame"/> class.
+		/// Initializes a new instance of the <see cref="Trame"/> class.
 		/// </summary>
         public Trame() : this(DeviceType.EMPTY)
         {}
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Trame.Trame"/> class.
+		/// Initializes a new instance of the <see cref="Trame"/> class.
 		/// </summary>
 		/// <param name="dt">Dt.</param>
         public Trame(DeviceType dt)
@@ -27,9 +26,6 @@ namespace Trame
             last = Creator.GetNewInvalidSkeleton();
             currentType = dt;
             updatedType();
-
-            t = new Thread(this.Run);
-            t.Start();
         }
 
         public ISkeleton GetSkeleton()
@@ -51,6 +47,7 @@ namespace Trame
             if (currentDevice != null)
             {
                 currentDevice.NewSkeleton -= FireNewSkeleton;
+                currentDevice.Stop();
             }
             switch (currentType)
             {
@@ -77,16 +74,7 @@ namespace Trame
 		/// Run this instance.
 		/// </summary>
         private void Run()
-        {
-            while (_keepRunning)
-            {
-                Thread.Sleep(100);
-            }
-            // close all open ressources
-            Console.WriteLine("Close all resources");
-            currentDevice.Stop();
-
-        }
+        {}
 		/// <summary>
 		/// Fires the new skeleton.
 		/// </summary>
@@ -103,12 +91,13 @@ namespace Trame
 
         public void Stop()
         {
-            this._keepRunning = false;
+            Console.WriteLine("Close all resources");
+            currentDevice.Stop();
         }
 		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents the current <see cref="Trame.Trame"/>.
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="Trame"/>.
 		/// </summary>
-		/// <returns>A <see cref="System.String"/> that represents the current <see cref="Trame.Trame"/>.</returns>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="Trame"/>.</returns>
         public override string ToString()
         {
             return "Trame - Device: " + currentType.ToString();

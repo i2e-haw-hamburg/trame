@@ -42,6 +42,54 @@ namespace Trame.Implementation.Skeleton
 
             return s;
         }
+
+        public static ISkeleton CreateInMapSkeleton()
+        {
+            int centerY = 1100;
+            int upperBodyY = 350;
+            var centerOrientation = new Vector4(0, 0, 0, 0);
+            var s = new InMapSkeleton{ Valid = true };
+
+            var leftShoulder = CreateArm(Side.LEFT);
+            s.UpdateSkeleton(JointType.SHOULDER_LEFT, leftShoulder);
+            s.UpdateSkeleton(JointType.ELBOW_LEFT, leftShoulder.DeepFind(JointType.ELBOW_LEFT));
+            s.UpdateSkeleton(JointType.WRIST_LEFT, leftShoulder.DeepFind(JointType.WRIST_LEFT));
+            s.UpdateSkeleton(JointType.HAND_LEFT, leftShoulder.DeepFind(JointType.HAND_LEFT));
+            var rightShoulder = CreateArm(Side.RIGHT);
+            s.UpdateSkeleton(JointType.SHOULDER_RIGHT, rightShoulder);
+            s.UpdateSkeleton(JointType.ELBOW_RIGHT, rightShoulder.DeepFind(JointType.ELBOW_RIGHT));
+            s.UpdateSkeleton(JointType.WRIST_RIGHT, rightShoulder.DeepFind(JointType.WRIST_RIGHT));
+            s.UpdateSkeleton(JointType.HAND_RIGHT, rightShoulder.DeepFind(JointType.HAND_RIGHT));
+            var leftHip = CreateLeg(Side.LEFT);
+            s.UpdateSkeleton(JointType.HIP_LEFT, leftHip);
+            s.UpdateSkeleton(JointType.KNEE_LEFT, leftHip.DeepFind(JointType.KNEE_LEFT));
+            s.UpdateSkeleton(JointType.ANKLE_LEFT, leftHip.DeepFind(JointType.ANKLE_LEFT));
+            s.UpdateSkeleton(JointType.FOOT_LEFT, leftHip.DeepFind(JointType.FOOT_LEFT));
+            var rightHip = CreateLeg(Side.RIGHT);
+            s.UpdateSkeleton(JointType.HIP_RIGHT, rightHip);
+            s.UpdateSkeleton(JointType.KNEE_RIGHT, rightHip.DeepFind(JointType.KNEE_RIGHT));
+            s.UpdateSkeleton(JointType.ANKLE_RIGHT, rightHip.DeepFind(JointType.ANKLE_RIGHT));
+            s.UpdateSkeleton(JointType.FOOT_RIGHT, rightHip.DeepFind(JointType.FOOT_RIGHT));
+            var head = CreateHead();
+            s.UpdateSkeleton(JointType.HEAD, head);
+
+            IJoint neck = Creator.CreateParent(new List<IJoint> { head, rightShoulder, leftShoulder });
+            neck.Point = new Vector3(0, upperBodyY, 0);
+            neck.JointType = JointType.NECK;
+            neck.Valid = true;
+            s.UpdateSkeleton(JointType.NECK, neck);
+
+            IJoint center = Creator.CreateParent(new List<IJoint> { neck, rightHip, leftHip });
+            center.Orientation = centerOrientation;
+            center.Point = new Vector3(0, centerY, 0);
+            center.JointType = JointType.CENTER;
+            center.Valid = true;
+            s.UpdateSkeleton(JointType.CENTER, center);
+            s.Root = center;
+
+            return s;
+        }
+
 		/// <summary>
 		/// Creates the arm.
 		/// </summary>

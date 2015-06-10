@@ -17,7 +17,6 @@ namespace Trame.Implementation.Device
     {
         private readonly KinectAdapter adapter = new KinectAdapter();
         private readonly Thread t;
-        private Microsoft.Kinect.Skeleton[] foundedSkeletons;
         private ISkeleton lastSkeleton;
         private bool running = true;
 		/// <summary>
@@ -26,9 +25,7 @@ namespace Trame.Implementation.Device
         public KinectDevice()
         {
             adapter.StartKinect(OnFrameArrived);
-            lastSkeleton = Creator.GetNewDefaultSkeleton();
-            t = new Thread(Run);
-            t.Start();
+            lastSkeleton = Creator.GetNewDefaultSkeleton<InMapSkeleton>();
         }
 
         public ISkeleton GetSkeleton()
@@ -44,19 +41,10 @@ namespace Trame.Implementation.Device
         public void Stop()
         {
             adapter.StopKinect();
-            running = false;
-            t.Join();
         }
 
         public event Action<ISkeleton> NewSkeleton;
 
-        private void Run()
-        {
-            while (running)
-            {
-                Thread.Sleep(300);
-            }
-        }
 		/// <summary>
 		/// Raises the frame arrived event.
 		/// </summary>
@@ -64,16 +52,14 @@ namespace Trame.Implementation.Device
 		/// <param name="e">E.</param>
         private void OnFrameArrived(object sender, SkeletonFrameReadyEventArgs e)
         {
-            using (var frame = e.OpenSkeletonFrame())
+		    using (var frame = e.OpenSkeletonFrame())
             {
                 if (frame == null)
                 {
                     return;
                 }
-                if (foundedSkeletons == null)
-                {
-                    foundedSkeletons = new Microsoft.Kinect.Skeleton[frame.SkeletonArrayLength];
-                }
+                var foundedSkeletons = new Microsoft.Kinect.Skeleton[frame.SkeletonArrayLength];
+
                 frame.CopySkeletonDataTo(foundedSkeletons);
 
                 var skeletons = foundedSkeletons.Where(s => s.TrackingState == SkeletonTrackingState.Tracked);
@@ -85,6 +71,49 @@ namespace Trame.Implementation.Device
                 }
             }
         }
+
+        private IDictionary<JointType, Microsoft.Kinect.JointType> mapping = new Dictionary<JointType, Microsoft.Kinect.JointType>
+        {
+            {JointType.NECK, Microsoft.Kinect.JointType.ShoulderCenter},
+            {JointType.CENTER, Microsoft.Kinect.JointType.Spine},
+            {JointType.HEAD, Microsoft.Kinect.JointType.Head},
+            {JointType.SHOULDER_LEFT, Microsoft.Kinect.JointType.ShoulderLeft},
+            {JointType.SHOULDER_RIGHT, Microsoft.Kinect.JointType.ShoulderRight},
+            {JointType.ELBOW_LEFT, Microsoft.Kinect.JointType.ElbowLeft},
+            {JointType.ELBOW_RIGHT, Microsoft.Kinect.JointType.ElbowRight},
+            {JointType.WRIST_LEFT, Microsoft.Kinect.JointType.WristLeft},
+            {JointType.WRIST_RIGHT, Microsoft.Kinect.JointType.WristRight},
+            {JointType.HAND_LEFT, Microsoft.Kinect.JointType.HandLeft},
+            {JointType.HAND_RIGHT, Microsoft.Kinect.JointType.HandRight},
+            {JointType.HIP_LEFT, Microsoft.Kinect.JointType.HipLeft},
+            {JointType.HIP_RIGHT, Microsoft.Kinect.JointType.HipRight},
+            {JointType.KNEE_LEFT, Microsoft.Kinect.JointType.KneeLeft},
+            {JointType.KNEE_RIGHT, Microsoft.Kinect.JointType.KneeRight},
+            {JointType.ANKLE_LEFT, Microsoft.Kinect.JointType.AnkleLeft},
+            {JointType.ANKLE_RIGHT, Microsoft.Kinect.JointType.AnkleRight},
+            {JointType.FOOT_LEFT, Microsoft.Kinect.JointType.FootLeft},
+            {JointType.FOOT_RIGHT, Microsoft.Kinect.JointType.FootRight},
+        }; 
+
+	    private ISkeleton CreateSkeletonW(Microsoft.Kinect.Skeleton initSkeleton)
+	    {
+            var s = new InMapSkeleton { ID = (uint)initSkeleton.TrackingId };
+	        foreach (var jointMapping in mapping)
+	        {
+                var joint = new OrientedJoint
+                {
+                    JointType = jointMapping.Key,
+                    Point = AbsoluteToRelative(initSkeleton.Joints[jointMapping.Value].Position, initSkeleton.Joints[jointMapping.Value].Position),
+                    Orientation = ToVec4(initSkeleton.BoneOrientations[jointMapping.Value].AbsoluteRotation.Quaternion),
+                    Valid = initSkeleton.Joints[jointMapping.Value].TrackingState == JointTrackingState.Tracked
+                };
+                s.UpdateSkeleton(joint.JointType, joint);
+
+            }
+            // iterate over all data in array 
+            s.Valid = initSkeleton.TrackingState == SkeletonTrackingState.Tracked;
+	        return s;
+	    }
 		/// <summary>
 		/// Creates the skeleton.
 		/// </summary>
@@ -92,10 +121,9 @@ namespace Trame.Implementation.Device
 		/// <param name="initSkeleton">Init skeleton.</param>
         private ISkeleton CreateSkeleton(Microsoft.Kinect.Skeleton initSkeleton)
         {
-            var s = Creator.GetNewDefaultSkeleton();
-		    s.ID = (uint) initSkeleton.TrackingId;
+            var s = new Skeleton.Skeleton {ID = (uint) initSkeleton.TrackingId};
 
-            var neck = initSkeleton.Joints[Microsoft.Kinect.JointType.ShoulderCenter];
+		    var neck = initSkeleton.Joints[Microsoft.Kinect.JointType.ShoulderCenter];
             var spine = initSkeleton.Joints[Microsoft.Kinect.JointType.Spine];
             var head = initSkeleton.Joints[Microsoft.Kinect.JointType.Head];
             var leftShoulder = initSkeleton.Joints[Microsoft.Kinect.JointType.ShoulderLeft];
