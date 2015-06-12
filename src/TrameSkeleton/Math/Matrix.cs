@@ -275,42 +275,6 @@ namespace TrameSkeleton.Math
 			
 			return matrix;
 			
-            /*Matrix matrix;
-		    Vector3 vector;
-		    Vector3 vector2;
-		    Vector3 vector3;
-		    vector.X = objectPosition.X - cameraPosition.X;
-		    vector.Y = objectPosition.Y - cameraPosition.Y;
-		    vector.Z = objectPosition.Z - cameraPosition.Z;
-		    double num = vector.LengthSquared();
-		    if (num < 0.0001f)
-		    {
-		        vector = cameraForwardVector.HasValue ? -cameraForwardVector.Value : Vector3.Forward;
-		    }
-		    else
-		    {
-		        Vector3.Multiply(ref vector, (double) (1f / ((double) System.Math.Sqrt((double) num))), out vector);
-		    }
-		    Vector3.Cross(ref cameraUpVector, ref vector, out vector3);
-		    vector3.Normalize();
-		    Vector3.Cross(ref vector, ref vector3, out vector2);
-		    matrix.M11 = vector3.X;
-		    matrix.M12 = vector3.Y;
-		    matrix.M13 = vector3.Z;
-		    matrix.M14 = 0f;
-		    matrix.M21 = vector2.X;
-		    matrix.M22 = vector2.Y;
-		    matrix.M23 = vector2.Z;
-		    matrix.M24 = 0f;
-		    matrix.M31 = vector.X;
-		    matrix.M32 = vector.Y;
-		    matrix.M33 = vector.Z;
-		    matrix.M34 = 0f;
-		    matrix.M41 = objectPosition.X;
-		    matrix.M42 = objectPosition.Y;
-		    matrix.M43 = objectPosition.Z;
-		    matrix.M44 = 1f;
-		    return matrix;*/
         }
 
         
@@ -667,33 +631,6 @@ namespace TrameSkeleton.Math
 			matrix.M43 = -Vector3.Dot(vector3_1, cameraPosition);
 			matrix.M44 = 1f;
 			return matrix;
-  
-			
-			/*
-            Matrix m = identity;
-			
-			m.Translation = cameraPosition;
-			
-			var diff = cameraPosition - cameraTarget;
-			diff.Normalize();
-			m.Forward = -diff;
-			
-			Console.WriteLine("Forward: {0}", m.Forward);
-
-			Vector3 right;
-			Vector3.Cross(ref cameraUpVector, ref diff, out right);
-			m.Right = right;
-			
-			Console.WriteLine("Right: {0}", right);
-			
-			Vector3 up;
-			Vector3.Cross(ref diff, ref right, out up);
-			m.Up = up;
-			
-			return Matrix.Invert(m);
-			*/
-			
-			//return m;
         }
 
 
