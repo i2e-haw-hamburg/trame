@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 
 namespace Trame.Implementation.Skeleton
 {
     [Serializable]
-    public class Skeleton : ISkeleton
+    public class InMapSkeleton : ISkeleton
     {
-        IJoint root;
+        private IDictionary<JointType, IJoint> _joints; 
         bool valid;
         uint id;
         uint timestamp;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Trame.Implementation.Skeleton.Skeleton"/> class.
 		/// </summary>
-        public Skeleton()
+        public InMapSkeleton()
             : this(0, false, (uint)(DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond))
         {
             
@@ -25,21 +26,22 @@ namespace Trame.Implementation.Skeleton
 		/// <param name="id">Identifier.</param>
 		/// <param name="valid">If set to <c>true</c> valid.</param>
 		/// <param name="timestamp">Timestamp.</param>
-        public Skeleton(uint id, bool valid, uint timestamp)
+        public InMapSkeleton(uint id, bool valid, uint timestamp)
         {
             this.valid = valid;
             this.id = id;
             this.timestamp = timestamp;
+            _joints = new Dictionary<JointType, IJoint>();
         }
 
         public void UpdateSkeleton(JointType jt, IJoint j)
         {
-            root.Update(jt, j);
+            _joints[jt] = j;
         }
 
         public IJoint GetJoint(JointType jt)
         {
-            return root.DeepFind(jt);
+            return _joints[jt];
         }
 		/// <summary>
 		/// Determines whether the specified <see cref="Trame.ISkeleton"/> is equal to the current <see cref="Trame.Implementation.Skeleton.Skeleton"/>.
@@ -49,7 +51,7 @@ namespace Trame.Implementation.Skeleton
 		/// <see cref="Trame.Implementation.Skeleton.Skeleton"/>; otherwise, <c>false</c>.</returns>
         public bool Equals(ISkeleton other)
         {
-            return valid == other.Valid && root.Equals(other.Root);
+            return valid == other.Valid && _joints.Values.Equals(other.Joints);
         }
 		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="Trame.Implementation.Skeleton.Skeleton"/>.
@@ -57,7 +59,7 @@ namespace Trame.Implementation.Skeleton
 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="Trame.Implementation.Skeleton.Skeleton"/>.</returns>
         public override string ToString()
         {
-            return string.Format("id:{0}, valid:{1}, timestamp:{2}, root:{3}", id, valid, timestamp, root);
+            return string.Format("id:{0}, valid:{1}, timestamp:{2}, root:{3}", id, valid, timestamp, _joints);
         }
 
 
@@ -65,11 +67,11 @@ namespace Trame.Implementation.Skeleton
         {
             get
             {
-                return root;
+                return _joints[JointType.CENTER];
             }
             set
             {
-                root = value;
+                _joints[JointType.CENTER] = value;
             }
         }
 
@@ -117,22 +119,23 @@ namespace Trame.Implementation.Skeleton
 
         public ISkeleton Clone()
         {
-            var s = new Skeleton(id, valid, timestamp);
-            s.root = root.Clone();
+            var s = new InMapSkeleton(id, valid, timestamp);
+            foreach(var key in _joints.Keys)
+            {
+                s._joints.Add(key, _joints[key]);
+            }
+
             return s;
         }
 
         public IJoint GetHead()
         {
-            return Root.DeepFind(JointType.HEAD);
+            return _joints[JointType.HEAD];
         }
 
         public IList<IJoint> Joints
         {
-            get
-            {
-                return new List<IJoint>{Root};
-            }
+            get { return _joints.Select(e => e.Value).ToList(); }
         }
     }
 }

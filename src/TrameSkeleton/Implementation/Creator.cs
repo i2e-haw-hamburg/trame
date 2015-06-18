@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Trame.Implementation.Skeleton
 {
@@ -12,9 +13,9 @@ namespace Trame.Implementation.Skeleton
 		/// </summary>
 		/// <returns>The new default skeleton.</returns>
         public static ISkeleton GetNewDefaultSkeleton()
-        {
-            return Default.CreateSkeleton();
-        }
+		{
+		    return GetNewDefaultSkeleton<Skeleton>();
+		}
 		/// <summary>
 		/// Gets the default length of the bone.
 		/// </summary>
@@ -56,5 +57,18 @@ namespace Trame.Implementation.Skeleton
         {
             return Default.CreateHead();
         }
+
+	    public static ISkeleton GetNewDefaultSkeleton<T>() where T : ISkeleton
+	    {
+	        if (typeof (T) == typeof (Skeleton))
+	        {
+                return Default.CreateSkeleton();
+            }
+	        if (typeof (T) == typeof (InMapSkeleton))
+	        {
+	            return Default.CreateInMapSkeleton();
+	        }
+	        throw new Exception("No implementation found");
+	    }
     }
 }

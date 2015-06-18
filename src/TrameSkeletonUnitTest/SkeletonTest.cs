@@ -13,7 +13,7 @@ namespace TrameUnitTest
         [TestMethod]
         public void TestUpdate()
         {
-            var s = Creator.GetNewDefaultSkeleton();
+            var s = Creator.GetNewDefaultSkeleton<InMapSkeleton>();
             var head = new OrientedJoint {JointType = JointType.HEAD, Point = new Vector3(1, 2, 3)};
             s.UpdateSkeleton(JointType.HEAD, head);
 

@@ -89,6 +89,7 @@
     <Compile Include="Implementation\Enums.cs" />
     <Compile Include="Implementation\MessageDeserializer.cs" />
     <Compile Include="Implementation\OrientedJoint.cs" />
+    <Compile Include="Implementation\InMapSkeleton.cs" />
     <Compile Include="Implementation\Skeleton.cs" />
     <Compile Include="Math\Convert.cs" />
     <Compile Include="Math\MathHelper.cs" />

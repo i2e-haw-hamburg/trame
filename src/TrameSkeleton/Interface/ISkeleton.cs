@@ -57,5 +57,6 @@ namespace Trame
         /// </summary>
         /// <returns>The head.</returns>
         IJoint GetHead();
+        IList<IJoint> Joints { get; } 
     }
 }
