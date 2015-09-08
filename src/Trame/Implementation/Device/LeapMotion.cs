@@ -49,13 +49,17 @@ namespace Trame.Implementation.Device
             var leftHand = LeftHand(frame);
             var rightHand = RightHand(frame);
             
+            var leftWrist = _lastSkeleton.GetJoint(JointType.WRIST_LEFT);
 		    foreach (var joint in leftHand)
 		    {
+		        joint.Point += leftWrist.Point;
 		        _lastSkeleton.UpdateSkeleton(joint.JointType, joint);
 		    }
 
+            var rightWrist = _lastSkeleton.GetJoint(JointType.WRIST_RIGHT);
             foreach (var joint in rightHand)
             {
+                joint.Point += rightWrist.Point;
                 _lastSkeleton.UpdateSkeleton(joint.JointType, joint);
             }
             FireNewSkeleton();

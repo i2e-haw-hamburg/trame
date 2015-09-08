@@ -39,6 +39,11 @@ namespace Trame.Implementation.Skeleton
             _joints[jt] = j;
         }
 
+        public void Add(IJoint j)
+        {
+            UpdateSkeleton(j.JointType, j);
+        }
+
         public IJoint GetJoint(JointType jt)
         {
             return _joints[jt];

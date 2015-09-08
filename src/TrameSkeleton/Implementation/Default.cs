@@ -16,23 +16,19 @@ namespace Trame.Implementation.Skeleton
 		/// <returns>The skeleton.</returns>
         public static ISkeleton CreateSkeleton()
         {
-            int centerY = 1100;
-            int upperBodyY = 350;
+            int centerY = 0;
+            int neckY = 400;
             var centerOrientation = new Vector4(0, 0, 0, 0);
             var s = new Skeleton { Valid = true };
 
-            var leftShoulder = CreateArm(Side.LEFT);
-            var rightShoulder = CreateArm(Side.RIGHT);
-            var leftHip = CreateLeg(Side.LEFT);
-            var rightHip = CreateLeg(Side.RIGHT);
             var head = CreateHead();
 
-            IJoint neck = Creator.CreateParent(new List<IJoint> { head, rightShoulder, leftShoulder });
-            neck.Point = new Vector3(0, upperBodyY, 0);
+            IJoint neck = Creator.CreateParent(new List<IJoint> { head });
+            neck.Point = new Vector3(0, neckY, 0);
             neck.JointType = JointType.NECK;
             neck.Valid = true;
 
-            IJoint center = Creator.CreateParent(new List<IJoint> { neck, rightHip, leftHip });
+            IJoint center = Creator.CreateParent(new List<IJoint> { neck });
             center.Orientation = centerOrientation;
             center.Point = new Vector3(0, centerY, 0);
             center.JointType = JointType.CENTER;
@@ -45,47 +41,35 @@ namespace Trame.Implementation.Skeleton
 
         public static ISkeleton CreateInMapSkeleton()
         {
-            int centerY = 1100;
-            int upperBodyY = 350;
+            int centerY = 0;
+            int neckY = 400;
             var centerOrientation = new Vector4(0, 0, 0, 0);
             var s = new InMapSkeleton{ Valid = true };
 
-            var leftShoulder = CreateArm(Side.LEFT);
-            s.UpdateSkeleton(JointType.SHOULDER_LEFT, leftShoulder);
-            s.UpdateSkeleton(JointType.ELBOW_LEFT, leftShoulder.DeepFind(JointType.ELBOW_LEFT));
-            s.UpdateSkeleton(JointType.WRIST_LEFT, leftShoulder.DeepFind(JointType.WRIST_LEFT));
-            s.UpdateSkeleton(JointType.HAND_LEFT, leftShoulder.DeepFind(JointType.HAND_LEFT));
-            var rightShoulder = CreateArm(Side.RIGHT);
-            s.UpdateSkeleton(JointType.SHOULDER_RIGHT, rightShoulder);
-            s.UpdateSkeleton(JointType.ELBOW_RIGHT, rightShoulder.DeepFind(JointType.ELBOW_RIGHT));
-            s.UpdateSkeleton(JointType.WRIST_RIGHT, rightShoulder.DeepFind(JointType.WRIST_RIGHT));
-            s.UpdateSkeleton(JointType.HAND_RIGHT, rightShoulder.DeepFind(JointType.HAND_RIGHT));
-            var leftHip = CreateLeg(Side.LEFT);
-            s.UpdateSkeleton(JointType.HIP_LEFT, leftHip);
-            s.UpdateSkeleton(JointType.KNEE_LEFT, leftHip.DeepFind(JointType.KNEE_LEFT));
-            s.UpdateSkeleton(JointType.ANKLE_LEFT, leftHip.DeepFind(JointType.ANKLE_LEFT));
-            s.UpdateSkeleton(JointType.FOOT_LEFT, leftHip.DeepFind(JointType.FOOT_LEFT));
-            var rightHip = CreateLeg(Side.RIGHT);
-            s.UpdateSkeleton(JointType.HIP_RIGHT, rightHip);
-            s.UpdateSkeleton(JointType.KNEE_RIGHT, rightHip.DeepFind(JointType.KNEE_RIGHT));
-            s.UpdateSkeleton(JointType.ANKLE_RIGHT, rightHip.DeepFind(JointType.ANKLE_RIGHT));
-            s.UpdateSkeleton(JointType.FOOT_RIGHT, rightHip.DeepFind(JointType.FOOT_RIGHT));
-            var head = CreateHead();
-            s.UpdateSkeleton(JointType.HEAD, head);
+            foreach (var joint in CreateArm(Side.LEFT))
+            {
+                s.Add(joint);
+            }
 
-            IJoint neck = Creator.CreateParent(new List<IJoint> { head, rightShoulder, leftShoulder });
-            neck.Point = new Vector3(0, upperBodyY, 0);
-            neck.JointType = JointType.NECK;
-            neck.Valid = true;
-            s.UpdateSkeleton(JointType.NECK, neck);
+            foreach (var joint in CreateArm(Side.RIGHT))
+            {
+                s.Add(joint);
+            }
 
-            IJoint center = Creator.CreateParent(new List<IJoint> { neck, rightHip, leftHip });
-            center.Orientation = centerOrientation;
-            center.Point = new Vector3(0, centerY, 0);
-            center.JointType = JointType.CENTER;
-            center.Valid = true;
-            s.UpdateSkeleton(JointType.CENTER, center);
-            s.Root = center;
+            foreach (var joint in CreateLeg(Side.LEFT))
+            {
+                s.Add(joint);
+            }
+
+            foreach (var joint in CreateLeg(Side.RIGHT))
+            {
+                s.Add(joint);
+            }
+
+            s.Add(CreateHead());
+            s.Add(new OrientedJoint(JointType.NECK, true) { Point = new Vector3(0, neckY, 0) });
+            s.Add(new OrientedJoint(JointType.CENTER, true) { Point = new Vector3(0, centerY, 0), Orientation = centerOrientation });
+            s.Root = s.GetJoint(JointType.CENTER);
 
             return s;
         }
@@ -95,15 +79,17 @@ namespace Trame.Implementation.Skeleton
 		/// </summary>
 		/// <returns>The arm.</returns>
 		/// <param name="side">Side.</param>
-        public static IJoint CreateArm(Side side)
+        public static IList<IJoint> CreateArm(Side side)
         {
-            int handLength = 50;
-            int forearmX = 50;
-            int forearmY = 355;
-            int armX = 75;
-            int armY = 320;
-            int shoulderX = 220;
+            int handY = -50;
+            int wristX = 50;
+            int wristY = 0;
+            int elbowX = 75;
+            int elbowY = 218;
+            int shoulderX = 160;
             var handOrientation = new Vector4(0, 0, 0, 0);
+
+		    var arm = new List<IJoint>();
 
             var shoulder = new OrientedJoint();
             var elbow = new OrientedJoint();
@@ -127,39 +113,42 @@ namespace Trame.Implementation.Skeleton
 
             int s = Convert.ToInt32(side);
 
-            hand.Orientation = handOrientation * -s;
-            hand.Point = new Vector3(0, -handLength, 0);
-            hand.Valid = true;
-
-            wrist.Point = new Vector3(s * forearmX, -forearmY, 0);
-            wrist.AddChild(hand);
-            wrist.Valid = true;
-
-            // elbows relative to shoulders
-            elbow.Point = new Vector3(s * armX, -armY, 0);
-            elbow.Valid = true;
-            elbow.AddChild(wrist);
-
             // shoulders relative to neck
-            shoulder.Point = new Vector3(s * shoulderX, 0, 0);
+            shoulder.Point = new Vector3(s * shoulderX, 400, 0);
             shoulder.Valid = true;
-            shoulder.AddChild(elbow);
+            arm.Add(shoulder);
+            
+            // elbows relative to shoulders
+            elbow.Point = new Vector3(s * (elbowX + shoulderX), elbowY, 0);
+            elbow.Valid = true;
+            arm.Add(elbow);
 
-            return shoulder;
+            wrist.Point = new Vector3(s * (wristX + shoulderX), wristY, 0);
+            wrist.Valid = true;
+            arm.Add(wrist);
+
+            hand.Orientation = handOrientation * -s;
+            hand.Point = new Vector3(s * (wristX + shoulderX), handY, 0);
+            hand.Valid = true;
+            arm.Add(hand);
+            
+            return arm;
         }
 		/// <summary>
 		/// Creates the leg.
 		/// </summary>
 		/// <returns>The leg.</returns>
 		/// <param name="side">Side.</param>
-        public static IJoint CreateLeg(Side side)
+        public static IList<IJoint> CreateLeg(Side side)
         {
             int footLength = 255;
-            int lowerLegY = 410;
-            int thighY = 540;
-            int hipX = 180;
-            int hipY = 100;
+            int ankleY = -830;
+            int kneeY = -427;
+            int hipX = 50;
+            int hipY = -100;
 
+            var leg = new List<IJoint>();
+            
             var footOrientation = new Vector4(0, 0, 0, 0);
 
             var foot = new OrientedJoint();
@@ -184,22 +173,23 @@ namespace Trame.Implementation.Skeleton
 
             int s = Convert.ToInt32(side);
 
-            foot.Orientation = footOrientation;
-            foot.Point = new Vector3(0, 0, -footLength);
-            foot.Valid = true;
-
-            ankle.Point = new Vector3(0, -lowerLegY, 0);
-            knee.Point = new Vector3(0, -thighY, 0);
-            hip.Point = new Vector3(s * hipX, -hipY, 0);
-
-            ankle.AddChild(foot);
-            ankle.Valid = true;
-            knee.AddChild(ankle);
-            knee.Valid = true;
-            hip.AddChild(knee);
+            hip.Point = new Vector3(s * hipX, hipY, 0);
             hip.Valid = true;
+            leg.Add(hip);
 
-            return hip;
+            knee.Point = new Vector3(s * hipX, kneeY, 0);
+            knee.Valid = true;
+            leg.Add(knee);
+
+            ankle.Point = new Vector3(s * hipX, ankleY, 0);
+            ankle.Valid = true;
+            leg.Add(ankle);
+
+            foot.Orientation = footOrientation;
+            foot.Point = new Vector3(s * hipX, ankleY, -footLength);
+            foot.Valid = true;
+        
+            return leg;
         }
 		/// <summary>
 		/// Creates the head.
@@ -207,7 +197,7 @@ namespace Trame.Implementation.Skeleton
 		/// <returns>The head.</returns>
         public static IJoint CreateHead()
         {
-            int headY = 180;
+            int headY = 580;
             var headOrientation = new Vector4(0, 0, 0, 0);
 
             var head = new OrientedJoint
