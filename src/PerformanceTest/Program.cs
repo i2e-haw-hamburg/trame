@@ -57,10 +57,15 @@ namespace PerformanceTest
 
         private void LeapTest()
         {
-            _trame.SetDevice(DeviceType.LEAP_MOTION_AND_KINECT);
-
+            _trame.SetDevice(DeviceType.KINECT);
+            _trame.Start();
             _t.Start();
-            _trame.NewSkeleton += skeleton => ++_countOfSkeletons;
+            _trame.NewSkeleton += skeleton =>
+            {
+                ++_countOfSkeletons;
+                Console.WriteLine(_countOfSkeletons);
+                Console.CursorTop -= 1;
+            };
         }
 
     }

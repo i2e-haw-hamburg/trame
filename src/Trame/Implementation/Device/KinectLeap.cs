@@ -19,18 +19,17 @@ namespace Trame.Implementation.Device
 		/// </summary>
         public KinectLeap()
         {
-            t = new Thread(Run);
-            t.Start();
+           
         }
         
         private void Run()
         {
-            leap.NewSkeleton += FireNewSkeleton;
-            kinect.NewSkeleton += skeleton => leap.SetSkeleton(skeleton);
+            leap.Start();
+            kinect.Start();
 
             while (running)
             {
-                
+                FireNewSkeleton(GetSkeleton());
             }
         }
 
@@ -50,16 +49,20 @@ namespace Trame.Implementation.Device
             kinect.Stop();
             leap.Stop();
             running = false;
-            t.Join();
-        }
-        private void FireNewSkeleton(ISkeleton skeleton)
-        {
-            if (NewSkeleton != null)
-            {
-                NewSkeleton(skeleton);
-            }
+            t?.Join();
         }
 
-        public event Action<ISkeleton> NewSkeleton;
+	    public void Start()
+	    {
+            t = new Thread(Run);
+            t.Start();
+        }
+
+	    private void FireNewSkeleton(ISkeleton skeleton)
+	    {
+	        NewSkeleton?.Invoke(skeleton);
+	    }
+
+	    public event Action<ISkeleton> NewSkeleton;
     }
 }

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Timers;
+using Leap;
 using Microsoft.Kinect;
 using Trame.Implementation.Device.Adapter;
 using Trame.Implementation.Skeleton;
 using TrameSkeleton.Math;
+using Timer = System.Timers.Timer;
 using Vector4 = TrameSkeleton.Math.Vector4;
 
 namespace Trame.Implementation.Device
@@ -41,11 +45,10 @@ namespace Trame.Implementation.Device
         };
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.KinectDevice"/> class.
+		/// Initializes a new instanKinectDevice="Device.KinectDevice"/> class.
 		/// </summary>
         public KinectDevice()
         {
-            _adapter.StartKinect(OnFrameArrived);
             _lastSkeleton = Creator.GetNewDefaultSkeleton<InMapSkeleton>();
         }
 
@@ -64,7 +67,29 @@ namespace Trame.Implementation.Device
             _adapter.StopKinect();
         }
 
-        public event Action<ISkeleton> NewSkeleton;
+	    public void Start()
+	    {
+	        try
+	        {
+                _adapter.StartKinect(OnFrameArrived);
+                return;
+            }
+	        catch (Exception)
+	        {
+	            try
+	            {
+                    Stop();
+	            }
+	            catch (Exception)
+	            {}
+	            var t = new Timer(100);
+	            t.AutoReset = false;
+	            t.Elapsed += (sender, args) => Start();
+                t.Start();
+	        }
+        }
+
+	    public event Action<ISkeleton> NewSkeleton;
 
 		/// <summary>
 		/// Raises the frame arrived event.

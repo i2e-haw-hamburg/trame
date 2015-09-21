@@ -22,9 +22,10 @@ namespace Trame.Implementation.Device
 		/// Stop this instance.
 		/// </summary>
         void Stop();
-		/// <summary>
-		/// Occurs when new skeleton.
-		/// </summary>
+        void Start();
+        /// <summary>
+        /// Occurs when new skeleton.
+        /// </summary>
         event Action<ISkeleton> NewSkeleton;
     }
 }

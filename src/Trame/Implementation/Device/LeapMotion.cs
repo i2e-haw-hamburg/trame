@@ -13,7 +13,7 @@ namespace Trame.Implementation.Device
 	/// </summary>
     class LeapMotion : IDevice
     {
-        readonly LeapAdapter adapter = new LeapAdapter();
+        readonly LeapAdapter _adapter = new LeapAdapter();
         private ISkeleton _lastSkeleton;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.LeapMotion"/> class.
@@ -21,7 +21,6 @@ namespace Trame.Implementation.Device
         public LeapMotion()
         {
             _lastSkeleton = Creator.GetNewDefaultSkeleton<InMapSkeleton>();
-            adapter.StartController(OnFrameArrived);
         }
 
         public ISkeleton GetSkeleton()
@@ -38,9 +37,15 @@ namespace Trame.Implementation.Device
 
         public void Stop()
         {
-            adapter.Stop();
+            _adapter.Stop();
         }
-		/// <summary>
+
+	    public void Start()
+	    {
+            _adapter.StartController(OnFrameArrived);
+        }
+
+	    /// <summary>
 		/// Raises the frame arrived event.
 		/// </summary>
 		/// <param name="frame">Frame.</param>
@@ -67,10 +72,7 @@ namespace Trame.Implementation.Device
 
         private void FireNewSkeleton()
         {
-            if (NewSkeleton != null)
-            {
-                NewSkeleton(GetSkeleton());
-            }
+            NewSkeleton?.Invoke(GetSkeleton());
         }
 
 	    /// <summary>

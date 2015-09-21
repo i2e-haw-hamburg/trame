@@ -36,7 +36,10 @@ namespace Trame.Implementation.Skeleton
 
         public void UpdateSkeleton(JointType jt, IJoint j)
         {
-            _joints[jt] = j;
+            lock (_joints)
+            {
+                _joints[jt] = j;
+            }
         }
 
         public void Add(IJoint j)
@@ -64,7 +67,7 @@ namespace Trame.Implementation.Skeleton
 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="Trame.Implementation.Skeleton.Skeleton"/>.</returns>
         public override string ToString()
         {
-            return string.Format("id:{0}, valid:{1}, timestamp:{2}, root:{3}", id, valid, timestamp, _joints);
+            return $"id:{id}, valid:{valid}, timestamp:{timestamp}, root:{_joints}";
         }
 
 
@@ -76,17 +79,14 @@ namespace Trame.Implementation.Skeleton
             }
             set
             {
-                _joints[JointType.CENTER] = value;
+                lock (_joints)
+                {
+                    _joints[JointType.CENTER] = value;
+                }
             }
         }
 
-        public uint Timestamp
-        {
-            get
-            {
-                return timestamp;
-            }
-        }
+        public uint Timestamp => timestamp;
 
         public uint ID
         {
@@ -125,9 +125,12 @@ namespace Trame.Implementation.Skeleton
         public ISkeleton Clone()
         {
             var s = new InMapSkeleton(id, valid, timestamp);
-            foreach(var key in _joints.Keys)
+            lock (_joints)
             {
-                s._joints.Add(key, _joints[key]);
+                foreach (var key in _joints.Keys)
+                {
+                    s._joints.Add(key, _joints[key]);
+                }
             }
 
             return s;
@@ -140,7 +143,13 @@ namespace Trame.Implementation.Skeleton
 
         public IList<IJoint> Joints
         {
-            get { return _joints.Select(e => e.Value).ToList(); }
+            get
+            {
+                lock (_joints)
+                {
+                    return _joints.Select(e => e.Value).ToList();
+                }
+            }
         }
     }
 }

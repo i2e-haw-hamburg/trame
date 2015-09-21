@@ -8,22 +8,26 @@ namespace Trame.Implementation.Device.Adapter
 	/// </summary>
     class LeapAdapter
     {
-        private Controller leapController;
-		/// <summary>
+        private Controller _leapController;
+	    private FrameListener _listener;
+
+	    /// <summary>
 		/// Starts the controller.
 		/// </summary>
 		/// <param name="onFrameArrived">On frame arrived.</param>
         public void StartController(Action<Frame> onFrameArrived)
-        {
-            leapController = new Controller(new FrameListener(onFrameArrived));
-            leapController.SetPolicy(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
+		{
+		    _listener = new FrameListener(onFrameArrived);
+            _leapController = new Controller(_listener);
+            _leapController.SetPolicy(Controller.PolicyFlag.POLICY_BACKGROUND_FRAMES);
         }
 		/// <summary>
 		/// Stop this instance.
 		/// </summary>
         public void Stop()
-        {
-            
+		{
+            _listener?.Dispose();
+            _leapController?.Dispose();
         }
     }
 	/// <summary>
@@ -48,5 +52,6 @@ namespace Trame.Implementation.Device.Adapter
         {
             onFrameArrived(controller.Frame());
         }
+        
     }
 }
