@@ -40,6 +40,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TrameSkeleton, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Trame.Skeleton.0.3.0\lib\net35\TrameSkeleton.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -47,14 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
-      <Project>{80826D5E-C20A-4CD1-99CA-39D372AD1D4C}</Project>
-      <Name>TrameSkeleton</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Trame\Trame.csproj">
-      <Project>{0256AB60-4D96-4A69-9AB9-90DA6ED2AA48}</Project>
+      <Project>{0256ab60-4d96-4a69-9ab9-90da6ed2aa48}</Project>
       <Name>Trame</Name>
     </ProjectReference>
   </ItemGroup>
