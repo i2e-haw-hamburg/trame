@@ -285,3 +285,4 @@ install_manifest.txt
 doc/html/
 
 cpp-build/
+src/packages/

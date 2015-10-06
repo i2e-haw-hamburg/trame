@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Trame;
 using Trame.Implementation.Skeleton;
 
@@ -11,13 +6,13 @@ namespace PerformanceTest
 {
     class Program
     {
-        readonly ICameraAbstraction _trame = new Trame.Trame(DeviceType.EMPTY);
+        private ICameraAbstraction _trame = new Trame.Trame(DeviceType.EMPTY);
         readonly Timer _t = new Timer();
 
-        long _countOfSkeletons = 1000;
+        long _countOfSkeletons = 0;
 
 
-        void Run()
+        void CloneSkeletonTest()
         {
             _t.Start();
             var skeleton = Creator.GetNewDefaultSkeleton<Skeleton>();
@@ -46,22 +41,33 @@ namespace PerformanceTest
         static void Main(string[] args)
         {
             var p = new Program();
-            //p._trame.NewSkeleton += p.Update;
-            p.Run();
+            p.LeapTest();
 
             Console.WriteLine("Press key to stop program\n");
             Console.ReadKey();
+            Console.WriteLine("{0}ms - skeletons created {1} - {2} fps", p._t.Now(), p._countOfSkeletons, 1000 * p._countOfSkeletons / p._t.Now());
+            p.Stop();
+            Console.ReadKey();
         }
 
-        private void Update(ISkeleton obj)
+        private void Stop()
         {
-            _countOfSkeletons++;
+            _trame.Stop();
         }
 
-        private void CloneSkeletons()
+        private void LeapTest()
         {
-            
+            _trame.SetDevice(DeviceType.KINECT);
+            _trame.Start();
+            _t.Start();
+            _trame.NewSkeleton += skeleton =>
+            {
+                ++_countOfSkeletons;
+                Console.WriteLine(_countOfSkeletons);
+                Console.CursorTop -= 1;
+            };
         }
+
     }
 
     class Timer

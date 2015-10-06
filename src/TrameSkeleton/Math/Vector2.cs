@@ -417,6 +417,20 @@ namespace TrameSkeleton.Math
             return position;
         }
 
+        public static double Angle(Vector2 a, Vector2 b)
+        {
+            var aLen = a.Length();
+            var bLen = b.Length();
+
+            if (bLen == 0 || bLen == 0)
+            {
+                return 0.0;
+            }
+            var cos = (a.X * b.X + a.Y * b.Y) / (aLen * bLen);
+
+            return System.Math.Abs(cos) > 1.0 ? 0.0 : System.Math.Acos(cos);
+        }
+
         public static void Transform(ref Vector2 position, ref Quaternion quat, out Vector2 result)
         {
             Quaternion v = new Quaternion(position.X, position.Y, 0, 0), i, t;

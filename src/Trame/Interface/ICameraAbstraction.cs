@@ -24,5 +24,7 @@ namespace Trame
 		/// Stop this instance.
 		/// </summary>
         void Stop();
+
+        void Start();
     }
 }

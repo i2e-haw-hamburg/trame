@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
+using System.Timers;
 using Trame.Implementation.Device;
 using Trame.Implementation.Skeleton;
+using Timer = System.Timers.Timer;
 
 namespace Trame
 {
@@ -11,10 +13,13 @@ namespace Trame
         ISkeleton last = null;
         private DeviceType currentType;
         private IDevice currentDevice = null;
+        private DateTime lastUpdate;
+        private Timer resetTimer;
+        private bool resetInProgress = false;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Trame"/> class.
-		/// </summary>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Trame"/> class.
+        /// </summary>
         public Trame() : this(DeviceType.EMPTY)
         {}
 		/// <summary>
@@ -25,7 +30,26 @@ namespace Trame
         {
             last = Creator.GetNewInvalidSkeleton();
             currentType = dt;
-            updatedType();
+
+            resetTimer = new Timer(1000);
+            resetTimer.AutoReset = true;
+		    lastUpdate = DateTime.Now;
+
+            resetTimer.Elapsed += (sender, args) =>
+            {
+                if (!resetInProgress && (DateTime.Now - lastUpdate).TotalMilliseconds > 2000)
+                {
+                    resetInProgress = true;
+                    // reset trame
+                    UpdatedType();
+                    currentDevice.Start();
+
+                    resetInProgress = false;
+                    lastUpdate = DateTime.Now;
+                }
+            };
+
+            UpdatedType();
         }
 
         public ISkeleton GetSkeleton()
@@ -39,11 +63,12 @@ namespace Trame
         public void SetDevice(DeviceType t)
         {
             currentType = t;
-            updatedType();
+            UpdatedType();
         }
 
-        private void updatedType()
+        private void UpdatedType()
         {
+            resetTimer.Stop();
             if (currentDevice != null)
             {
                 currentDevice.NewSkeleton -= FireNewSkeleton;
@@ -68,6 +93,7 @@ namespace Trame
                     break;
             }
             currentDevice.NewSkeleton += FireNewSkeleton;
+            resetTimer.Start();
         }
 
 		/// <summary>
@@ -82,19 +108,24 @@ namespace Trame
         private void FireNewSkeleton(ISkeleton skeleton)
         {
             last = skeleton;
-           
-            if (NewSkeleton != null)
-            {
-                NewSkeleton(skeleton);
-            }
+		    lastUpdate = DateTime.Now;
+
+		    NewSkeleton?.Invoke(skeleton);
         }
 
         public void Stop()
         {
             Console.WriteLine("Close all resources");
+            currentDevice.NewSkeleton -= FireNewSkeleton;
             currentDevice.Stop();
         }
-		/// <summary>
+
+        public void Start()
+        {
+            currentDevice.Start();
+        }
+
+        /// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="Trame"/>.
 		/// </summary>
 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="Trame"/>.</returns>

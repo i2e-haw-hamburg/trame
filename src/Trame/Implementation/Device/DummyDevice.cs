@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Trame.Implementation.Skeleton;
 
@@ -17,18 +18,22 @@ namespace Trame.Implementation.Device
 		/// </summary>
         public DummyDevice()
         {
-            t = new Thread(Run);
-            t.Start();
         }
 
 
         public void Stop()
         {
             running = false;
-            t.Join();
+            t?.Join();
         }
 
-        private void Run()
+	    public void Start()
+	    {
+            t = new Thread(Run);
+            t.Start();
+        }
+
+	    private void Run()
         {
             while (running)
             {
