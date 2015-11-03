@@ -1,10 +1,9 @@
-﻿using System;
+﻿extern alias KinectV1;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Timers;
-using Leap;
-using Microsoft.Kinect;
+using KinectV1::Microsoft.Kinect;
 using Trame.Implementation.Device.Adapter;
 using Trame.Implementation.Skeleton;
 using TrameSkeleton.Math;
@@ -21,27 +20,27 @@ namespace Trame.Implementation.Device
         private readonly KinectAdapter _adapter = new KinectAdapter();
         private ISkeleton _lastSkeleton;
         
-        private IDictionary<JointType, Microsoft.Kinect.JointType> mapping = new Dictionary<JointType, Microsoft.Kinect.JointType>
+        private IDictionary<JointType, KinectV1::Microsoft.Kinect.JointType> mapping = new Dictionary<JointType, KinectV1::Microsoft.Kinect.JointType>
         {
-            {JointType.NECK, Microsoft.Kinect.JointType.ShoulderCenter},
-            {JointType.CENTER, Microsoft.Kinect.JointType.Spine},
-            {JointType.HEAD, Microsoft.Kinect.JointType.Head},
-            {JointType.SHOULDER_LEFT, Microsoft.Kinect.JointType.ShoulderLeft},
-            {JointType.SHOULDER_RIGHT, Microsoft.Kinect.JointType.ShoulderRight},
-            {JointType.ELBOW_LEFT, Microsoft.Kinect.JointType.ElbowLeft},
-            {JointType.ELBOW_RIGHT, Microsoft.Kinect.JointType.ElbowRight},
-            {JointType.WRIST_LEFT, Microsoft.Kinect.JointType.WristLeft},
-            {JointType.WRIST_RIGHT, Microsoft.Kinect.JointType.WristRight},
-            {JointType.HAND_LEFT, Microsoft.Kinect.JointType.HandLeft},
-            {JointType.HAND_RIGHT, Microsoft.Kinect.JointType.HandRight},
-            {JointType.HIP_LEFT, Microsoft.Kinect.JointType.HipLeft},
-            {JointType.HIP_RIGHT, Microsoft.Kinect.JointType.HipRight},
-            {JointType.KNEE_LEFT, Microsoft.Kinect.JointType.KneeLeft},
-            {JointType.KNEE_RIGHT, Microsoft.Kinect.JointType.KneeRight},
-            {JointType.ANKLE_LEFT, Microsoft.Kinect.JointType.AnkleLeft},
-            {JointType.ANKLE_RIGHT, Microsoft.Kinect.JointType.AnkleRight},
-            {JointType.FOOT_LEFT, Microsoft.Kinect.JointType.FootLeft},
-            {JointType.FOOT_RIGHT, Microsoft.Kinect.JointType.FootRight},
+            {JointType.NECK, KinectV1::Microsoft.Kinect.JointType.ShoulderCenter},
+            {JointType.CENTER, KinectV1::Microsoft.Kinect.JointType.Spine},
+            {JointType.HEAD, KinectV1::Microsoft.Kinect.JointType.Head},
+            {JointType.SHOULDER_LEFT, KinectV1::Microsoft.Kinect.JointType.ShoulderLeft},
+            {JointType.SHOULDER_RIGHT, KinectV1::Microsoft.Kinect.JointType.ShoulderRight},
+            {JointType.ELBOW_LEFT, KinectV1::Microsoft.Kinect.JointType.ElbowLeft},
+            {JointType.ELBOW_RIGHT, KinectV1::Microsoft.Kinect.JointType.ElbowRight},
+            {JointType.WRIST_LEFT, KinectV1::Microsoft.Kinect.JointType.WristLeft},
+            {JointType.WRIST_RIGHT, KinectV1::Microsoft.Kinect.JointType.WristRight},
+            {JointType.HAND_LEFT, KinectV1::Microsoft.Kinect.JointType.HandLeft},
+            {JointType.HAND_RIGHT, KinectV1::Microsoft.Kinect.JointType.HandRight},
+            {JointType.HIP_LEFT, KinectV1::Microsoft.Kinect.JointType.HipLeft},
+            {JointType.HIP_RIGHT, KinectV1::Microsoft.Kinect.JointType.HipRight},
+            {JointType.KNEE_LEFT, KinectV1::Microsoft.Kinect.JointType.KneeLeft},
+            {JointType.KNEE_RIGHT, KinectV1::Microsoft.Kinect.JointType.KneeRight},
+            {JointType.ANKLE_LEFT, KinectV1::Microsoft.Kinect.JointType.AnkleLeft},
+            {JointType.ANKLE_RIGHT, KinectV1::Microsoft.Kinect.JointType.AnkleRight},
+            {JointType.FOOT_LEFT, KinectV1::Microsoft.Kinect.JointType.FootLeft},
+            {JointType.FOOT_RIGHT, KinectV1::Microsoft.Kinect.JointType.FootRight},
         };
 
 		/// <summary>
@@ -104,7 +103,7 @@ namespace Trame.Implementation.Device
                 {
                     return;
                 }
-                var foundedSkeletons = new Microsoft.Kinect.Skeleton[frame.SkeletonArrayLength];
+                var foundedSkeletons = new KinectV1::Microsoft.Kinect.Skeleton[frame.SkeletonArrayLength];
 
                 frame.CopySkeletonDataTo(foundedSkeletons);
 
@@ -123,7 +122,7 @@ namespace Trame.Implementation.Device
         /// </summary>
         /// <returns>The skeleton.</returns>
         /// <param name="initSkeleton">Init skeleton.</param>
-	    private ISkeleton CreateSkeleton(Microsoft.Kinect.Skeleton initSkeleton)
+	    private ISkeleton CreateSkeleton(KinectV1::Microsoft.Kinect.Skeleton initSkeleton)
 	    {
             var s = new InMapSkeleton { ID = (uint)initSkeleton.TrackingId };
 	        foreach (var jointMapping in mapping)
@@ -158,7 +157,7 @@ namespace Trame.Implementation.Device
 		/// </summary>
 		/// <returns>The vec4.</returns>
 		/// <param name="v">V.</param>
-        private static Vector4 ToVec4(Microsoft.Kinect.Vector4 v)
+        private static Vector4 ToVec4(KinectV1::Microsoft.Kinect.Vector4 v)
         {
             return new Vector4(v.X, v.Y, v.Z, v.W);
         }
