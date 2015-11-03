@@ -82,10 +82,14 @@
     <Reference Include="LeapCSharp.NET4.0">
       <HintPath>..\..\libs\LeapCSharp.NET4.0.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Kinect, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.Kinect">
       <HintPath>..\..\libs\Microsoft.Kinect.dll</HintPath>
       <Aliases>KinectV1</Aliases>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Kinect2">
+      <HintPath>..\..\libs\Kinect2\Microsoft.Kinect2.dll</HintPath>
+      <Aliases>KinectV2</Aliases>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -106,6 +110,7 @@
     <Compile Include="Implementation\Device\IDevice.cs" />
     <Compile Include="Implementation\Device\KinectDevice.cs" />
     <Compile Include="Implementation\Device\KinectLeap.cs" />
+    <Compile Include="Implementation\Device\KinectV2Device.cs" />
     <Compile Include="Implementation\Device\LeapMotion.cs" />
     <Compile Include="Implementation\Trame.cs" />
     <Compile Include="Interface\ICameraAbstraction.cs" />

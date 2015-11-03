@@ -1,5 +1,4 @@
 ﻿extern alias KinectV1;
-
 using System;
 using KinectV1::Microsoft.Kinect;
 

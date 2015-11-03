@@ -79,14 +79,14 @@ namespace Trame
                 case DeviceType.KINECT:
                     currentDevice = new KinectDevice();
                     break;
+                    case DeviceType.KINECT2:
+                        currentDevice = new KinectV2Device();
+                    break;
                 case DeviceType.LEAP_MOTION:
                     currentDevice = new LeapMotion();
                     break;
                 case DeviceType.LEAP_MOTION_AND_KINECT:
                     currentDevice = new KinectLeap();
-                    break;
-                case DeviceType.EMPTY:
-                    currentDevice = new DummyDevice();
                     break;
                 default:
                     currentDevice = new DummyDevice();
