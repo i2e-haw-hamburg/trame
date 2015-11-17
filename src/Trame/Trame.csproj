@@ -90,6 +90,7 @@
     <Reference Include="Microsoft.Kinect2">
       <HintPath>..\..\libs\Kinect2\Microsoft.Kinect2.dll</HintPath>
       <Aliases>KinectV2</Aliases>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
