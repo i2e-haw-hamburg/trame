@@ -33,11 +33,11 @@ namespace Trame
 
             resetTimer = new Timer(1000);
             resetTimer.AutoReset = true;
-		    lastUpdate = DateTime.Now;
+            lastUpdate = DateTime.Now;
 
             resetTimer.Elapsed += (sender, args) =>
             {
-                if (!resetInProgress && (DateTime.Now - lastUpdate).TotalMilliseconds > 2000)
+                if (dt != DeviceType.KINECT2 && !resetInProgress && (DateTime.Now - lastUpdate).TotalMilliseconds > 2000)
                 {
                     resetInProgress = true;
                     // reset trame
