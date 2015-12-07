@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using TrameSkeleton.Implementation;
+using TrameSkeleton.Interface;
 using TrameSkeleton.Math;
 using Convert = System.Convert;
 
@@ -94,7 +96,7 @@ namespace Trame.Implementation.Skeleton
             var shoulder = new OrientedJoint();
             var elbow = new OrientedJoint();
             var wrist = new OrientedJoint();
-            var hand = new OrientedJoint();
+            var hand = new HandJoint();
 
             if (side == Side.LEFT)
             {

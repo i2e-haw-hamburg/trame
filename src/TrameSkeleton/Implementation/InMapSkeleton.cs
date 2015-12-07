@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using TrameSkeleton.Interface;
 
 
 namespace Trame.Implementation.Skeleton
@@ -12,6 +14,7 @@ namespace Trame.Implementation.Skeleton
         bool valid;
         uint id;
         uint timestamp;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Trame.Implementation.Skeleton.Skeleton"/> class.
 		/// </summary>
@@ -139,6 +142,32 @@ namespace Trame.Implementation.Skeleton
         public IJoint GetHead()
         {
             return _joints[JointType.HEAD];
+        }
+
+        public IHand GetHand(HandType type, bool preferRight = true)
+        {
+            IJoint left = _joints[JointType.HAND_LEFT];
+            IJoint right = _joints[JointType.HAND_RIGHT];
+            switch (type)
+            {
+                case HandType.Left:
+                    return left.Valid ? left as IHand : null;
+
+                case HandType.Right:
+                        return left.Valid ? left as IHand : null;
+                default:
+                        if (preferRight && right.Valid || !left.Valid && right.Valid)
+                        {
+                            return right as IHand;
+                        }
+
+                        if (left.Valid)
+                        {
+                            return left as IHand;
+                        }
+
+                        return null;
+            }
         }
 
         public IList<IJoint> Joints

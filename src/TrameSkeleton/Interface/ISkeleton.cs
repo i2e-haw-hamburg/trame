@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using TrameSkeleton.Interface;
 
 namespace Trame
 {
@@ -67,10 +68,10 @@ namespace Trame
         IJoint GetHead();
 
         /// <summary>
-        /// 
+        /// Returns a hand representation if according to the type parameter, if it is currently tracked. Else null.
         /// </summary>
         /// <returns></returns>
-        IHand GetHand();
+        IHand GetHand(HandType type, bool preferRight = true);
 
         IList<IJoint> Joints { get; }
     }

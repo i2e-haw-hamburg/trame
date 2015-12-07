@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TrameSkeleton.Interface;
 
 
 namespace Trame.Implementation.Skeleton
@@ -19,6 +20,7 @@ namespace Trame.Implementation.Skeleton
         {
             
         }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Trame.Implementation.Skeleton.Skeleton"/> class.
 		/// </summary>
@@ -61,46 +63,13 @@ namespace Trame.Implementation.Skeleton
         }
 
 
-        public IJoint Root
-        {
-            get
-            {
-                return root;
-            }
-            set
-            {
-                root = value;
-            }
-        }
+        public IJoint Root { get; set; }
 
-        public uint Timestamp
-        {
-            get
-            {
-                return timestamp;
-            }
-        }
+        public uint Timestamp { get; }
 
-        public uint ID
-        {
-            get
-            {
-                return id;
-            }
-            set { id = value; }
-        }
+        public uint ID { get; set; }
 
-        public bool Valid
-        {
-            get
-            {
-                return valid;
-            }
-            set
-            {
-                valid = value;
-            }
-        }
+        public bool Valid { get; set; }
 
         public ISkeleton GetArms()
         {
@@ -125,6 +94,11 @@ namespace Trame.Implementation.Skeleton
         public IJoint GetHead()
         {
             return Root.DeepFind(JointType.HEAD);
+        }
+
+        public IHand GetHand(HandType type, bool preferRight = true)
+        {
+            return null;
         }
 
         public IList<IJoint> Joints
