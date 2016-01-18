@@ -37,7 +37,7 @@ namespace Trame
 
             resetTimer.Elapsed += (sender, args) =>
             {
-                if (dt != DeviceType.KINECT2 && !resetInProgress && (DateTime.Now - lastUpdate).TotalMilliseconds > 2000)
+                if ((dt == DeviceType.KINECT || dt == DeviceType.LEAP_MOTION_AND_KINECT) && !resetInProgress && (DateTime.Now - lastUpdate).TotalMilliseconds > 2000)
                 {
                     resetInProgress = true;
                     // reset trame
