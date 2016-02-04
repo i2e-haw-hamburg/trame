@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Trame</RootNamespace>
     <AssemblyName>Trame</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -93,8 +93,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TrameSkeleton, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Trame.Skeleton.0.3.0\lib\net35\TrameSkeleton.dll</HintPath>
+    <Reference Include="TrameSkeleton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\i2e-user-interaction\GestureRecognitionVisualizer\packages\i2e.trame.skeleton.0.3.3\lib\net35\TrameSkeleton.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

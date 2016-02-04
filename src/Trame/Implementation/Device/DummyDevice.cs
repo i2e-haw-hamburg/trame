@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using Trame.Implementation.Skeleton;
+using TrameSkeleton.Math;
 
 namespace Trame.Implementation.Device
 {
@@ -17,8 +18,7 @@ namespace Trame.Implementation.Device
 		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.DummyDevice"/> class.
 		/// </summary>
         public DummyDevice()
-        {
-        }
+		{}
 
 
         public void Stop()
