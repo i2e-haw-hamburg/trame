@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Kinect;
+﻿extern alias KinectV1;
+using System;
+using KinectV1::Microsoft.Kinect;
 
 namespace Trame.Implementation.Device.Adapter
 {
@@ -31,7 +28,7 @@ namespace Trame.Implementation.Device.Adapter
             kinect.SkeletonFrameReady += onFrameArrived;
 
             kinect.Start();
-            kinect.SkeletonStream.Enable(new TransformSmoothParameters()
+            kinect.SkeletonStream.Enable(new TransformSmoothParameters
             {
                 Smoothing = 0.75f,
                 Correction = 0.0f,

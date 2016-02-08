@@ -18,6 +18,25 @@ There are different SDKs available so it is possible, that you must write a new 
 The most significant part of **Trame** is the uniform `skeleton` model.
 
 
+## TODO
+ * add quaternion data for each joint
+
+ **Kinect**
+        
+        NUI_SKELETON_BONE_ORIENTATION {
+            NUI_SKELETON_BONE_ROTATION hierarchicalRotation
+        }
+  
+  **Leap**
+  
+        f.e. calculate quaternion from parent Basis and child Direction
+        
+        
+    *additional links* 
+     * avateering (usage demo): https://kinectavateeringv2migration.codeplex.com/SourceControl/latest
+     * leap bone docs: https://developer.leapmotion.com/documentation/csharp/api/Leap.Bone.html#csharpclass_leap_1_1_bone
+     
+     
 ## Changes and Roadmap
 
  * `04/2014`: First implementation in *C++*
