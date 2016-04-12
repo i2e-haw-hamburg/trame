@@ -99,10 +99,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TrameSkeleton, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Trame.Skeleton.0.3.0\lib\net35\TrameSkeleton.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementation\Device\Adapter\KinectAdapter.cs" />
@@ -123,6 +119,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TrameSkeleton\TrameSkeleton.csproj">
+      <Project>{80826d5e-c20a-4cd1-99ca-39d372ad1d4c}</Project>
+      <Name>TrameSkeleton</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
