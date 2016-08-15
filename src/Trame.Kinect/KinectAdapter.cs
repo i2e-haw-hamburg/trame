@@ -1,8 +1,10 @@
-﻿extern alias KinectV1;
-using System;
-using KinectV1::Microsoft.Kinect;
+﻿using System;
+using KinectSensor = Microsoft.Kinect.KinectSensor;
+using KinectStatus = Microsoft.Kinect.KinectStatus;
+using SkeletonFrameReadyEventArgs = Microsoft.Kinect.SkeletonFrameReadyEventArgs;
+using TransformSmoothParameters = Microsoft.Kinect.TransformSmoothParameters;
 
-namespace Trame.Implementation.Device.Adapter
+namespace Trame.Kinect
 {
 	/// <summary>
 	/// Kinect adapter.

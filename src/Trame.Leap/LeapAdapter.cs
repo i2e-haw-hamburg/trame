@@ -1,7 +1,7 @@
 ﻿using System;
 using Leap;
 
-namespace Trame.Implementation.Device.Adapter
+namespace Trame.Leap
 {
 	/// <summary>
 	/// Leap adapter.
@@ -37,7 +37,7 @@ namespace Trame.Implementation.Device.Adapter
     {
         private Action<Frame> onFrameArrived;
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.Adapter.FrameListener"/> class.
+		/// Initializes a new instance of the <see cref="FrameListener"/> class.
 		/// </summary>
 		/// <param name="onFrameArrived">On frame arrived.</param>
         public FrameListener(Action<Frame> onFrameArrived)

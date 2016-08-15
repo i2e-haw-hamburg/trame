@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Trame
+namespace Trame.Interface
 {
     public interface ICameraAbstraction
     {
@@ -14,17 +14,15 @@ namespace Trame
         /// Event is fired if a new skeleton was created.
         /// </summary>
         event Action<ISkeleton> NewSkeleton;
-
+        
 		/// <summary>
-		/// Sets the device.
-		/// </summary>
-		/// <param name="t">T.</param>
-        void SetDevice(DeviceType t);
-		/// <summary>
-		/// Stop this instance.
+		/// Stops this instance.
 		/// </summary>
         void Stop();
 
+        /// <summary>
+        /// Starts this instance.
+        /// </summary>
         void Start();
     }
 }

@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using Leap;
-using Trame.Implementation.Device.Adapter;
-using Trame.Implementation.Skeleton;
-using TrameSkeleton.Math;
+using Trame.Implementation;
+using Trame.Interface;
+using Trame.Math;
 
-namespace Trame.Implementation.Device
+namespace Trame.Leap
 {
 	/// <summary>
 	/// Leap motion.
 	/// </summary>
-    class LeapMotion : IDevice
+    public class LeapMotion : IDevice
     {
         readonly LeapAdapter _adapter = new LeapAdapter();
         private ISkeleton _lastSkeleton;
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Trame.Implementation.Device.LeapMotion"/> class.
+		/// Initializes a new instance of the <see cref="LeapMotion"/> class.
 		/// </summary>
         public LeapMotion()
         {

@@ -79,19 +79,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LeapCSharp.NET4.0">
-      <HintPath>..\..\libs\LeapCSharp.NET4.0.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Kinect">
-      <HintPath>..\..\libs\Microsoft.Kinect.dll</HintPath>
-      <Aliases>KinectV1</Aliases>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Kinect2">
-      <HintPath>..\..\libs\Kinect2\Microsoft.Kinect2.dll</HintPath>
-      <Aliases>KinectV2</Aliases>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -100,30 +87,19 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="TrameSkeleton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\i2e-user-interaction\GestureRecognitionVisualizer\packages\i2e.trame.skeleton.0.3.3\lib\net35\TrameSkeleton.dll</HintPath>
+      <HintPath>..\packages\i2e.trame.skeleton.0.6.1\lib\net35\TrameSkeleton.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementation\Device\Adapter\KinectAdapter.cs" />
-    <Compile Include="Implementation\Device\Adapter\LeapAdapter.cs" />
-    <Compile Include="Implementation\Device\DummyDevice.cs" />
-    <Compile Include="Implementation\Device\IDevice.cs" />
-    <Compile Include="Implementation\Device\KinectDevice.cs" />
-    <Compile Include="Implementation\Device\KinectLeap.cs" />
-    <Compile Include="Implementation\Device\KinectV2Device.cs" />
-    <Compile Include="Implementation\Device\LeapMotion.cs" />
-    <Compile Include="Implementation\Trame.cs" />
-    <Compile Include="Interface\ICameraAbstraction.cs" />
-    <Compile Include="Interface\DeviceType.cs" />
+    <Compile Include="Trame.cs" />
+    <Compile Include="ICameraAbstraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

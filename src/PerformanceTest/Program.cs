@@ -1,106 +1,74 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading;
 using Trame;
-using Trame.Implementation.Skeleton;
+using Trame.Interface;
+using Trame.Kinect2;
 
 namespace PerformanceTest
 {
-    class Program
+    internal class Program
     {
-        private ICameraAbstraction _trame;
-        readonly Timer _t = new Timer();
+        private Trame.Trame _trame;
+        private IList<ISkeleton> _skeletons;
 
-        long _countOfSkeletons = 0;
-
-
-        void CloneSkeletonTest()
+        public static void Main()
         {
-            _t.Start();
-            var skeleton = Creator.GetNewDefaultSkeleton<Skeleton>();
-            uint id = 0;
-            for (int i = 0; i < _countOfSkeletons; i++)
-            {
-                skeleton = skeleton.Clone();
-                var arms = skeleton.GetArms();
-                id = skeleton.ID;
-            }
-            Console.WriteLine("Current time: {0}ms - skeletons cloned {1}", _t.Now(), _countOfSkeletons);
+            new Program().Run();
+        }
 
-            _t.Start();
-            skeleton = Creator.GetNewDefaultSkeleton<InMapSkeleton>();
-            for (int i = 0; i < _countOfSkeletons; i++)
+        public Program()
+        {
+            _trame = new Trame.Trame(new KinectV2Device());
+        }
+
+        public void Run()
+        {
+            _skeletons = new List<ISkeleton>();
+            Console.WriteLine("Starting Kinect v2 sensor..");
+            _trame.Start();
+            Console.WriteLine("Kinect sensor running. Press Enter to quit test.");
+            _trame.NewSkeleton += TrameOnNewSkeleton;
+
+            using (var timer = new System.Threading.Timer(Callback, null, 0, 500))
             {
-                skeleton = skeleton.Clone();
-                var arms = skeleton.GetArms();
-                id = skeleton.ID;
+                Console.ReadKey();
+            }
+        }
+
+        private void TrameOnNewSkeleton(ISkeleton skeleton)
+        {
+            Console.WriteLine("Found new skeleton with id {0}.", skeleton.ID);
+            _skeletons.Add(skeleton);
+        }
+
+        private void Callback(object state)
+        {
+            try
+            {
+                var skeleton = _trame.GetSkeleton();
+                if (skeleton != null && skeleton.ID != 0)
+                {
+                    Console.WriteLine("Tracking skeleton({0})'s head at [{1}, {2}, {3}].",
+                    skeleton.ID,
+                    skeleton.GetHead().Point.X,
+                    skeleton.GetHead().Point.Y,
+                    skeleton.GetHead().Point.Z
+                    );
+                }
+                else
+                {
+                    Console.WriteLine("No skeleton tracked.");
+                }
+
                 
             }
-            Console.WriteLine("Current time: {0}ms - in map skeletons cloned {1}", _t.Now(), _countOfSkeletons);
-            Console.WriteLine(id);
-        }
-
-        static void Main(string[] args)
-        {
-            //var p = new Program();
-            //p.LeapTest();
-
-            new Kinect2Test().Run();
-        }
-
-        private void Stop()
-        {
-            _trame.Stop();
-        }
-
-        private void LeapTest()
-        {
-            _trame = new Trame.Trame(DeviceType.EMPTY);
-            _trame.SetDevice(DeviceType.KINECT);
-            _trame.Start();
-            _t.Start();
-            _trame.NewSkeleton += skeleton =>
+            catch (Exception exception)
             {
-                ++_countOfSkeletons;
-                Console.WriteLine(_countOfSkeletons);
-                Console.CursorTop -= 1;
-            };
-
-            Console.WriteLine("Press key to stop program\n");
-            Console.ReadKey();
-            Console.WriteLine("{0}ms - skeletons created {1} - {2} fps", _t.Now(), _countOfSkeletons, 1000 * _countOfSkeletons / _t.Now());
-            Stop();
-            Console.ReadKey();
-        }
-
-    }
-
-    class Timer
-    {
-        DateTime start;
-        DateTime stop;
-
-        public void Start()
-        {
-            start = DateTime.Now;
-        }
-
-        public void Holt()
-        {
-            stop = DateTime.Now;
-        }
-
-        public void Reset()
-        {
-            start = stop;
-        }
-
-        public long Milli()
-        {
-            return (long)(stop - start).TotalMilliseconds;
-        }
-
-        public long Now()
-        {
-            return (long)(DateTime.Now - start).TotalMilliseconds;
+                Console.WriteLine(exception);
+            }
+            
         }
     }
 }
