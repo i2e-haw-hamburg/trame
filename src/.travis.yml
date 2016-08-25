@@ -1,0 +1,20 @@
+language: csharp
+mono:
+  - alpha
+env: VERSION=0.4.0
+solution: Trame.sln
+before_install:
+  - sudo apt-get install nunit-console
+install:
+  - nuget restore Trame.sln
+script:
+  - xbuild /p:Configuration=Release Trame.sln
+after_script:
+  - nunit-console Tests/bin/Release/Trame.dll
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - cd Trame && nuget pack Trame.nuspec -Version $VERSION -IncludeReferencedProjects -Prop Configuration=Release && nuget push *.nupkg $NUGET_API_KEY -verbosity detailed
+  on:
+    branch: master
